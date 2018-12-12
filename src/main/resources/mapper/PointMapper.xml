@@ -6,7 +6,26 @@
 
 <mapper namespace="org.honeyrock.mapper.PointMapper">
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
-		select * from tbl_point where pno > 50 order by pno desc 
+		select * from tbl_point where pno > 50 and del=0 order by pno desc 
 	</select>
-
+	
+	<select id="read" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point where pno = #{pno}
+	</select>
+	
+	<insert id="register" parameterType="org.honeyrock.domain.PointVO">
+		insert into tbl_point (title, lat, lng, keyword, category, img) values(#{title}, #{lat}, #{lng}, #{keyword}, #{category}, #{img})
+	</insert>
+	
+	<update id="update" parameterType="org.honeyrock.domain.PointVO">
+		update tbl_point set title=#{title}, lat=#{lat}, lng=#{lng}, keyword=#{keyword}, category=#{category}, img=#{img} where pno=#{pno}
+	</update>
+	
+	 <delete id="delete" parameterType="org.honeyrock.domain.PointVO">
+  		update tbl_point set del=1 where pno=#{pno}
+  	</delete>
+  	
+  	<select id="count">
+  		select count(*) from tbl_point
+  	</select>
 </mapper>

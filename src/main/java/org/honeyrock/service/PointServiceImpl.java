@@ -21,4 +21,40 @@ public class PointServiceImpl implements PointService {
 		return pointMapper.getList();
 	}
 
+
+	@Override
+	public PointVO get(PointVO vo) {
+		
+		return pointMapper.read(vo);
+	}
+
+
+	@Override
+	public void register(PointVO vo) {
+		
+		pointMapper.register(vo);
+	}
+
+
+	@Override
+	public boolean modify(PointVO vo) {
+		
+		return pointMapper.update(vo)==1;
+	}
+
+
+	@Override
+	public boolean delete(PointVO vo) {
+		
+		return pointMapper.delete(vo)==1;
+	}
+
+
+	@Override
+	public int count(PointVO vo) {
+		
+		return pointMapper.count(vo);
+	}
+
+
 }

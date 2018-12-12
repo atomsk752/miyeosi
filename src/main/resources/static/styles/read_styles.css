@@ -890,7 +890,7 @@ section
 {
 	position: relative;
 	height: 100%;
-	padding-top: 0px;
+	padding-top: 470px;
 	right: 50px;
 	width: 100%;
 }
@@ -1715,6 +1715,24 @@ section
 	padding-right: 25px;
 }
 
+.tag_item button
+{
+	border: 0;
+	background: transparent;
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	color: #fa9e1b;
+	line-height: 33px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+.tag_item button:hover
+{
+	background: #fa9e1b;
+	color: white;
+}
+
 /*********************************
 10.4 Footer - Contact Info
 *********************************/
@@ -1957,22 +1975,4 @@ section
 	height: 420px;
 	position: relative;
 
-}
-
-
-/*********************************
-10. a Tag
-*********************************/
-a:link {
-	text-decoration: none;
-}
-a:visited {
-	text-decoration: none;
-}
-a:active {
-	text-decoration: none;
-}
-a:hover {
-	text-decoration: none;
-	color:white;
 }

@@ -23,5 +23,7 @@ public class PointVO {
 	private Date updatedate;
 	private String addpoint;
 	private String thumb;
+	private Integer del;
+	private String writer;
 	
 }
