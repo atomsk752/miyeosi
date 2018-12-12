@@ -1,8 +1,8 @@
 package org.honeyrock.service;
 
 import java.util.List;
-import java.util.Map;
 
+import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.PointMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +17,8 @@ public class PointServiceImpl implements PointService {
 	
 	
 	@Override
-	public List<PointVO> getList() {
-		return pointMapper.getList();
+	public List<PointVO> getList(PageParam pageParam) {
+		return pointMapper.getList(pageParam);
 	}
 
 
@@ -37,6 +37,11 @@ public class PointServiceImpl implements PointService {
 
 
 	@Override
+
+	public int getTotal(PageParam pageParam) {
+		// TODO Auto-generated method stub
+		return pointMapper.count(pageParam);
+	}
 	public boolean modify(PointVO vo) {
 		
 		return pointMapper.update(vo)==1;
@@ -51,9 +56,9 @@ public class PointServiceImpl implements PointService {
 
 
 	@Override
-	public int count(PointVO vo) {
+	public int count(PageParam pageParam) {
 		
-		return pointMapper.count(vo);
+		return pointMapper.count(pageParam);
 	}
 
 
