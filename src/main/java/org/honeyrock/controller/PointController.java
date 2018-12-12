@@ -77,6 +77,4 @@ public class PointController {
 		
 		return "redirect:/boards/list";
 	}
-	
-	
 }
