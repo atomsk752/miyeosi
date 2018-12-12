@@ -6,6 +6,7 @@ import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
 
 
+
 public interface PointService {
 
 	
@@ -16,4 +17,12 @@ public interface PointService {
 	public PointVO get(PointVO vo);
 	
 	public void register(PointVO vo);
+
+	
+	public boolean modify(PointVO vo);
+	
+	public boolean delete(PointVO vo);
+	
+	public int count(PageParam pageParam);
+
 }

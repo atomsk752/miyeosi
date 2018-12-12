@@ -157,6 +157,7 @@
 		</div>
 
 		<!-- Offers -->
+<<<<<<< HEAD
 
 		<div class="offers">
 
@@ -173,6 +174,24 @@
 
 
 
+=======
+
+		<div class="offers">
+
+			<!-- Search -->
+
+			<div class="search">
+				<div class="search_inner">
+
+					<!-- Search Contents -->
+
+					<div class="container fill_height no-padding">
+						<div class="row fill_height no-margin">
+							<div class="col fill_height no-padding">
+
+
+
+>>>>>>> origin/master
 								<div class="search_tabs_container">
 
 									<div
@@ -251,7 +270,11 @@
 					<div class="col-lg-11">
 						<div class="tab">
 							<button class="tablinks active">COURSE</button>
+<<<<<<< HEAD
 							<button class="tablinks">NEW</button>
+=======
+							<button class="tablinks">TENDENCY</button>
+>>>>>>> origin/master
 							<button class="tablinks">TAB3</button>
 							<button class="tablinks">TAB4</button>
 							<span></span>
@@ -259,7 +282,14 @@
 							<span></span>
 							<span></span>
 							<span></span>
+<<<<<<< HEAD
 							<button><a th:href="@{/boards/register}">NEW</a></button>
+=======
+							<form th:action="@{/boards/register}" >
+								<button>NEW</button>
+							</form>
+							
+>>>>>>> origin/master
 						</div>
 						<div id="COURSE" class="col-lg-12 tabcontent"
 							style="display: block;">
@@ -267,8 +297,12 @@
 
 							<!-- Offers Item -->
 
+<<<<<<< HEAD
 							<div th:each="arr :${list}" class="offers_item rating_4"
 								id="코스게시판">
+=======
+							<div th:each="arr :${list}" class="offers_item rating_4">
+>>>>>>> origin/master
 								<div class="row">
 									<div class="col-lg-1 temp_col"></div>
 									<div class="col-lg-3 col-1680-4">
@@ -381,12 +415,22 @@
 
 
 		<!-- Footer -->
+<<<<<<< HEAD
+
+		<footer class="footer">
+			<div class="container">
+				<div class="row">
+=======
+>>>>>>> origin/master
 
 		<footer class="footer">
 			<div class="container">
 				<div class="row">
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> origin/master
 					<!-- Footer Column -->
 					<div class="col-lg-3 footer_column">
 						<div class="footer_col">
@@ -606,9 +650,15 @@
 		</div>
 
 	</div>
+<<<<<<< HEAD
 
 
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+=======
+
+
+
+>>>>>>> origin/master
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="../js/jquery-3.2.1.min.js"></script>
@@ -620,6 +670,7 @@
 	<script src="../js/offers_custom.js"></script>
 
 	<script>
+<<<<<<< HEAD
 
 
 		$(document).ready(function() {
@@ -713,6 +764,10 @@
 		console.clear();
 		initPagination();
 			
+=======
+		$(document).ready(function() {
+			
+>>>>>>> origin/master
 
 							$('.tablinks').on('click',function(evt) {
 												console.log(this.innerHTML)

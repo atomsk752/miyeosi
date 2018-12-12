@@ -37,8 +37,27 @@ public class PointServiceImpl implements PointService {
 
 
 	@Override
+
 	public int getTotal(PageParam pageParam) {
 		// TODO Auto-generated method stub
+		return pointMapper.count(pageParam);
+	}
+	public boolean modify(PointVO vo) {
+		
+		return pointMapper.update(vo)==1;
+	}
+
+
+	@Override
+	public boolean delete(PointVO vo) {
+		
+		return pointMapper.delete(vo)==1;
+	}
+
+
+	@Override
+	public int count(PageParam pageParam) {
+		
 		return pointMapper.count(pageParam);
 	}
 

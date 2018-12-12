@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.honeyrock.domain.PageParam;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -33,6 +34,28 @@ public class PointController {
 		pageParam.setTotal(service.getTotal(pageParam));
 		model.addAttribute("list", service.getList(pageParam));
 
+	}
+
+
+	@PostMapping("/modify")
+	public String modifyPOST(PointVO vo, RedirectAttributes rttr) {
+		
+		log.info("" + vo);
+		
+		rttr.addFlashAttribute("result", service.modify(vo)? "SUCCESS":"FAIL");
+		
+		String pnoStr = String.valueOf(vo.getPno());
+		
+		
+		return "redirect:/boards/read?pno=" + pnoStr;
+	}
+	
+	@PostMapping("/delete")
+	public String deletePOST(@ModelAttribute("point") PointVO vo, RedirectAttributes rttr) {
+		
+		rttr.addFlashAttribute("result", service.delete(vo)? "SUCCESS":"FAIL");
+		
+		return "redirect:/boards/list";
 	}
 	
 	@GetMapping({"/read", "/modify"})

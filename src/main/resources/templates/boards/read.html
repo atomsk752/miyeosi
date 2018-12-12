@@ -14,7 +14,9 @@
 	<link rel="stylesheet" href="../plugins/jqcloud2/dist/jqcloud.min.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
 	<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
+
+	<link rel="stylesheet" type="text/css" href="../styles/read_styles.css">
+
 	<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.carousel.css">
@@ -165,7 +167,9 @@
 								<div class="row">
 									<div class="col-lg-12">
 										<div class="date_tabs">
-											<button class="date_tab">[[${detail.lat}]]</button>
+
+											<button class="date_tab" th:data-lat="${detail.lat}"  th:data-lng="${detail.lng}">[[${detail.lat}]]</button>
+
 											<button class="date_tab">[[${detail.lng}]]</button>
 										</div>
 									</div>
@@ -273,7 +277,8 @@
 											</div>
 										</div>
 
-										<div id="demo"></div>
+
+										<div id="demo" th:data-keyword="${detail.keyword}"></div>
 
 										<p class="offers_text">Suspendisse potenti. In faucibus massa. Lorem ipsum
 											dolor sit amet, consectetur adipiscing elit. Nullam eu convallis tortor.
@@ -294,16 +299,22 @@
 										<div class="offer_reviews">
 											<div class="footer_content footer_tags">
 												<ul class="tags_list clearfix">
-													<li class="tag_item"><a href="#">수정</a></li>
-													<li class="tag_item"><a href="#">삭제</a></li>
+
+													<form th:action="@{/boards/modify}" method="get"  class="tag_item">
+														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
+														<button >수정</button>
+													</form>
+													<form th:action="@{/boards/delete}" method="post"  class="tag_item">
+														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
+														<button>삭제</button>
+													</form>
+
 												</ul>
 											</div>
 											<div class="offer_reviews_content">
 
 										</div>
 									</div>
-
-
 
 
 								</div>
@@ -584,41 +595,39 @@
 <script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
 <script src="../plugins/easing/easing.js"></script>
 <script src="../plugins/parallax-js-master/parallax.min.js"></script>
-<script src="../js/offers_custom.js"></script>
+
+<script src="../js/read_custom.js"></script>
+
 
 <script>
 
     function initMap() {
+
+    	var lat = $(".date_tab").data("lat");
+    	var lng = $(".date_tab").data("lng");
+    	var latLng = {lat: lat, lng: lng};
+    	console.log(latLng);
         map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: -34.397, lng: 150.644},
-            zoom: 8
+            center: {lat: lat, lng: lng},
+            zoom: 20
         });
+        var marker = new google.maps.Marker({
+			position : latLng,
+			map : map
+        });
+        
     }
 
     $(document).ready(function() {
+    	var keyword = $("#demo").data("keyword");
+    	var keywordArr = keyword.split(",");
+    	console.log(keywordArr);
         var map;
-        var words = [
-            {text: "가파도", weight: 13, link: 'http://github.com/mistic100/jQCloud'},
-            {text: "청보리", weight: 8.5},
-            {text: "섬", weight: 9.4},
-            {text: "배", weight: 8.6},
-            {text: "제주", weight: 6.2},
-            {text: "축제", weight: 5.3},
-            {text: "시간", weight: 9},
-            {text: "마라도", weight: 1.4},
-            {text: "제주도", weight: 4},
-            {text: "여행", weight: 3.5},
-            {text: "사진", weight: 5.8},
-            {text: "사람", weight: 3.4},
-            {text: "밭", weight: 2},
-            {text: "바다", weight: 3.3},
-            {text: "바람", weight: 6.7},
-            {text: "자전거", weight: 5.9},
-            {text: "도착", weight: 5.9},
-            {text: "모슬포항", weight: 7.1},
-            {text: "올레길", weight: 4},
-            {text: "코스", weight: 2.9}
-        ]; //20개
+        var words = [];
+        for(var i = 0; i < keywordArr.length; i++){
+        	words.push({text: keywordArr[i], weight: (keywordArr.length-(i*2))})
+        }
+
         var ctrl = new ScrollMagic.Controller();
         initMilestones();
         $('#demo').jQCloud(words, {
@@ -630,6 +639,7 @@
         });
 
         function initMilestones() {
+
             if ($('.milestone_counter').length) {
                 var milestoneItems = $('.milestone_counter');
 

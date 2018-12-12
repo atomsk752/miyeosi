@@ -9,7 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="/styles/contact_styles.css">
+
+<link rel="stylesheet" type="text/css" href="/styles/register_styles.css">
 <link rel="stylesheet" type="text/css" href="/styles/contact_responsive.css">
 </head>
 
@@ -149,6 +150,8 @@
 		</div>
 	</div>
 
+	</div>
+
 	<!-- Contact -->
 
 	<div class="contact_form_section">
@@ -158,15 +161,17 @@
 
 					<!-- Contact Form -->
 					<div class="contact_form_container">
-						<div class="contact_title text-center">get in touch</div>
+
+						<div class="contact_title text-center">등 록</div>
 						<form action="/boards/register" method="post" id="contact_form" class="contact_form text-center">
 							<input type="text" name="title" class="contact_form_name input_field" placeholder="Title" required="required" data-error="Name is required.">
-							<input type="text" name="lat" class="contact_form_email input_field" placeholder="Lat" required="required" data-error="Email is required.">
-							<input type="text" name="lng" class="contact_form_subject input_field" placeholder="Lng" required="required" data-error="Subject is required.">
-							<input type="text" name="keyword" class="contact_form_subject input_field" placeholder="Keyword" required="required" data-error="Subject is required.">
+							<input type="text" name="lat" class="contact_form_name input_field" placeholder="Lat" required="required" data-error="Email is required.">
+							<input type="text" name="lng" class="contact_form_email input_field" placeholder="Lng" required="required" data-error="Subject is required.">
 							<input type="text" name="category" class="contact_form_subject input_field" placeholder="Category" required="required" data-error="Subject is required.">
+							<input type="text" name="keyword" class="contact_form_subject input_field" placeholder="Keyword" required="required" data-error="Subject is required.">
 							<input type="text" name="img" class="contact_form_subject input_field" placeholder="Image" required="required" data-error="Subject is required.">
-							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">send message<span></span><span></span><span></span></button>
+							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">등록하기<span></span><span></span><span></span></button>
+
 						</form>
 					</div>
 
@@ -282,8 +287,7 @@
 					<!-- Footer Column -->
 					<div class="col-lg-3 footer_column">
 						<div class="footer_col">
-							<div class="footer_title">blog posts</div>
-							<div class="footer_content footer_blog">
+
 
 								<!-- Footer blog item -->
 								<div class="footer_blog_item clearfix">
