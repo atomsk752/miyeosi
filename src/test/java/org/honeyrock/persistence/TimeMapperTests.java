@@ -1,7 +1,11 @@
 package org.honeyrock.persistence;
 
+import org.apache.catalina.mapper.Mapper;
+import org.honeyrock.domain.PageParam;
+import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.PointMapper;
 import org.honeyrock.mapper.TimeMapper;
+import org.honeyrock.service.PointService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -26,6 +30,9 @@ public class TimeMapperTests {
 	@Setter(onMethod_= @Autowired)
 	private PointMapper pointMapper;
 	
+	@Setter(onMethod_= @Autowired)
+	private PointService pointService;
+	
 	@Test
 	public void testGetTime() {
 		log.info("====================================");
@@ -39,9 +46,9 @@ public class TimeMapperTests {
 	}
 	
 	@Test
-	public void testGetList() {
-		log.info("====================================");
-		log.info(""+pointMapper.getList().toString());
+	public void testGetList(PageParam pageParam) {
+		
+		pointService.getList(pageParam).forEach(point -> log.info(""+point));
 	}
 
 }

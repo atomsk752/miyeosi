@@ -5,8 +5,26 @@
 
 
 <mapper namespace="org.honeyrock.mapper.PointMapper">
+
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
-		select * from tbl_point where pno > 50 order by pno desc 
+
+		select * from tbl_point where 1=1 and pno > (select max(pno) - 100000 from tbl_point)
+		and del = 0 order by pno desc limit #{skip},#{display}
+
 	</select>
+	<select id="count" resultType="int">
+		select count(*) from tbl_point
+		where 1=1
+		and pno > (select max(pno) - 100000 from tbl_point)
+	</select>
+
+	
+	<select id="read" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point where pno = #{pno}
+	</select>
+	
+	<insert id="register" parameterType="org.honeyrock.domain.PointVO">
+		insert into tbl_point (title, lat, lng, keyword, category, img) values(#{title}, #{lat}, #{lng}, #{keyword}, #{category}, #{img})
+	</insert>
 
 </mapper>
