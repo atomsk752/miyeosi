@@ -9,8 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MiyeosiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MiyeosiApplication.class, args);
-		
-		
+		SpringApplication.run(MiyeosiApplication.class, args);		
 	}
 }
