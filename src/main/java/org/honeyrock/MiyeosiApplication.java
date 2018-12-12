@@ -10,5 +10,7 @@ public class MiyeosiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MiyeosiApplication.class, args);
+		
+		
 	}
 }
