@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="org.honeyrock.mapper.SearchMapper">
+
+	<select id="searchPoint" resultType="org.honeyrock.domain.PointVO">
+		select
+		*
+		from
+		tbl_point
+		where
+		title like concat("%",#{keyword},"%")
+	</select>
+	
+	<select id="getPointName" resultType="String">
+		select
+		title
+		from
+		tbl_point
+	</select>
+	
+	<select id="getList" resultType="org.honeyrock.domain.PointVO">
+		select
+		*
+		from
+		tbl_point
+		order by good desc 
+		limit 0, 30
+	</select>
+
+</mapper>
