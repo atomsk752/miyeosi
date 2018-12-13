@@ -2434,7 +2434,7 @@ section
 	font-weight: 500;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	margin: 0;
+	margin: 12px;
 }
 .sp-slide .post{
 	color: var(--main-color);
@@ -2444,6 +2444,8 @@ section
 	letter-spacing: 1px;
 	margin-bottom: 10px;
 	display: block;
+	padding-left: 50px;
+	padding-right: 50px;
 }
 .sp-slide .icon{
 	padding: 0;
@@ -2451,7 +2453,7 @@ section
 	list-style: none;
 	transform: translateX(-50%);
 	position: absolute;
-	top: 30px;
+	top: 15px;
 	right: -10px;
 	z-index: 2;
 	transition: all 0.5s ease 0.3s;

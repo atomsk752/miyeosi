@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="styles/main_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/simple_styles.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
     <!--hover-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -60,8 +60,14 @@
 
                                 <div class="sp-slide-content">
                                     <div class="content">
+                                    	<h3 class="title" th:text="${List.title}">image title</h3>
                                         <span class="post" th:text="${List.descs}">image descs</span>
-                                        <h3 class="title" th:text="${List.title}">image title</h3>
+                                       	<input type="hidden" name="pno" th:value="${List.pno}">
+                                       	<input type="hidden" name="lat" th:value="${List.lat}">
+                                       	<input type="hidden" name="lng" th:value="${List.lng}">
+                                       	<input type="hidden" name="keyword" th:value="${List.keyword}">
+                                       	<input type="hidden" name="img" th:value="${List.img}">
+                                       	<input type="hidden" name="list" th:value="${List}">
                                     </div>
                                     <ul class="icon">
                                         <li><a href="#"><i class="fa fa-check"></i></a></li>
@@ -113,19 +119,66 @@
 
 <script>
 
+	var pno,lat,lng,title,descs,keyword,img ;
+	var testList = [];
+	
+	var newKey ;
+	
+
 	//체크버튼 클릭시 테두리 추가 + selected 스타일 추가
-	$('.fa-check').on('click',function (event) {
+	$('.fa-check').on('click',function (e) {
 	    $(".sp-selected-thumbnail").toggleClass('selected');
-	    console.log(this.closest(".sp-slide"));
-	    /* course.push();
-	    console.log(course); */
+	    
+	    var point = new Object() ;
+	    
+	    point.pno = $(this).closest(".sp-slide-content").find("input[name='pno']").val();
+	    point.lat = $(this).closest(".sp-slide-content").find("input[name='lat']").val();
+	    point.lng = $(this).closest(".sp-slide-content").find("input[name='lng']").val();
+	    point.title = $(this).closest(".sp-slide-content").find(".title").text();
+	    point.descs = $(this).closest(".sp-slide-content").find(".post").text();
+	    point.keyword = $(this).closest(".sp-slide-content").find("input[name='keyword']").val();
+	    point.img = $(this).closest(".sp-slide-content").find("input[name='img']").val();
+	    
+	    testList.push(point) ;
+	    
+	   
+    	console.log(testList);
+    	
+ 	    
 	});
+	
+	// 
+	$('.home_slider_button').on('click',function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log("btn click")
+		addCourse(testList, function(data){
+	    	console.log(data);
+	    });
+	});
+	
+	function jsonData(testList, pno, lat, lng, title, descs, keyword, img, callback) {
+		
+        // 객체 생성
+        
+        
+        // 데이터 넣기
+        data.pno = pno;
+        data.lat = lat;
+        data.lng = lng;
+        data.title = title;
+        data.descs = descs;
+        data.keyword = keyword;
+        data.img = img;
+         
+        // 리스트에 생성된 객체 삽입
+        testList.push(data) ;
+         
+        callback(testList) ;
+         
+    };
     
-    var course = [];
     
-    var sortableUL = $("#sortable");
-    
-    var newKey;
     
     function addCourse(course, callback){
         
