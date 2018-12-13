@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Travelix</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Travelix Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
+    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="styles/simple_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
+    <!--hover-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- img slide-->
+    <link rel="stylesheet" type="text/css" href="dist/css/slider-pro.css" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="libs/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="dist/js/jquery.sliderPro.min.js"></script>
+    <script type="text/javascript">
+        $( document ).ready(function( $ ) {
+            $( '#example3' ).sliderPro({
+                width: 1200,
+                height: 600,
+                fade: true,
+                arrows: true,
+                buttons: false,
+                shuffle: true,
+                smallSize: 500,
+                mediumSize: 1000,
+                largeSize: 3000,
+                thumbnailArrows: true,
+                autoplay: false,
+                thumbnailWidth: 175,
+                thumbnailHeight: 100
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="super_container">
+    <!-- Header -->
+
+    <!-- Home -->
+    <div class="home">
+        <div class="home_slider_container">
+            <div class="home_slider_background" style="background-image:url(images/bg_5.jpg)"></div>
+            <div class="home_slider_content text-center">
+                <div class="home_content">
+                    <div class="logo_container">
+                        <div class="logo"><a href="#"><img src="images/logo.png" alt="">MIYEOSI</a></div>
+                    </div>
+                    <div id="example3" class="slider-pro">
+                        <div class="sp-slides">
+                            <div class="sp-slide" th:each="List, iterState : ${List}">
+                                <img class="sp-image" th:src="${List.img}"/>
+
+                                <div class="sp-slide-content">
+                                    <div class="content">
+                                    	<h3 class="title" th:text="${List.title}">image title</h3>
+                                        <span class="post" th:text="${List.descs}">image descs</span>
+                                       	<input type="hidden" name="pno" th:value="${List.pno}">
+                                       	<input type="hidden" name="lat" th:value="${List.lat}">
+                                       	<input type="hidden" name="lng" th:value="${List.lng}">
+                                       	<input type="hidden" name="keyword" th:value="${List.keyword}">
+                                       	<input type="hidden" name="img" th:value="${List.img}">
+                                       	<input type="hidden" name="list" th:value="${List}">
+                                    </div>
+                                    <ul class="icon">
+                                        <li><a href="#"><i class="fa fa-check"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sp-thumbnails">
+                        	<th:block th:each="List, iterState : ${List}">
+                            	<img class="sp-thumbnail" th:src="${List.img}"/>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="button home_slider_button"><div class="button_bcg"></div><a href="#">NEXT<span></span><span></span><span></span></a></div>
+                </div> <!-- end home_content !-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<form id="actionForm">
+</form>
+
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="styles/bootstrap4/popper.js"></script>
+<script src="styles/bootstrap4/bootstrap.min.js"></script>
+<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+<script src="plugins/easing/easing.js"></script>
+<script src="js/custom.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+
+
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAJV5H9lCZjjecpQzLq_xJijFw5BZUZzz4",
+    authDomain: "exex1-a7068.firebaseapp.com",
+    databaseURL: "https://exex1-a7068.firebaseio.com",
+    projectId: "exex1-a7068",
+    storageBucket: "exex1-a7068.appspot.com",
+    messagingSenderId: "961860192261"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script>
+
+	var pno,lat,lng,title,descs,keyword,img ;
+	var testList = [];
+	
+	var newKey ;
+	
+
+	//체크버튼 클릭시 테두리 추가 + selected 스타일 추가
+	$('.fa-check').on('click',function (e) {
+	    $(".sp-selected-thumbnail").toggleClass('selected');
+	    
+	    var point = new Object() ;
+	    
+	    point.pno = $(this).closest(".sp-slide-content").find("input[name='pno']").val();
+	    point.lat = $(this).closest(".sp-slide-content").find("input[name='lat']").val();
+	    point.lng = $(this).closest(".sp-slide-content").find("input[name='lng']").val();
+	    point.title = $(this).closest(".sp-slide-content").find(".title").text();
+	    point.descs = $(this).closest(".sp-slide-content").find(".post").text();
+	    point.keyword = $(this).closest(".sp-slide-content").find("input[name='keyword']").val();
+	    point.img = $(this).closest(".sp-slide-content").find("input[name='img']").val();
+	    
+	    testList.push(point) ;
+	    
+	   
+    	console.log(testList);
+    	
+ 	    
+	});
+	
+	// 
+	$('.home_slider_button').on('click',function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		console.log("btn click")
+		addCourse(testList, function(data){
+	    	console.log(data);
+	    });
+	});
+	
+	function jsonData(testList, pno, lat, lng, title, descs, keyword, img, callback) {
+		
+        // 객체 생성
+        
+        
+        // 데이터 넣기
+        data.pno = pno;
+        data.lat = lat;
+        data.lng = lng;
+        data.title = title;
+        data.descs = descs;
+        data.keyword = keyword;
+        data.img = img;
+         
+        // 리스트에 생성된 객체 삽입
+        testList.push(data) ;
+         
+        callback(testList) ;
+         
+    };
+    
+    
+    
+    function addCourse(course, callback){
+        
+        newKey = firebase.database().ref().child('courses').push(course).key;
+        
+        callback(newKey);
+        
+    }
+     
+    function readCourse(key, callback){
+        
+        firebase.database().ref().child('courses/'+key).once("value").then(function(data){
+            
+            var result = data.val();
+            callback(result);
+        });
+        
+    }
+    
+    function updateCourse(key, newCourse, callback){
+    	
+        var updates = {};
+        updates['/courses/' + key] = newCourse;
+
+        firebase.database().ref("/courses/"+key).set(newCourse).then(callback(key));
+        
+    }
+    
+</script>
+
+</body>
+</html>
