@@ -213,23 +213,6 @@ $(document).ready(function()
 
     function initSearch()
     {
-        if($('.search_tab').length)
-        {
-            $('.search_tab').on('click', function()
-            {
-                var point = "#" + this.innerText;
-                var offset = $(point).offset();
-                var winH = $(window).height();
-                $('html, body').animate({scrollTop : (offset.top - winH/2) + 200}, 400);
-                $('.search_tab').removeClass('active');
-                $(this).addClass('active');
-                var clickedIndex = $('.search_tab').index(this);
-
-                var panels = $('.search_panel');
-                panels.removeClass('active');
-                $(panels[clickedIndex]).addClass('active');
-            });
-        }
         if($('.date_tab').length)
         {
             $('.date_tab').on('click', function()

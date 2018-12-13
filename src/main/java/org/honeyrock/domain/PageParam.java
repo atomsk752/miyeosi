@@ -9,6 +9,7 @@ public class PageParam {
 
 	private Integer pno, page, display, start, end, total;
 	private Boolean next, prev;
+	private String category;
 	private String[] types;
 	private String keywords, type;
 	
@@ -17,6 +18,7 @@ public class PageParam {
 		
 		this.page = 1;
 		this.display = 10;
+		this.category = "S";
 	}
 	
 	public PageParam(int page, int display) {
@@ -41,7 +43,6 @@ public class PageParam {
 		return (this.page-1) * this.display;
 	}//end skip
 	
-
 	
 	public void setType(String type) {
 		this.type = type;
@@ -59,6 +60,7 @@ public class PageParam {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
 		//.queryParam("bno", this.bno)
 		.queryParam("page", this.page)
+		.queryParam(category, getCategory())
 		.queryParam("display", this.getDisplay())
 		.queryParam("type", this.getType())
 		.queryParam("keyword", this.getKeywords());
