@@ -8,8 +8,12 @@
 
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
 
-		select * from tbl_point where 1=1 and pno > (select max(pno) - 100000 from tbl_point)
-		and del = 0 order by pno desc limit #{skip},#{display}
+		select * from tbl_point 
+		where 1=1 
+		<include refid="searchSQL"></include>
+		and pno > (select max(pno) - 100000 from tbl_point)
+		and del = 0 
+		order by pno desc limit #{skip},#{display}
 
 	</select>
 	<select id="count" resultType="int">
@@ -35,5 +39,20 @@
   		update tbl_point set del=1 where pno=#{pno}
   	</delete>
   	
-
+  	
+  	 <sql id="searchSQL">
+  <if test="types != null">
+	  <foreach collection="types" item="item" open="AND (" close=")" separator="OR">
+		  <if test="item == 's'.toString()">
+		  category = 'S'
+		  </if>
+		  <if test="item == 'r'.toString()">
+		  category = 'R'
+		  </if>
+		  <if test="item == 'h'.toString()">
+		  category = 'H'
+		  </if>
+	  </foreach>
+  </if>
+  </sql>
 </mapper>

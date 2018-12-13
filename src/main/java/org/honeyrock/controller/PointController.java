@@ -32,6 +32,9 @@ public class PointController {
 	public void listGET(Model model, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		pageParam.setTotal(service.getTotal(pageParam));
+		log.info("============================");
+		log.info("" + pageParam.getCategory());
+		log.info("============================");
 		model.addAttribute("list", service.getList(pageParam));
 
 	}
