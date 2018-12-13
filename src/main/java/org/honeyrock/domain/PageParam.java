@@ -16,7 +16,7 @@ public class PageParam {
 	public PageParam() {
 		
 		this.page = 1;
-		this.display = 10;
+		this.display = 5;
 	}
 	
 	public PageParam(int page, int display) {

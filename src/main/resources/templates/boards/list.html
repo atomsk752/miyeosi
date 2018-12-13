@@ -301,32 +301,22 @@
 									</div>
 								</div>
 							</div>
-							<div class="dataTables_paginate paging_simple_numbers"
-								id="dataTables-example_paginate">
-								<ul class="pagination">
-
-									<div th:if="${pageObj.prev}">
-										<a th:href="@{list('page'=${pageObj.start-1})}">Previous</a>
-									</div>
-									<div th:if="${pageObj.next}">
-										<a th:href="@{list('page'=${pageObj.end+1})}">Next</a>
-									</div>
-									<li
-										th:each="page : ${#numbers.sequence(pageObj.start,pageObj.end)}">
-										<a th:href="@{list('page'=${page})}">[[${page}]]</a>
-									</li>
-
-
-								</ul>
-
-							</div>
+							
 							<div id="page_main">
 								<div id="pagination-container">
+
 									<div id="indicator"></div>
+									<div th:if="${pageObj.prev}">
+										<a th:href="@{list('page'=${pageObj.start-1})}">Previous </a>
+									</div>
 									<a
+										id="pagetag"
+										th:data-page="${page}"
 										th:each="page : ${#numbers.sequence(pageObj.start,pageObj.end)}"
 										class="pag-link" th:href="@{list('page'=${page})}">[[${page}]]</a>
-
+									<div th:if="${pageObj.next}">
+										<a th:href="@{list('page'=${pageObj.end+1})}"> Next</a>
+									</div>
 									<svg id="hand-svg" xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 350 450">
 										<path fill="#3A5E77"
@@ -645,8 +635,8 @@
 
 	</div>
 
-	<script
-		src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script src="../js/jquery-3.2.1.min.js"></script>
@@ -680,9 +670,17 @@
 		    	fingernail2B = "M229.6 17.5l-5.8 11.2c-.6 1.1-1.9 1.5-2.9.9l-2.5-1.3c-1.1-.6-1.5-1.9-.9-2.9l2.7-5.2c1.8-3.4 6-4.7 9.3-2.9.1 0 .1.1.1.2z",
 		    	fingernail1B = "M303.2 128.9l-.4-1.7c-.5-2.3.9-4.5 3.1-5l12.3-2.8c1.2 5.2-2 10.3-7.2 11.5l-3.5.8c-1.9.4-3.9-.8-4.3-2.8z"
 		;
-
+			
+			var pagehostname = window.location.pagehostname
+			var pagehref = window.location.href
+			var page
+			
+			console.log(pageNum);
+			
 		function onPagLinkClick(e) {
 			e.preventDefault();
+			
+	
 			var time = 0;
 			
 			if(TL && TL.isActive()) {TL.kill();}
@@ -698,7 +696,7 @@
 					.to(fingernail1, .4, {morphSVG: fingernail1, ease: Quad.easeOut}, ".25")
 					.to(fingernail2, .4, {morphSVG: fingernail2, ease: Quad.easeOut}, ".25")
 				;
-				time = TL.duration();
+				time = 0.15;
 			} else {
 				TL
 					.to(fingerBG, .25, {morphSVG: fingerBG, ease: Quad.easeOut}, 0)
@@ -723,7 +721,21 @@
 			;
 			TL.play();
 			curLink = e.target.num;
+			var target = $(this).attr("href");
+			console.log(target);
+			setTimeout(function() {
+				page_href()
+				}, 1350);
+		
+			function page_href() {
+
+				location.href = target;
+
+				}
+			
 		}
+		
+
 
 		function initPagination() {
 			numLinks = pagLinks.length;
@@ -747,12 +759,12 @@
 			TweenMax.set(fingernail1, {morphSVG: fingernail1B});
 			TweenMax.set(fingernail2, {morphSVG: fingernail2B});
 			
+			
 		}
 
-		console.clear();
 		initPagination();
 			
-
+		});
 		$(document).ready(function() {
 			
 
