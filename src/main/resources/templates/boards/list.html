@@ -173,23 +173,17 @@
 							<div class="col fill_height no-padding">
 
 								<div class="search_tabs_container">
-										<form th:action="@{/boards/list}" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
 											<input type="hidden" name="category" value="S">
-											<div>
 												<img src="../images/suitcase.png" alt="">관광지
-											</div>
 										</form>
-										<form th:action="@{/boards/list}" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
 											<input type="hidden" name="category" value="R">
-											<div>
 												<img src="../images/bus.png" alt="">식당
-											</div>
 										</form>
-										<form th:action="@{/boards/list}" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
 											<input type="hidden" name="category" value="H">
-											<div>
 												<img src="../images/departure.png" alt="">숙소
-											</div>
 										</form>
 								</div>
 								<div class="search_panel active">
@@ -726,6 +720,10 @@
 			}
 
 			initPagination();
+			
+			$(".search_tab").on("click", function(e){
+				e.target.submit();
+			})
 			
 			
 			$('.tablinks').on('click',function(evt) {
