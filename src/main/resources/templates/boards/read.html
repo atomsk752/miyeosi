@@ -308,7 +308,9 @@
 														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
 														<button>삭제</button>
 													</form>
-
+													<form th:action="@{/boards/list}" method="get"  class="tag_item">
+														<button>목록으로</button>
+													</form>
 												</ul>
 											</div>
 											<div class="offer_reviews_content">

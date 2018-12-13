@@ -1015,6 +1015,7 @@ section
 .search_item
 {
 	margin-bottom: 23px;
+	margin-right: 50px;
 }
 .search_item:first-child
 {
@@ -1080,7 +1081,9 @@ section
 	outline-color: #fa9e1c;
 }
 .search_button
-{
+{	
+	
+	margin: 0 auto;
 	font-size: 13px;
 	font-weight: 700;
 	color: #fff;
