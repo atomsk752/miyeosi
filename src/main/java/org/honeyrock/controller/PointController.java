@@ -25,16 +25,12 @@ import lombok.extern.java.Log;
 @AllArgsConstructor
 public class PointController {
 	
-	@Setter(onMethod_=@Autowired)
 	private PointService service;
 
 	@GetMapping("/list")
 	public void listGET(Model model, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		pageParam.setTotal(service.getTotal(pageParam));
-		log.info("============================");
-		log.info("" + pageParam.getCategory());
-		log.info("============================");
 		model.addAttribute("list", service.getList(pageParam));
 
 	}
