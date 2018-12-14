@@ -171,18 +171,17 @@
 							<div class="col fill_height no-padding">
 								<div class="search_tabs_container">
 										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-											<input type="hidden" name="category" value="S">
-												<img src="../images/suitcase.png" alt="">관광지
-										</form>
-										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-											<input type="hidden" name="category" value="R">
-												<img src="../images/bus.png" alt="">식당
-										</form>
-										<form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-											<input type="hidden" name="category" value="H">
-												<img src="../images/departure.png" alt="">숙소
-										</form>
-
+                                            <input type="hidden" name="category" value="S">
+                                                <img src="../images/suitcase.png" alt="">관광지
+                                        </form>
+                                        <form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                                            <input type="hidden" name="category" value="R">
+                                                <img src="../images/bus.png" alt="">식당
+                                        </form>
+                                        <form action="/boards/list" method="get" class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+                                            <input type="hidden" name="category" value="H">
+                                                <img src="../images/departure.png" alt="">숙소
+                                        </form>
 								</div>
 								<div class="search_panel active">
 									<form action="#" id="search_form_1"
@@ -758,20 +757,11 @@
 				
 		}
 
-<<<<<<< HEAD
-			initPagination();
-			
-			$(".search_tab").on("click", function(e){
-				e.target.submit();
-			})
-			
-=======
 		initPagination();
 		
 		$(".search_tab").on("click",function(e){
 			e.target.submit();
 		})
->>>>>>> a6f5e05bacc0db859de09a51f7809818e8a3946e
 			
 			$('.tablinks').on('click',function(evt) {
 				console.log(this.innerHTML)
