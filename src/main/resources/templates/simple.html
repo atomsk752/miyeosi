@@ -107,12 +107,12 @@
 <script>
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyAJV5H9lCZjjecpQzLq_xJijFw5BZUZzz4",
-    authDomain: "exex1-a7068.firebaseapp.com",
-    databaseURL: "https://exex1-a7068.firebaseio.com",
-    projectId: "exex1-a7068",
-    storageBucket: "exex1-a7068.appspot.com",
-    messagingSenderId: "961860192261"
+    apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+    authDomain: "travel-simulator.firebaseapp.com",
+    databaseURL: "https://travel-simulator.firebaseio.com",
+    projectId: "travel-simulator",
+    storageBucket: "travel-simulator.appspot.com",
+    messagingSenderId: "105538800439"
   };
   firebase.initializeApp(config);
 </script>
@@ -121,15 +121,14 @@
 
 	var pno,lat,lng,title,descs,keyword,img ;
 	var testList = [];
-	
 	var newKey ;
-	
+
 
 	//체크버튼 클릭시 테두리 추가 + selected 스타일 추가
 	$('.fa-check').on('click',function (e) {
 	    $(".sp-selected-thumbnail").toggleClass('selected');
 	    
-	    var point = new Object() ;
+		var point = new Object() ;
 	    
 	    point.pno = $(this).closest(".sp-slide-content").find("input[name='pno']").val();
 	    point.lat = $(this).closest(".sp-slide-content").find("input[name='lat']").val();
@@ -139,13 +138,39 @@
 	    point.keyword = $(this).closest(".sp-slide-content").find("input[name='keyword']").val();
 	    point.img = $(this).closest(".sp-slide-content").find("input[name='img']").val();
 	    
-	    testList.push(point) ;
 	    
+	    var myRequest = new Request(point.img);
+	    
+	    fetch(myRequest).then(function(response) {
+	    	  console.log(response.status); // returns 200
+	    	  response.blob().then(function(myBlob) {
+	    	    var objectURL = URL.createObjectURL(myBlob);
+	    	    myImage.src = objectURL;
+	    	  });
+	    	});
 	   
-    	console.log(testList);
-    	
- 	    
+/*  	    var uniq = testList.reduce(function(a, b) {
+            if (a.indexOf(b) < 0)
+                a.push(b);
+            return a;
+        }, []); */
+        
+        
+        checkDupl(point);
+        
+        console.log("=====testList====="); 
+        console.log(testList);
+        
 	});
+	
+    //check duplication
+     function checkDupl(param) {
+    	
+    	var result  = testList.filter(x => parseInt(x.pno) != parseInt(param.pno)) 
+    	testList = result.concat(param)
+    	
+
+    } 
 	
 	// next버튼 누를때 코스등록 + callback으로 키를 받아옴
 	$('.home_slider_button').on('click',function (e) {

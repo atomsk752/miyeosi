@@ -649,6 +649,23 @@
 	<script src="../js/offers_custom.js"></script>
 
 	<script>
+	
+	$(window).scroll(function () {
+
+		var height = $(document).scrollTop();
+		
+		if(height >= 2400 && sessionStorage.getItem('check') === "false"){
+			
+			sessionStorage.setItem('check','true');
+			location.reload();
+			
+		};
+		if(height < 2200){
+			sessionStorage.setItem('check','false');
+
+		};
+		
+	}); 
 
 
 
@@ -672,10 +689,7 @@
 		    	fingernail1B = "M303.2 128.9l-.4-1.7c-.5-2.3.9-4.5 3.1-5l12.3-2.8c1.2 5.2-2 10.3-7.2 11.5l-3.5.8c-1.9.4-3.9-.8-4.3-2.8z"
 		;
 			
-			var pagehostname = window.location.pagehostname
-			var pagehref = window.location.href
 
-			
 			
 		function onPagLinkClick(e) {
 			e.preventDefault();
@@ -723,6 +737,7 @@
 				var target = $(this).attr("href");
 				console.log(target);
 				setTimeout(function() {
+					console.log("move....................")
 					page_href()
 					}, 1350);
 			
@@ -758,6 +773,31 @@
 		}
 
 		initPagination();
+		
+	
+
+
+		
+/*  		$(window).scroll(function(event){ 
+			
+			didScroll = true; 
+			
+			});
+		setInterval(function() { 
+			if (didScroll) { 
+				
+				hasScrolled(); 
+				
+				didScroll = false; 
+				} 
+			}, 3000); */
+		
+
+		
+ 
+	
+		
+
 		
 		$(".search_tab").on("click",function(e){
 			e.target.submit();
