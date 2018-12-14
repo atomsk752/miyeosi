@@ -12,10 +12,15 @@
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
     <link rel="stylesheet" type="text/css" href="styles/simple_styles.css">
+    <link rel="stylesheet" type="text/css" href="styles/simple_styles2.css">
     <link rel="stylesheet" type="text/css" href="styles/responsive.css">
-    <!--hover-->
+    <link rel="shortcut icon" href="../favicon.ico"> 
+	<link rel="stylesheet" type="text/css" href="css/default.css" />
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+	<script src="js/modernizr.custom.js"></script>
+    hover
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <!-- img slide-->
+    img slide
     <link rel="stylesheet" type="text/css" href="dist/css/slider-pro.css" media="screen"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
     <script type="text/javascript" src="libs/jquery-1.11.0.min.js"></script>
@@ -41,13 +46,37 @@
     </script>
 </head>
 <body>
-<div class="super_container">
-    <!-- Header -->
 
-    <!-- Home -->
+<div class="super_container">
+    Header
+<div class="base">
+   <div class="menu">
+      <div class="icon">
+         <div class="bar"></div>
+      </div>
+   </div>
+   <div class="icons">
+      <i class="fa fa-user" aria-hidden="true"></i>
+      <i class="fa fa-calendar-o" aria-hidden="true"></i>
+      <i class="fa fa-tachometer" aria-hidden="true"></i>
+   </div>
+   <div class="section">
+      <div class="cover1">
+         <div class="cover2">
+            <a class="content" href="#calender"></a>
+         </div>
+      </div>
+   </div>
+   <a class="section-static top" href="#profile"></a>
+   <a class="section-static bottom" href="#dashboard"></a>
+</div>
+
+
+
+    Home
     <div class="home">
         <div class="home_slider_container">
-            <div class="home_slider_background" style="background-image:url(images/bg_5.jpg)"></div>
+            <div class="home_slider_background"></div>
             <div class="home_slider_content text-center">
                 <div class="home_content">
                     <div class="logo_container">
@@ -83,14 +112,57 @@
                         </div>
                     </div>
                     <div class="button home_slider_button"><div class="button_bcg"></div><a href="#">NEXT<span></span><span></span><span></span></a></div>
-                </div> <!-- end home_content !-->
+                </div> end home_content !
             </div>
         </div>
     </div>
+    <div class="contain">
+
+  <h1>Pure CSS Netflix Video Carousel</h1>
+
+  <p>
+    Inspired by  <a href="https://twitter.com/Eli_White">Eli White's</a> article <a href="http://eng.wealthfront.com/2015/06/implementing-netflix-redesign.html">Performant CSS Animations: Netflix Case Study</a>, his <a href="https://codepen.io/TheSavior/pen/LVeYBp">example pen</a>, and <a href="http://matthewjamestaylor.com/">Matt Taylor's</a> <a href="https://codepen.io/mattjamestaylor/pen/dodYPr">CSS-only version.</a>
+  </p>
+
+  <div class="row">
+    <div class="row__inner">
+    	<ul id="og-grid" class="tile" th:each="List, iterState : ${List}">
+			<li>
+				<div class="tile__media">
+		          <img class="tile__img" th:src="${List.img}" alt=""  />
+		        </div>
+		        <div class="tile__details">
+		        	<input type="hidden" name="pno" th:value="${List.pno}">
+		            <input type="hidden" name="lat" th:value="${List.lat}">
+		            <input type="hidden" name="lng" th:value="${List.lng}">
+		            <input type="hidden" name="keyword" th:value="${List.keyword}">
+		            <input type="hidden" name="img" th:value="${List.img}">
+		            <input type="hidden" name="list" th:value="${List}">
+		          <div class="tile__title" th:text="${List.title}"></div>
+		     </div>
+			</li>
+		</ul>
+				<div class="main">
+
+						<p>
+							Filler text by <a href="http://veggieipsum.com/">Veggie Ipsum</a>
+						</p>
+						<a id="og-additems" href="#">add more</a>
+					</div>
+
+
+
+				</div>
+  </div>
+
 </div>
 
+</div>
 <form id="actionForm">
 </form>
+
+
+
 
 
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -102,7 +174,8 @@
 <script src="plugins/easing/easing.js"></script>
 <script src="js/custom.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="js/grid.js"></script>
 
 <script>
   // Initialize Firebase
@@ -232,7 +305,15 @@
         
     }
     
+
+    
+    $(function() {
+		Grid.init();
+	});
+    
 </script>
 
 </body>
 </html>
+
+
