@@ -10,7 +10,8 @@
 
 		select * from tbl_point 
 		where 1=1 
-		<include refid="searchSQL"></include>
+		<include refid="search"></include>
+		<include refid="category"></include>
 		and pno > (select max(pno) - 100000 from tbl_point)
 		and del = 0 
 		order by pno desc limit #{skip},#{display}
@@ -19,6 +20,8 @@
 	<select id="count" resultType="int">
 		select count(*) from tbl_point
 		where 1=1
+		<include refid="search"></include>
+		<include refid="category"></include>
 		and pno > (select max(pno) - 100000 from tbl_point)
 	</select>
 
@@ -38,21 +41,36 @@
 	 <delete id="delete" parameterType="org.honeyrock.domain.PointVO">
   		update tbl_point set del=1 where pno=#{pno}
   	</delete>
-  	
-  	
-  	 <sql id="searchSQL">
-  <if test="types != null">
-	  <foreach collection="types" item="item" open="AND (" close=")" separator="OR">
-		  <if test="item == 's'.toString()">
-		  category = 'S'
-		  </if>
-		  <if test="item == 'r'.toString()">
-		  category = 'R'
-		  </if>
-		  <if test="item == 'h'.toString()">
-		  category = 'H'
-		  </if>
-	  </foreach>
-  </if>
-  </sql>
+
+
+	<sql id="category">
+		<if test="category != null">
+			<if test="category == 'S'.toString()">
+				and category = 'S'
+			</if>
+			<if test="category == 'R'.toString()">
+				and category = 'R'
+			</if>
+			<if test="category == 'H'.toString()">
+				and category = 'H'
+			</if>
+		</if>
+	</sql>
+	
+	<sql id="search">
+	  	<if test="types != null">
+	  		<foreach collection="types" item="type" open="AND (" close=")" separator="OR">
+		  		<if test="type == 't'.toString()">
+		  			title like concat('%',#{keyword},'%')
+		  		</if>
+		  		<if test="type == 'd'.toString()">
+		  			descs like concat('%',#{keyword},'%')
+		  		</if>
+		  		<if test="type == 'w'.toString()">
+		  			writer like concat('%',#{keyword},'%')
+		  		</if>
+	  		</foreach>
+	  	</if>
+	</sql>
+	
 </mapper>

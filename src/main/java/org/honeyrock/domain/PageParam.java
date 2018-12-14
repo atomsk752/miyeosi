@@ -11,28 +11,24 @@ public class PageParam {
 	private Boolean next, prev;
 	private String category;
 	private String[] types;
-	private String keywords, type;
+	private String keyword, type;
 	
 	
 	public PageParam() {
-		
 		this.page = 1;
-
 		this.display = 10;
 		this.category = "S";
 	}
 	
-	public PageParam(int page, int display) {
-		this.page = page;
-		this.display = display;
-	}
-	
 	public void setTotal(int total) {
+		if(total == 0) {
+			total = 1;
+		}
 		this.total = total;
 		this.end = (int)(Math.ceil(this.page/10.0))*10;
 		this.start = this.end - 9;
 		if((this.end)*this.display >=this.total) {
-			this.end = (int)Math.ceil(this.total/(double)this.display);
+			this.end = (int)(Math.ceil(this.total/(double)this.display));
 			this.next = false;
 		}else {
 			this.next = true;
@@ -56,16 +52,16 @@ public class PageParam {
 	}//end type
 	
 	
-	public String getListLink() {
+	public String getLink(String path) {
 		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
-		//.queryParam("bno", this.bno)
-		.queryParam("page", this.page)
-		.queryParam(category, getCategory())
-		.queryParam("display", this.getDisplay())
-		.queryParam("type", this.getType())
-		.queryParam("keyword", this.getKeywords());
-		return builder.toUriString();
+		return UriComponentsBuilder.fromPath(path)
+				//.queryParam("bno", this.bno)
+				.queryParam("page", this.page)
+				.queryParam("category", this.category)
+				.queryParam("display", this.display)
+				.queryParam("type", this.type)
+				.queryParam("keyword", this.keyword)
+				.toUriString();
 	}//end link (unused)
 	
 }
