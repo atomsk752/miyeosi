@@ -165,7 +165,7 @@
 					<!-- Contact Form -->
 					<div class="contact_form_container">
 						<div class="contact_title text-center">수 정</div>
-						<form th:action="@{/boards/modify}" method="post" id="contact_form" class="contact_form text-center">
+						<form th:action="@{/pointboard/modify}" method="post" id="contact_form" class="contact_form text-center">
 							<input type="text" name="title" class="contact_form_name input_field" placeholder="Title"  th:value="*{detail.title}" required="required" data-error="Name is required.">
 							<input type="text" name="lat" class="contact_form_name input_field" placeholder="Lat"  th:value="*{detail.lat}" required="required" data-error="Email is required.">
 							<input type="text" name="lng" class="contact_form_email input_field" placeholder="Lng"  th:value="*{detail.lng}" required="required" data-error="Subject is required.">

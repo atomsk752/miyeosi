@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+	
+<th:block layout:fragment="style">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../plugins/jqcloud2/dist/jqcloud.min.js"></script>
+	<link rel="stylesheet" href="../plugins/jqcloud2/dist/jqcloud.min.css">
+	<link rel="stylesheet" type="text/css" href="../styles/read_styles.css">
+	<link rel="stylesheet" type="text/css" href="../styles/read_responsive.css"> 
+	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/animate.css">
+	
+</th:block>
+
+<div layout:fragment="content">
+
+	<!-- Home -->
+
+	<div class="home">
+		<div class="home_background parallax-window" data-parallax="scroll"
+			 data-image-src="../images/about_background.jpg"></div>
+		<div class="home_content">
+			<div class="home_title" th:text="${detail.title}"></div>
+		</div>
+	</div>
+
+	<!-- Offers -->
+
+	<div class="offers">
+
+		<!-- Search -->
+
+		<div class="search">
+			<div class="search_inner">
+
+				<!-- Search Contents -->
+
+				<div class="container fill_height no-padding">
+					<div class="row fill_height no-margin">
+						<div class="col fill_height no-padding">
+
+
+							<div class="date_tabs_container">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="date_tabs">
+
+											<button class="date_tab" th:data-lat="${detail.lat}"  th:data-lng="${detail.lng}">[[${detail.lat}]]</button>
+
+											<button class="date_tab">[[${detail.lng}]]</button>
+										</div>
+									</div>
+								</div>
+								<div id="map" class="map" ></div>
+							</div>
+
+							<div class="search_tabs_container">
+
+
+
+								<div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
+									<div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="../images/suitcase.png" alt="">코스게시판
+									</div>
+									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="../images/bus.png" alt="">자유게시판
+									</div>
+									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="../images/departure.png" alt="">질문게시판
+									</div>
+									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="../images/island.png" alt="">정보공유게시판
+									</div>
+									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
+										<img src="../images/cruise.png" alt="">여행후기게시판
+									</div>
+								</div>
+							</div>
+							
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Offers -->
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-1 temp_col"></div>
+				<div class="col-lg-11">
+					<div class="tab">
+						<button class="tablinks active">COURSE</button>
+						<button class="tablinks">TENDENCY</button>
+						<button class="tablinks">TAB3</button>
+						<button class="tablinks">TAB4</button>
+					</div>
+					<div id="COURSE" class="col-lg-12 tabcontent" style="display: block;">
+						<!-- Offers Grid -->
+
+						<!-- Offers Item -->
+
+						<div class="offers_item rating_4" id="코스게시판">
+							<div class="row">
+								<div class="col-lg-1 temp_col"></div>
+
+								<div class="col-lg-11">
+									<div class="offers_content">
+										<div class="offers_price" th:text="${detail.title}"><span th:text="${#dates.format(detail.regdate, 'yyyy-MM-dd HH:mm')}"></span></div>
+
+										<!-- Milestones -->
+
+										<div class="milestones">
+											<div class="container">
+												<div class="row">
+
+													<!-- Milestone -->
+													<div class="col-lg-3 milestone_col">
+														<div class="milestone text-center">
+															<div class="milestone_icon"><img src="../images/milestone_1.png" alt=""></div>
+															<div class="milestone_counter" th:data-end-value="${detail.good}">0</div>
+															<div class="milestone_text">좋아요</div>
+														</div>
+													</div>
+
+													<!-- Milestone -->
+													<div class="col-lg-3 milestone_col">
+														<div class="milestone text-center">
+															<div class="milestone_icon" ><img src="../images/milestone_2.png" alt=""></div>
+															<div class="milestone_counter" th:data-end-value="${detail.bad}">0</div>
+															<div class="milestone_text" style="bottom: 10px">별로였어요</div>
+														</div>
+													</div>
+
+													<!-- Milestone -->
+													<div class="col-lg-3 milestone_col">
+														<div class="milestone text-center">
+															<div class="milestone_icon"><img src="../images/milestone_3.png" alt=""></div>
+															<div class="milestone_counter" data-end-value="39">0</div>
+															<div class="milestone_text">조회수</div>
+														</div>
+													</div>
+
+													<!-- Milestone -->
+													<div class="col-lg-3 milestone_col">
+														<div class="milestone text-center">
+															<div class="milestone_icon"><img src="../images/milestone_4.png" alt=""></div>
+															<div class="milestone_counter" data-end-value="127">0</div>
+															<div class="milestone_text">이 장소로 떠난 배낭들</div>
+														</div>
+													</div>
+
+												</div>
+											</div>
+										</div>
+
+
+										<div id="demo" th:data-keyword="${detail.keyword}"></div>
+										
+										<div class="read_descs">
+										
+										<p class="offers_text" th:text="${detail.descs}"></p>
+										
+										</div>
+										
+										<div class="read_blog">
+										
+											네이버 블로그 가져오기
+										
+										</div>
+										
+										<div class="offer_reviews">
+											<div class="footer_content footer_tags">
+												<ul class="tags_list clearfix">
+
+													<form th:action="@{/pointboard/modify}" method="get"  class="tag_item">
+														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
+														<button >수정</button>
+													</form>
+													<form th:action="@{/pointboard/delete}" method="post"  class="tag_item">
+														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
+														<button>삭제</button>
+													</form>
+													<form th:action="@{/pointboard/list}" method="get"  class="tag_item">
+														<button>목록으로</button>
+													</form>
+												</ul>
+											</div>
+											<div class="offer_reviews_content">
+
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<div id="TENDENCY" class="tabcontent">
+						<div class="offers_sorting_container">
+
+							<ul class="offers_sorting">
+								<li>
+									<span class="sorting_text">price</span>
+									<i class="fa fa-chevron-down"></i>
+									<ul>
+										<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'
+											data-parent=".price_sorting"><span>show all</span></li>
+										<li class="sort_btn" data-isotope-option='{ "sortBy": "price" }'
+											data-parent=".price_sorting"><span>ascending</span></li>
+									</ul>
+								</li>
+								<li>
+									<span class="sorting_text">location</span>
+									<i class="fa fa-chevron-down"></i>
+									<ul>
+										<li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>default</span>
+										</li>
+										<li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'>
+											<span>alphabetical</span></li>
+									</ul>
+								</li>
+								<li>
+									<span class="sorting_text">stars</span>
+									<i class="fa fa-chevron-down"></i>
+									<ul>
+										<li class="filter_btn" data-filter="*"><span>show all</span></li>
+										<li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'>
+											<span>ascending</span></li>
+										<li class="filter_btn" data-filter=".rating_3"><span>3</span></li>
+										<li class="filter_btn" data-filter=".rating_4"><span>4</span></li>
+										<li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
+									</ul>
+								</li>
+								<li class="distance_item">
+									<span class="sorting_text">distance from center</span>
+									<i class="fa fa-chevron-down"></i>
+									<ul>
+										<li class="num_sorting_btn"><span>distance</span></li>
+										<li class="num_sorting_btn"><span>distance</span></li>
+										<li class="num_sorting_btn"><span>distance</span></li>
+									</ul>
+								</li>
+								<li>
+									<span class="sorting_text">reviews</span>
+									<i class="fa fa-chevron-down"></i>
+									<ul>
+										<li class="num_sorting_btn"><span>review</span></li>
+										<li class="num_sorting_btn"><span>review</span></li>
+										<li class="num_sorting_btn"><span>review</span></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div id="TAB3" class="tabcontent">
+						<p>TAB3</p>
+					</div>
+					<div id="TAB4" class="tabcontent">
+						<p>TAB4</p>
+					</div>
+					<!-- Offers Sorting -->
+
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<th:block layout:fragment="script">
+
+	<script src="../plugins/greensock/TweenMax.min.js"></script>
+	<script src="../plugins/greensock/TimelineMax.min.js"></script>
+	<script src="../plugins/scrollmagic/ScrollMagic.min.js"></script>
+	<script src="../plugins/greensock/animation.gsap.min.js"></script>
+	<script src="../plugins/greensock/ScrollToPlugin.min.js"></script>
+	<script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
+	<script src="../js/read_custom.js"></script>
+	
+	<script th:inline="javascript">
+	
+	    function initMap() {
+	
+	    	var lat = $(".date_tab").data("lat");
+	    	var lng = $(".date_tab").data("lng");
+	    	var latLng = {lat: lat, lng: lng};
+	    	console.log(latLng);
+	        map = new google.maps.Map(document.getElementById('map'), {
+	            center: {lat: lat, lng: lng},
+	            zoom: 20
+	        });
+	        var marker = new google.maps.Marker({
+				position : latLng,
+				map : map
+	        });
+	        
+	    }
+	
+	    $(document).ready(function() {
+	    	var keyword = $("#demo").data("keyword");
+	    	var keywordArr = keyword.split(",");
+	    	console.log(keywordArr);
+	        var map;
+	        var words = [];
+	        for(var i = 0; i < keywordArr.length; i++){
+	        	words.push({text: keywordArr[i], weight: (keywordArr.length-(i*2))})
+	        }
+	
+	        var ctrl = new ScrollMagic.Controller();
+	        initMilestones();
+	        $('#demo').jQCloud(words, {
+	            delay: 80,
+	            autoResize: true,
+	            colors: ["#1C63A2", "#00284C", "#023563", "#63A3DC", "#88C1F4", "#9A91F5"],
+	            shape: 'rectangular',
+	            height: 350
+	        });
+	
+	        function initMilestones() {
+	
+	            if ($('.milestone_counter').length) {
+	                var milestoneItems = $('.milestone_counter');
+	
+	                milestoneItems.each(function (i) {
+	                    var ele = $(this);
+	                    var endValue = ele.data('end-value');
+	                    var eleValue = ele.text();
+	
+	                    /* Use data-sign-before and data-sign-after to add signs
+	                infront or behind the counter number */
+	                    var signBefore = "";
+	                    var signAfter = "";
+	
+	                    if (ele.attr('data-sign-before')) {
+	                        signBefore = ele.attr('data-sign-before');
+	                    }
+	
+	                    if (ele.attr('data-sign-after')) {
+	                        signAfter = ele.attr('data-sign-after');
+	                    }
+	
+	                    var milestoneScene = new ScrollMagic.Scene({
+	                        triggerElement: this,
+	                        triggerHook: 'onEnter',
+	                        reverse: false
+	                    })
+	                        .on('start', function () {
+	                            var counter = {value: eleValue};
+	                            var counterTween = TweenMax.to(counter, 4,
+	                                {
+	                                    value: endValue,
+	                                    roundProps: "value",
+	                                    ease: Circ.easeOut,
+	                                    onUpdate: function () {
+	                                        document.getElementsByClassName('milestone_counter')[i].innerHTML = signBefore + counter.value + signAfter;
+	                                    }
+	                                });
+	                        })
+	                        .addTo(ctrl);
+	                });
+	            }
+	        }
+	
+	
+	    });
+	
+	
+	
+	
+	    $('.tablinks').on('click', function(evt){
+	        console.log(this.innerHTML)
+	        // Declare all variables
+	        var i, tabcontent, tablinks;
+	        var cityName = this.innerHTML;
+	        // Get all elements with class="tabcontent" and hide them
+	        tabcontent = document.getElementsByClassName("tabcontent");
+	
+	        for (i = 0; i < tabcontent.length; i++) {
+	            tabcontent[i].style.display = "none";
+	        }
+	
+	        // Get all elements with class="tablinks" and remove the class "active"
+	        tablinks = document.getElementsByClassName("tablinks");
+	        console.log(tablinks)
+	        for (i = 0; i < tablinks.length; i++) {
+	            tablinks[i].className = tablinks[i].className.replace(" active", "");
+	        }
+	
+	        // Show the current tab, and add an "active" class to the button that opened the tab
+	        document.getElementById(cityName).style.display = "block";
+	        evt.currentTarget.className += " active";
+	    });
+	
+	
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap" async defer></script>
+</th:block>
+
+</html>

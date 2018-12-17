@@ -891,8 +891,8 @@ section
 	position: relative;
 	height: 100%;
 	padding-top: 470px;
-	right: 50px;
-	width: 100%;
+	right: 20px;
+	width: 90%;
 }
 .search_tabs
 {
@@ -1269,7 +1269,6 @@ section
 {
 	width: 100%;
 	padding-top: 0px;
-	padding-bottom: 115px;
 }
 
 /*********************************
@@ -1426,7 +1425,7 @@ section
 }
 .offers_content
 {
-	padding-top: 22px;
+	padding-top: 45px;
 	padding-bottom: 22px;
 }
 .offers_price
@@ -1455,7 +1454,7 @@ section
 }
 .offers_text
 {
-	font-size: 14px;
+	font-size: 18px;
 	font-weight: 400;
 	color: #929191;
 	margin-top: 16px;
@@ -1541,8 +1540,8 @@ section
 .footer
 {
 	width: 100%;
-	padding-top: 113px;
-	padding-bottom: 104px;
+	padding-top: 90px;
+	padding-bottom: 85px;
 	background: #0B4981;
 }
 .footer_title
@@ -1920,8 +1919,9 @@ section
 
 .milestones
 {
-	padding-top: 30px;
-	padding-bottom: 15px;
+	padding-top: 60px;
+	padding-bottom: 25px;
+	right: 100px;
 }
 .milestone
 {
@@ -1976,3 +1976,14 @@ section
 	position: relative;
 
 }
+
+
+
+.read_descs{
+	padding-bottom: 10%;
+}
+
+.read_blog{
+	padding-bottom: 10%;
+}
+

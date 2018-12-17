@@ -8,9 +8,9 @@
 <meta name="description" content="Travelix Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
-<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
-<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
+<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<th:block layout:fragment="style"></th:block>
 </head>
 
 <body>
@@ -151,6 +151,7 @@
 
 </div>
 
+<th:block layout:fragment="script"></th:block>
 <script
 	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -163,7 +164,7 @@
 <script src="../plugins/parallax-js-master/parallax.min.js"></script>
 <script src="../js/offers_custom.js"></script>
 
-<th:block layout:fragment="script"></th:block>
+
 
 </body>
 
