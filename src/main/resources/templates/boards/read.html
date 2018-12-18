@@ -176,29 +176,8 @@
 								</div>
 								<div id="map" class="map" ></div>
 							</div>
-
-							<div class="search_tabs_container">
-
-
-
-								<div class="search_tabs d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-between justify-content-start">
-									<div class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-										<img src="../images/suitcase.png" alt="">코스게시판
-									</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-										<img src="../images/bus.png" alt="">자유게시판
-									</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-										<img src="../images/departure.png" alt="">질문게시판
-									</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-										<img src="../images/island.png" alt="">정보공유게시판
-									</div>
-									<div class="search_tab d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
-										<img src="../images/cruise.png" alt="">여행후기게시판
-									</div>
-								</div>
-							</div>
+							
+							
 							
 							
 						</div>
@@ -288,9 +267,10 @@
 										</div>
 										
 										<div class="read_blog">
-										
-											네이버 블로그 가져오기
-										
+											<h2>BLOG</h2>
+											<div class="read_blog_list" th:value="*{title}">
+												블로그
+											</div>
 										</div>
 										
 										<div class="offer_reviews">
@@ -616,6 +596,8 @@
         });
         
     }
+    
+    
 
     $(document).ready(function() {
     	var keyword = $("#demo").data("keyword");
@@ -684,8 +666,6 @@
 
 
     });
-
-
 
 
     $('.tablinks').on('click', function(evt){
