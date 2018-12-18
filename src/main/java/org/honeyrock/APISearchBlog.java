@@ -38,7 +38,6 @@ public class APISearchBlog {
                 response.append(inputLine);
             }
             br.close();
-            
             String str = response.toString();
             System.out.println(str);
             
