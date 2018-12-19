@@ -27,7 +27,7 @@
 		from
 		tbl_point
 		order by good desc 
-		limit 0, 30
+		limit 0, 30 
 	</select>
 
 </mapper>

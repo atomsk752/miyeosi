@@ -1,169 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title>Offers</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Travelix Project">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
-<link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
-<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
 <body>
 
-<div class="super_container">
+    <div id="wrapper">
 
-    <!-- Header -->
-
-    <header class="header">
-
-        <!-- Top Bar -->
-
-
-        <!-- Main Navigation -->
-
-        <nav class="main_nav">
-            <div class="container">
-                <div class="row">
-                    <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
-                        <div class="logo_container">
-                            <div class="logo"><a href="#"><img src="images/logo.png" alt="">MIYEOSI</a></div>
-                        </div>
-                        <div class="main_nav_container ml-auto">
-                            <ul class="main_nav_list">
-                                <li class="main_nav_item"><a href="#">forum</a></li>
-                                <li class="main_nav_item"><a href="about.html">course</a></li>
-                                <li class="main_nav_item"><a href="offers.html">gallery</a></li>
-                                <li class="main_nav_item"><a href="blog.html">login</a></li>
-                            </ul>
-                        </div>
-                        <div class="content_search ml-lg-0 ml-auto">
-                            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-							width="17px" height="17px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
-								<g>
-									<g>
-										<g>
-											<path class="mag_glass" fill="#FFFFFF" d="M78.438,216.78c0,57.906,22.55,112.343,63.493,153.287c40.945,40.944,95.383,63.494,153.287,63.494
-											s112.344-22.55,153.287-63.494C489.451,329.123,512,274.686,512,216.78c0-57.904-22.549-112.342-63.494-153.286
-											C407.563,22.549,353.124,0,295.219,0c-57.904,0-112.342,22.549-153.287,63.494C100.988,104.438,78.439,158.876,78.438,216.78z
-											M119.804,216.78c0-96.725,78.69-175.416,175.415-175.416s175.418,78.691,175.418,175.416
-											c0,96.725-78.691,175.416-175.416,175.416C198.495,392.195,119.804,313.505,119.804,216.78z"/>
-										</g>
-									</g>
-									<g>
-										<g>
-											<path class="mag_glass" fill="#FFFFFF" d="M6.057,505.942c4.038,4.039,9.332,6.058,14.625,6.058s10.587-2.019,14.625-6.058L171.268,369.98
-											c8.076-8.076,8.076-21.172,0-29.248c-8.076-8.078-21.172-8.078-29.249,0L6.057,476.693
-											C-2.019,484.77-2.019,497.865,6.057,505.942z"/>
-										</g>
-									</g>
-								</g>
-							</svg>
-                        </div>
-
-                        <form id="search_form" class="search_form bez_1">
-                            <input type="search" class="search_content_input bez_1">
-                        </form>
-
-                        <div class="hamburger">
-                            <i class="fa fa-bars trans_200"></i>
-                        </div>
-                    </div>
-                </div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">SB Admin v2.0</a>
             </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Read All Messages</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 1</strong>
+                                        <span class="pull-right text-muted">40% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                            <span class="sr-only">40% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 2</strong>
+                                        <span class="pull-right text-muted">20% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+                                            <span class="sr-only">20% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 3</strong>
+                                        <span class="pull-right text-muted">60% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                                            <span class="sr-only">60% Complete (warning)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <p>
+                                        <strong>Task 4</strong>
+                                        <span class="pull-right text-muted">80% Complete</span>
+                                    </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+                                            <span class="sr-only">80% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Tasks</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-tasks -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Charts<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="flot.html">Flot Charts</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Morris.js Charts</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="tables.html"><i class="fa fa-table fa-fw"></i> Tables</a>
+                        </li>
+                        <li>
+                            <a href="forms.html"><i class="fa fa-edit fa-fw"></i> Forms</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-wrench fa-fw"></i> UI Elements<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="panels-wells.html">Panels and Wells</a>
+                                </li>
+                                <li>
+                                    <a href="buttons.html">Buttons</a>
+                                </li>
+                                <li>
+                                    <a href="notifications.html">Notifications</a>
+                                </li>
+                                <li>
+                                    <a href="typography.html">Typography</a>
+                                </li>
+                                <li>
+                                    <a href="icons.html"> Icons</a>
+                                </li>
+                                <li>
+                                    <a href="grid.html">Grid</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">Second Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Second Level Item</a>
+                                </li>
+                                <li>
+                                    <a href="#">Third Level <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Third Level Item</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Sample Pages<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="blank.html">Blank Page</a>
+                                </li>
+                                <li>
+                                    <a href="login.html">Login Page</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
         </nav>
 
-    </header>
+        <div id="page-wrapper" >
 
-
-	<div layout:fragment="content">
-	</div>
-	
-    <!-- Footer -->
-
-    <footer class="footer">
-    <div class="container">
-        <div class="row">
-
-            <!-- Footer Column -->
-            <div class="col-lg-3 footer_column">
-                <div class="footer_col">
-                    <div class="footer_title">contact info</div>
-                    <div class="footer_content footer_contact">
-                        <ul class="contact_info_list">
-                            <li class="contact_info_item d-flex flex-row">
-                                <div><div class="contact_info_icon"><img src="images/placeholder.svg" alt=""></div></div>
-                                <div class="contact_info_text">4127 Raoul Wallenber 45b-c Gibraltar</div>
-                            </li>
-                            <li class="contact_info_item d-flex flex-row">
-                                <div><div class="contact_info_icon"><img src="images/phone-call.svg" alt=""></div></div>
-                                <div class="contact_info_text">2556-808-8613</div>
-                            </li>
-                            <li class="contact_info_item d-flex flex-row">
-                                <div><div class="contact_info_icon"><img src="images/message.svg" alt=""></div></div>
-                                <div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Hello" target="_top">contactme@gmail.com</a></div>
-                            </li>
-                            <li class="contact_info_item d-flex flex-row">
-                                <div><div class="contact_info_icon"><img src="images/planet-earth.svg" alt=""></div></div>
-                                <div class="contact_info_text"><a href="https://colorlib.com">www.colorlib.com</a></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    </footer>
-
-    <!-- Copyright -->
-
-    <div class="copyright">
-        <div class="container">
             <div class="row">
-                <div class="col-lg-3 order-lg-1 order-2  ">
-                    <div class="copyright_content d-flex flex-row align-items-center">
-                        <div><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></div>
-                    </div>
+               <div class="col-lg-12" layout:fragment="contentHeader">
+                    
                 </div>
-                <div class="col-lg-9 order-lg-2 order-1">
-                    <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
-                        <div class="footer_nav">
-                            <ul class="footer_nav_list">
-                                <li class="footer_nav_item"><a href="#">home</a></li>
-                                <li class="footer_nav_item"><a href="#">forum</a></li>
-                                <li class="footer_nav_item"><a href="about.html">course</a></li>
-                                <li class="footer_nav_item"><a href="offers.html">gallery</a></li>
-                                <li class="footer_nav_item"><a href="blog.html">login</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <!-- /.col-lg-12 -->
             </div>
+            
+            <div class="row" >
+                <div class="col-lg-12" layout:fragment="content">
+                
+            	</div>
+            </div>	
+
         </div>
+        <!-- /#page-wrapper -->
+
     </div>
+    <!-- /#wrapper -->
 
-</div>
+    <!-- jQuery -->
+    <script src="../vendor/jquery/jquery.min.js"></script>
 
-<script
-	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="../js/jquery-3.2.1.min.js"></script>
-<script src="../styles/bootstrap4/popper.js"></script>
-<script src="../styles/bootstrap4/bootstrap.min.js"></script>
-<script src="../plugins/Isotope/isotope.pkgd.min.js"></script>
-<script src="../plugins/easing/easing.js"></script>
-<script src="../plugins/parallax-js-master/parallax.min.js"></script>
-<script src="../js/offers_custom.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<th:block layout:fragment="script"></th:block>
+	<th:block layout:fragment="script"></th:block>
+  
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="../vendor/raphael/raphael.min.js"></script>
+    <script src="../vendor/morrisjs/morris.min.js"></script>
+    <script src="../data/morris-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="../dist/js/sb-admin-2.js"></script>
 
 </body>
 
