@@ -34,28 +34,25 @@ public class CourseBoardController {
 
 
 	@PostMapping("/modify")
-	public String modifyPOST(CourseBoardVO vo, RedirectAttributes rttr) {
+	public String modifyPOST(CourseBoardVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		log.info("" + vo);
 		
 		rttr.addFlashAttribute("result", service.modify(vo)? "SUCCESS":"FAIL");
 		
-		String coursebnoStr = String.valueOf(vo.getCoursebno());
-		
-		
-		return "redirect:/courseboard/read?coursebno=" + coursebnoStr;
+		return pageParam.getLink("redirect:/courseboard/list");
 	}
 	
 	@PostMapping("/delete")
-	public String deletePOST(@ModelAttribute("CourseBoard") CourseBoardVO vo, RedirectAttributes rttr) {
+	public String deletePOST(@ModelAttribute("CourseBoard") CourseBoardVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		rttr.addFlashAttribute("result", service.delete(vo)? "SUCCESS":"FAIL");
 		
-		return "redirect:/courseboard/list";
+		return pageParam.getLink("redirect:/courseboard/list");
 	}
 	
 	@GetMapping({"/read", "/modify"})
-	public void readGET(CourseBoardVO vo, Model model) {
+	public void readGET(CourseBoardVO vo, Model model, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		model.addAttribute("detail", service.get(vo));
 	}

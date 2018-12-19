@@ -37,28 +37,25 @@ public class PointController {
 
 
 	@PostMapping("/modify")
-	public String modifyPOST(PointVO vo, RedirectAttributes rttr) {
+	public String modifyPOST(PointVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		log.info("" + vo);
 		
 		rttr.addFlashAttribute("result", service.modify(vo)? "SUCCESS":"FAIL");
 		
-		String pnoStr = String.valueOf(vo.getPno());
-		
-		
-		return "redirect:/boards/read?pno=" + pnoStr;
+		return pageParam.getLink("redirect:/pointboard/list");
 	}
 	
 	@PostMapping("/delete")
-	public String deletePOST(@ModelAttribute("point") PointVO vo, RedirectAttributes rttr) {
+	public String deletePOST(@ModelAttribute("point") PointVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		rttr.addFlashAttribute("result", service.delete(vo)? "SUCCESS":"FAIL");
 		
-		return "redirect:/boards/list";
+		return pageParam.getLink("redirect:/pointboard/list");
 	}
 	
 	@GetMapping({"/read", "/modify"})
-	public void readGET(PointVO vo, Model model) {
+	public void readGET(PointVO vo, Model model, @ModelAttribute("pageObj") PageParam pageParam) {
 		
 		model.addAttribute("detail", service.get(vo));
 	}
@@ -74,7 +71,7 @@ public class PointController {
 		
 		service.register(vo);
 		
-		return "redirect:/boards/list";
+		return "redirect:/pointboard/list";
 	}
 	
 	

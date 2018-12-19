@@ -113,16 +113,19 @@
 				<div class="col-lg-1 temp_col"></div>
 				<div class="col-lg-11">
 					<div class="tab">
-						<button class="tablinks active">COURSE</button>
-						<button class="tablinks">TENDENCY</button>
-						<button class="tablinks">TAB3</button>
-						<button class="tablinks">TAB4</button>
-	
-						<span></span> <span></span> <span></span> <span></span> <span></span>
-						<form th:action="@{/pointboard/register}">
-							<button>NEW</button>
-						</form>
+						<button class="tablinks" id="courseboard">코스게시판</button>
+						<button class="tablinks active" id="pointboard">장소게시판</button>
+						<button class="tablinks" id="freeboard">자유게시판</button>
+						<button class="tablinks" id="tipboard">정보공유게시판</button>
+						<button class="tablinks" id="reviewboard">여행후기게시판</button>						
 					</div>
+
+			        <div class="tags_list clearfix">
+			            <form action="/pointboard/register" method="get" class="tag_item">
+			                <button>글쓰기</button>
+			            </form>
+			        </div>
+				    
 					<div id="COURSE" class="col-lg-12 tabcontent"
 						style="display: block;">
 						<!-- Offers Grid -->
@@ -137,7 +140,7 @@
 										<div class="offers_image_background"
 											th:style="'background-image: url(' +${arr.img}+');'"></div>
 										<div class="offer_name">
-											<a th:href="@{/pointboard/read(pno=${arr.pno})}" class="detail">[[${arr.title}]]</a>
+											<a th:href="${arr.pno}" class="detail">[[${arr.title}]]</a>
 										</div>
 									</div>
 								</div>
@@ -273,14 +276,23 @@
 		<input type="hidden" name='keyword' th:value="${pageObj.keyword}">
 	</form>
 	
+	<form id="tabForm">
+	</form>
+	
 </div>		
 <th:block layout:fragment="script">
+	<script src="../js/offers_custom.js"></script>
+	<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+	
 	<script th:inline="javascript">
 
 		$(document).ready(function() {
 			
 			var actionForm = $("#actionForm");
 			
+			
+			// 페이지 이동
 			var pagContainer = document.getElementById('pagination-container'),
 				pagIndicator = document.getElementById('indicator'),
 				pagLinks = document.querySelectorAll('.pag-link'),
@@ -298,12 +310,9 @@
 		    	fingernail1B = "M303.2 128.9l-.4-1.7c-.5-2.3.9-4.5 3.1-5l12.3-2.8c1.2 5.2-2 10.3-7.2 11.5l-3.5.8c-1.9.4-3.9-.8-4.3-2.8z"
 				;
 
-			
-			
 			function onPagLinkClick(e) {
 				e.preventDefault();
 				
-		
 				var time = 0;
 				
 				if(TL && TL.isActive()) {TL.kill();}
@@ -383,8 +392,16 @@
 				
 			}
 			svgRect = handSVG.getBoundingClientRect();
-			
 			initPagination();
+			
+			// read 페이지로 이동
+			$(".detail").on("click",function(e){
+				e.preventDefault();
+				var pno = $(this).attr("href");		
+				actionForm.append("<input type='hidden' name='pno' value='"+pno+"'>");
+				actionForm.attr("action","/pointboard/read")
+				.attr("method", "get").submit();
+			});
 		
 			
 			// 카테고리 이동
@@ -398,7 +415,12 @@
 			
 			// 탭 이동
 			$('.tablinks').on('click',function(evt) {
-				console.log(this.innerHTML)
+				console.log(evt.target.id);
+				var tab_id = evt.target.id;
+				var tabForm = $("#tabForm")
+				tabForm.attr("action","/"+tab_id+"/list").attr("method","get").submit();
+				
+/* 				console.log(this.innerHTML)
 				// Declare all variables
 				var i, tabcontent, tablinks;
 				var cityName = this.innerHTML;
@@ -421,7 +443,7 @@
 	
 				// Show the current tab, and add an "active" class to the button that opened the tab
 				document.getElementById(cityName).style.display = "block";
-				evt.currentTarget.className += " active";
+				evt.currentTarget.className += " active"; */
 			});
 			
 			// 검색버튼

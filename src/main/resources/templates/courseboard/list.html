@@ -3,6 +3,11 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout1}">
 	
+<th:block layout:fragment="style">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
+</th:block>
+	
 <div layout:fragment="content">
 
 <!-- Home -->
@@ -29,7 +34,7 @@
 					<div class="row fill_height no-margin">
 						<div class="col fill_height no-padding">
 							<div class="search_tabs_container">
-								<form action="/courseboard/list"
+<!-- 							<form action="/courseboard/list"
 									class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
 									<img src="../images/suitcase.png" alt="">코스게시판
 								</form>
@@ -48,7 +53,7 @@
 								<form action="/review/list"
 									class="search_tab active d-flex flex-row align-items-center justify-content-lg-center justify-content-start">
 									<img src="../images/cruise.png" alt="">여행후기게시판
-								</form>
+								</form> -->
 							</div>
 							<div class="search_panel active">
 								<form action="#" id="search_form_1"
@@ -113,16 +118,19 @@
 				<div class="col-lg-1 temp_col"></div>
 				<div class="col-lg-11">
 					<div class="tab">
-						<button class="tablinks active">COURSE</button>
-						<button class="tablinks">TENDENCY</button>
-						<button class="tablinks">TAB3</button>
-						<button class="tablinks">TAB4</button>
-	
-						<span></span> <span></span> <span></span> <span></span> <span></span>
-						<form th:action="@{/courseboard/register}">
-							<button>NEW</button>
-						</form>
+						<button class="tablinks active" id="courseboard">코스게시판</button>
+						<button class="tablinks" id="pointboard">장소게시판</button>
+						<button class="tablinks" id="freeboard">자유게시판</button>
+						<button class="tablinks" id="tipboard">정보공유게시판</button>
+						<button class="tablinks" id="reviewboard">여행후기게시판</button>
 					</div>
+					
+					<div class="tags_list clearfix">
+			            <form action="/pointboard/register" method="get" class="tag_item">
+			                <button>글쓰기</button>
+			            </form>
+			        </div>
+			        
 					<div id="COURSE" class="col-lg-12 tabcontent"
 						style="display: block;">
 						<!-- Offers Grid -->
@@ -241,26 +249,10 @@
 										d="M195 93c-1.2-11.3.6-22.6 4.9-32.6 4.3-10 11.1-19.1 20.4-25.6 4.6-3.2 10-5.8 15.8-7.2 5.8-1.4 12-1.6 17.8-.5 6.4 1.2 10.6 7.4 9.3 13.8-1.1 5.8-6.3 9.7-12 9.5h-.8c-5-.2-9.7 1.8-13.8 5.6-4.1 3.8-7.2 9.2-8.8 14.9-1.6 5.7-1.6 11.7-.3 17.1 1.3 5.4 4.2 10.3 8 14.6 4.5 5 13.7 10.3 19 11.6 5.3 1.3 10.6 1.3 15.8-.2 5.1-1.5 10-4.6 14-8.8 4-4.2 6.9-9.6 8.3-15.2l.2-.7c1.5-6.4 7.9-10.3 14.3-8.8 5.8 1.4 9.6 6.9 9.1 12.7-1 10.4-4.8 20.2-10.7 28.6-5.9 8.4-14.2 15.5-24 20-7.5 3.5-15.9 5.3-24.2 5.4" />
 									</g>
 								</svg>
-	
 							</div>
 						</div>
-					</div>
-	
-	
-					<div id="TENDENCY" class="tabcontent">
-						<h1>dfdfdf</h1>
-					</div>
-					<div id="NEW" class="tabcontent">
-						<p>TAB3</p>
-					</div>
-					<div id="TAB4" class="tabcontent">
-						<p>TAB4</p>
-					</div>
-					<!-- Offers Sorting -->
-	
+					</div>	
 				</div>
-	
-	
 			</div>
 		</div>
 	</div>
@@ -272,8 +264,15 @@
 		<input type="hidden" name='keyword' th:value="${pageObj.keyword}">
 	</form>
 	
+	<form id="tabForm">
+	</form>
+	
 </div>		
 <th:block layout:fragment="script">
+	<script src="../js/offers_custom.js"></script>
+	<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+	
 	<script th:inline="javascript">
 
 		$(document).ready(function() {
@@ -403,7 +402,12 @@
 			
 			// 탭 이동
 			$('.tablinks').on('click',function(evt) {
-				console.log(this.innerHTML)
+				console.log(evt.target.id);
+				var tab_id = evt.target.id;
+				var tabForm = $("#tabForm")
+				tabForm.attr("action","/"+tab_id+"/list").attr("method","get").submit();
+				
+/* 				console.log(this.innerHTML)
 				// Declare all variables
 				var i, tabcontent, tablinks;
 				var cityName = this.innerHTML;
@@ -426,7 +430,7 @@
 	
 				// Show the current tab, and add an "active" class to the button that opened the tab
 				document.getElementById(cityName).style.display = "block";
-				evt.currentTarget.className += " active";
+				evt.currentTarget.className += " active"; */
 			});
 			
 			// 검색버튼

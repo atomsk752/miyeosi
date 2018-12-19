@@ -871,7 +871,7 @@ section
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 550px;
+	width: 450px;
 	height: 100%;
 	background: #fa9e1b;
 	z-index: 10;
@@ -891,8 +891,8 @@ section
 	position: relative;
 	height: 100%;
 	padding-top: 470px;
-	right: 20px;
-	width: 90%;
+	right: 50px;
+	width: 100%;
 }
 .search_tabs
 {
@@ -934,6 +934,7 @@ section
 }
 .search_tab:first-child
 {
+	border: solid 1px #ededed;
 	/*border-top-left-radius: 94px;*/
 	/*border-top-right-radius: 94px;*/
 	padding-left: 7px;
@@ -941,7 +942,8 @@ section
 
 .search_tab:nth-child(2)
 {
-
+	border-left: solid 1px #ededed;
+	border-right: solid 1px #ededed;
 	padding-right: 7px;
 }
 .search_tab.active
@@ -1825,6 +1827,7 @@ section
 .tab {
 	overflow: hidden;
 	left: 97px;
+	height: 75px;
 }
 
 .tab button {
@@ -1834,7 +1837,7 @@ section
 	border: none;
 	outline: none;
 	cursor: pointer;
-	padding: 10px 16px;
+	padding: 25px 20px;
 	transition: 0.3s;
 }
 

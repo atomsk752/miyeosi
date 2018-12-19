@@ -2,13 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title>Offers</title>
+<title>MIYEOSI</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Travelix Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
 <link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
 
 <th:block layout:fragment="style"></th:block>
 </head>
@@ -31,14 +34,14 @@
                 <div class="row">
                     <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
                         <div class="logo_container">
-                            <div class="logo"><a href="#"><img src="images/logo.png" alt="">MIYEOSI</a></div>
+                            <div class="logo"><a href="/index"><img src="images/logo.png" alt="">MIYEOSI</a></div>
                         </div>
                         <div class="main_nav_container ml-auto">
                             <ul class="main_nav_list">
-                                <li class="main_nav_item"><a href="#">forum</a></li>
-                                <li class="main_nav_item"><a href="about.html">course</a></li>
-                                <li class="main_nav_item"><a href="offers.html">gallery</a></li>
-                                <li class="main_nav_item"><a href="blog.html">login</a></li>
+                                <li class="main_nav_item"><a href="/courseboard/list">forum</a></li>
+                                <li class="main_nav_item"><a href="/course">course</a></li>
+                                <li class="main_nav_item"><a href="/gallery">gallery</a></li>
+                                <li class="main_nav_item"><a href="/login">login</a></li>
                             </ul>
                         </div>
                         <div class="content_search ml-lg-0 ml-auto">
@@ -136,11 +139,11 @@
                     <div class="footer_nav_container d-flex flex-row align-items-center justify-content-lg-end">
                         <div class="footer_nav">
                             <ul class="footer_nav_list">
-                                <li class="footer_nav_item"><a href="#">home</a></li>
-                                <li class="footer_nav_item"><a href="#">forum</a></li>
-                                <li class="footer_nav_item"><a href="about.html">course</a></li>
-                                <li class="footer_nav_item"><a href="offers.html">gallery</a></li>
-                                <li class="footer_nav_item"><a href="blog.html">login</a></li>
+                                <li class="footer_nav_item"><a href="/index">home</a></li>
+                                <li class="footer_nav_item"><a href="/courseboard/list">forum</a></li>
+                                <li class="footer_nav_item"><a href="/course">course</a></li>
+                                <li class="footer_nav_item"><a href="/gallery">gallery</a></li>
+                                <li class="footer_nav_item"><a href="/login">login</a></li>
                             </ul>
                         </div>
                     </div>
@@ -151,20 +154,16 @@
 
 </div>
 
-<th:block layout:fragment="script"></th:block>
-<script
-	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="../js/jquery-3.2.1.min.js"></script>
+
+
 <script src="../styles/bootstrap4/popper.js"></script>
 <script src="../styles/bootstrap4/bootstrap.min.js"></script>
 <script src="../plugins/Isotope/isotope.pkgd.min.js"></script>
 <script src="../plugins/easing/easing.js"></script>
 <script src="../plugins/parallax-js-master/parallax.min.js"></script>
-<script src="../js/offers_custom.js"></script>
 
 
+<th:block layout:fragment="script"></th:block>
 
 </body>
 

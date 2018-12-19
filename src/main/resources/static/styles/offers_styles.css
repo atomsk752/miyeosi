@@ -1694,7 +1694,7 @@ section
 .tag_item
 {
 	height: 35px;
-	float: left;
+	float: right;
 	margin-right: 9px;
 	margin-bottom: 9px;
 	border: solid 1px #fa9e1b;
@@ -1703,6 +1703,7 @@ section
 	-ms-transition: all 200ms ease;
 	-o-transition: all 200ms ease;
 	transition: all 200ms ease;
+	margin-top: -55px;
 }
 .tag_item:hover
 {
@@ -1710,6 +1711,19 @@ section
 }
 .tag_item a
 {
+	display: block;
+	font-size: 12px;
+	font-weight: 600;
+	color: #fa9e1b;
+	line-height: 33px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.tag_item button
+{
+	border: 0;
+	background: transparent;
 	display: block;
 	font-size: 12px;
 	font-weight: 600;
@@ -1812,6 +1826,7 @@ section
 .tab {
 	overflow: hidden;
 	left: 97px;
+	height: 75px;
 }
 
 .tab button {
@@ -1821,7 +1836,7 @@ section
 	border: none;
 	outline: none;
 	cursor: pointer;
-	padding: 10px 16px;
+	padding: 25px 20px;
 	transition: 0.3s;
 }
 
