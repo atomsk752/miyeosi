@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="org.honeyrock.mapper.CourseBoardMapper">
+
+	<select id="getList" resultType="org.honeyrock.domain.CourseBoardVO">
+
+		select * from tbl_course_board
+		where 1=1 
+		<include refid="search"></include>
+		and coursebno > (select max(coursebno) - 100000 from tbl_course_board)
+		and del = 0 
+		order by coursebno desc limit #{skip},#{display}
+
+	</select>
+	<select id="count" resultType="int">
+		select count(*) from tbl_course_board
+		where 1=1
+		<include refid="search"></include>
+		and coursebno > (select max(coursebno) - 100000 from tbl_course_board)
+	</select>
+
+	
+	<select id="read" resultType="org.honeyrock.domain.CourseBoardVO">
+		select * from tbl_course_board where coursebno = #{coursebno}
+	</select>
+	
+	<insert id="register" parameterType="org.honeyrock.domain.CourseBoardVO">
+		insert into tbl_course_board (coursetitle, coursecontent, coursekey, usermail) values(#{coursetitle}, #{coursecontent}, #{coursekey}, #{usermail})
+	</insert>
+	
+	<update id="update" parameterType="org.honeyrock.domain.CourseBoardVO">
+		update tbl_course_board set coursetitle=#{coursetitle}, coursecontent=#{coursecontent}, coursekey=#{coursekey}, usermail=#{usermail}, updatedate = now() where coursebno=#{coursebno}
+	</update>
+	
+	 <delete id="delete" parameterType="org.honeyrock.domain.CourseBoardVO">
+  		update tbl_course_board set del=1 where coursebno=#{coursebno}
+  	</delete>
+
+	
+	<sql id="search">
+	  	<if test="types != null">
+	  		<foreach collection="types" item="type" open="AND (" close=")" separator="OR">
+		  		<if test="type == 't'.toString()">
+		  			coursetitle like concat('%',#{keyword},'%')
+		  		</if>
+		  		<if test="type == 'd'.toString()">
+		  			coursecontent like concat('%',#{keyword},'%')
+		  		</if>
+		  		<if test="type == 'w'.toString()">
+		  			usermail like concat('%',#{keyword},'%')
+		  		</if>
+	  		</foreach>
+	  	</if>
+	</sql>
+	
+</mapper>

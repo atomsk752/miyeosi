@@ -60,7 +60,6 @@ public class PageParam {
 				.queryParam("category", this.category)
 				.queryParam("display", this.display)
 				.queryParam("type", this.type)
-				.queryParam("keyword", this.keyword)
 				.toUriString();
 	}//end link (unused)
 	
