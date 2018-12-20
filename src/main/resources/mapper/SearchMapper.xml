@@ -5,6 +5,43 @@
 	
 <mapper namespace="org.honeyrock.mapper.SearchMapper">
 
+	<resultMap type="org.honeyrock.domain.PointVO" id="pointMap">
+		<id property="pno" column="pno"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="title" column="title"/>
+		<result property="descs" column="descs"/>
+		<result property="keyword" column="keyword"/>
+		<result property="cost" column="cost"/>
+		<result property="time" column="time"/>
+		<result property="category" column="category"/>
+		<result property="good" column="good"/>
+		<result property="bad" column="bad"/>
+		<result property="img" column="img"/>
+		<result property="regdate" column="regdate"/>
+		<result property="updatedate" column="updatedate"/>
+		<result property="addpoint" column="addpoint"/>
+		<result property="thumb" column="thumb"/>
+		<result property="del" column="del"/>
+		<result property="writer" column="writer"/>
+		<collection property="imgList" resultMap="imgMap">
+		</collection>
+	</resultMap>
+	<resultMap type="org.honeyrock.domain.ImageVO" id="imgMap">
+		<result property="pno" column="pno"/>
+		<result property="ino" column="ino"/>
+		<result property="iname" column="iname"/>
+		<result property="regdate" column="regdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+	
+	<select id="getPoint" resultMap="pointMap">
+	select pointimg.pno, ino, iname from tbl_point point left outer join tbl_point_img pointimg 
+	  on point.pno = pointimg.pno
+	  where point.pno = #{pno} 
+	  order by point.pno
+	</select>
+
 	<select id="searchPoint" resultType="org.honeyrock.domain.PointVO">
 		select
 		*
@@ -29,5 +66,6 @@
 		order by good desc 
 		limit 0, 30 
 	</select>
+	
 
 </mapper>

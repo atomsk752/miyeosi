@@ -2,6 +2,7 @@ package org.honeyrock.mapper;
 
 import java.util.List;
 
+import org.honeyrock.domain.ImageVO;
 import org.honeyrock.domain.PointVO;
 
 public interface SearchMapper {
@@ -11,5 +12,8 @@ public interface SearchMapper {
 	public List<String> getPointName();
 	
 	public List<PointVO> getList();
+	
+	public PointVO getPoint(Integer pno);
+
 
 }

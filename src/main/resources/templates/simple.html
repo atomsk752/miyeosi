@@ -15,8 +15,13 @@
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
 		<link rel="stylesheet" href="plugins/fontawesome-5.6.1/css/all.css">
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 		<script src="js/modernizr.custom.js"></script>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+		<link  rel="stylesheet" type="text/css" href="libs/menucool/js-image-slider.css"/>
+		
+		
+		
+
 	</head>
 	<body>
 	
@@ -26,19 +31,41 @@
 		    <span>NEXT</span>
 		  </div>
 	 </a>
+
+<style>
+.tile {
+ padding: 3px;
+}
+
+.tile img {
+border: 1px solid green;
+ border-radius: 10px;
+}
+
+.selected  {
+
+border: 5px solid green;
+
+}
+
+</style>
 	
 	<div class="container">	
-		<h1>THEME1</h1>
+		<h1>THEME1</h1>	
 			<div class="row">
 			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
 			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
 			    <div class="row__inner">
 			    	<ul id="og-grid" >
-						<li  class="tile" th:each="List, iterState : ${List}" th:id="thumb + ${List.pno}">
+						<li  class="tile" th:each="List, iterState : ${List}" th:id="thumb + ${List.pno}" th:data-pno="${List.pno}"
+						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
+						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
 							<div class="tile__media">
-					          <img class="tile__img" th:src="${List.img}" alt=""  />
+					          <img class="tile__img" th:src="${List.img}"/>
 					        </div>
-					        <div class="tile__details toggle">
+					        <div class="tile__details toggle" th:data-pno="${List.pno}"
+						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
+						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
 					        	<input type="hidden" name="pno" th:value="${List.pno}">
 					            <input type="hidden" name="lat" th:value="${List.lat}">
 					            <input type="hidden" name="lng" th:value="${List.lng}">
@@ -51,28 +78,28 @@
 					</ul>
  				</div>
 			</div>
-		<div th:each="List, iterState : ${List}" th:id="${List.pno}" class="expander">
-
-			<div class="left-box">
-				<p>[[${List.title}]]</p>
-			</div>
-			<div class="right-box">
+			
 				
-				<div class="tile__largerimg faded faded-left">
-					<img th:src="${List.img}" alt="" />
-				</div>
-				<div class="checkbox check" th:data-pno="${List.pno}" th:data-lat="${List.lat}"
-				th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
-				th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
-
-	            </div>
-			</div>
-		</div>
+	             <div id="sliderFrame">
+	             
+			        <div id="slider">
+			       
+			        </div>
+			    </div>
+			
 					            	
 		</div>
 		<!-- /container -->
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+		<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+		
+		<script src="libs/menucool/js-image-slider.js" type="text/javascript"/>
+		
 		<script src="js/grid.js"></script>
+		
 		<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 		<script>
 		  // Initialize Firebase
@@ -105,21 +132,10 @@
 	        		}
 	        	);
 
-	/*         function detect(URL) {
-	            var image = new Image();
-	            
-	            image.src = URL;
-	            image.onload = function() {
-	                var result = 'result'; // An example result
-	                console.log(result); // Doesn't work
-	            }
-	            document.body.appendChild(image)
-	        }
 
-	        detect(imglist);
-	        */
 		}); 
 		
+		//unique ID 전송
 		var courseService = (function(){
 			
 			function add(course, callback, error){
@@ -148,9 +164,52 @@
 		})();
 		
 		
-		$('.toggle').click(function () {
+		var myImage = $(".imgbox").first();
+		var count = 0; 
+		var images = [];
+		var myInterval = null;
+		var point = new Object() ;
+		var imageSlider = new mcImgSlider(sliderOptions);
+		$("#sliderFrame").hide();
+		var temp = "";
+		
+		var currentPno = null;
+		
+		$('.toggle').click(function (e) {
+			
+			e.preventDefault();
+			
 			var id = "#" + $(this)[0].firstElementChild.defaultValue;
 			var pno =  $(this)[0].firstElementChild.defaultValue;
+			
+			currentPno = pno;
+			
+		    point.pno = $(this).data("pno");
+		    point.lat = $(this).data("lat");
+		    point.lng = $(this).data("lng");
+		    point.title = $(this).data("title");
+		    point.keyword = $(this).data("keyword");
+		    point.img = $(this).data("img");
+		    
+			
+			$("#sliderFrame").hide('slow');
+
+			$.getJSON('/searchTest?pno='+pno,function(data){
+				images = [];
+				var html = "";
+				
+				$.each(data.imgList, function(index, value){
+					
+					images.push(value.iname);
+
+					html += '<img class=\'detail\' src="'+images[index]+'"/>'
+					
+				})//end each				
+				$("#slider").html(html);
+				imageSlider.reload();
+				$("#sliderFrame").show('slow');
+
+			}) 
 			
 			if(current != pno){
 				$(".expander").hide();
@@ -161,29 +220,41 @@
 				$(id).slideUp();
 				current = -1;
 			}
-		});  
-		
-		$('body').click(function(){
 			
-			var iValue = html.indexOf("<span></span><span></span>");
-			if(iValue != -1){
-			$("#thumb" + pno + "> span").remove()
-			}
 		});
 		
 		
+		$("#slider").on("click", "div", function(e){
+			
+			//console.log( "current PNO: " + currentPno );
+			
+			var targetLi = $("li[data-pno='"+currentPno+"']");
+			
+			targetLi.toggleClass("selected");
+			
+			
+			checkDupl(point);
+			
+			updateCourse(newKey, testList);
+			
+			point = Object();
+			
+		});
+
+		
+
 		$('.checkbox').click(function(){
 			var pno = $(this).data("pno");
 			
 			var html = $("#thumb" + pno).html();
-			var iValue = html.indexOf("<span></span><span></span>");
+			/* var iValue = html.indexOf("<span></span><span></span>"); */
 			$(this).toggleClass('is-checked');
 			
-			if(iValue != -1){
+			/* if(iValue != -1){
 				$("#thumb" + pno + "> span").remove()
 			}else{
 				$("#thumb" + pno).prepend("<span></span><span></span>")
-			}
+			} */
 			
 			var point = new Object() ;
 		    
@@ -196,14 +267,12 @@
 		    point.img = $(this).data("img");
 			
 	        checkDupl(point);
-
+			
 	        console.log("----------------------------------------------------")
 	        console.log(point.lat);        
 
 	        updateCourse(newKey, testList);
 		    
-
-		
 		});
 		
 		$("#prevBtn").click(function(){
@@ -242,12 +311,9 @@
 	     	}else{
 	     		testList = result;
 	     	}
-	     	
-	     	
 
 	     } 
 	     
-	    
 	    function updateCourse(key, newCourse, callback){
 	    	
 	        var updates = {};
@@ -258,5 +324,6 @@
 		
 		
 		</script>
+		
 	</body>
 </html>

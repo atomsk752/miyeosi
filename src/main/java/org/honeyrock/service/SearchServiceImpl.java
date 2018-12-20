@@ -3,6 +3,7 @@ package org.honeyrock.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.honeyrock.domain.ImageVO;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.SearchMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,12 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<PointVO> getList() {
 		return mapper.getList();
+	}
+
+
+	@Override
+	public PointVO getPoint(Integer pno) {
+		return mapper.getPoint(pno);
 	}
 
 }

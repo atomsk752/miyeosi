@@ -1,5 +1,6 @@
 package org.honeyrock.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import lombok.Data;
@@ -26,4 +27,7 @@ public class PointVO {
 	private Integer del;
 	private String writer;
 	
+	private ArrayList<ImageVO> imgList;
+	
 }
+

@@ -177,6 +177,7 @@ html {
 	margin-left: 10%;
 	float: left;
 	width: 30%;
+	z-index: 9999;
 }
 .right-box{
 	float: right;
