@@ -5,12 +5,12 @@
 }
 #sliderFrame 
 {
-    width:500px;
+    width:600px;
     margin:0 auto; /*center-aligned*/
 }
 
 #slider, #slider .sliderInner {
-    width:100%;;height:306px;/* Must be the same size as the slider images */
+    width:100%;;height:350px;/* Must be the same size as the slider images */
     border-radius:3px;
 }
 
@@ -82,11 +82,14 @@
 
 #slider img, #slider>b, #slider a>b {
     position:absolute; border:none; display:none;
+    
+    
 }
 
 #slider .sliderInner {
     overflow:hidden;
     position:absolute; top:0; left:0;
+    
 }
 
 #slider>a, #slider video, #slider audio {display:none;}

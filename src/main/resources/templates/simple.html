@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 
 
-<html lang="en">
+<html>
 	<head>
+	
 		<meta charset="UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-		<title>Thumbnail Grid with Expanding Preview</title>
-		<meta name="description" content="Thumbnail Grid with Expanding Preview" />
-		<meta name="keywords" content="thumbnails, grid, preview, google image search, jquery, image grid, expanding, preview, portfolio" />
-		<meta name="author" content="Codrops" />
+				
 		<link rel="shortcut icon" href="../favicon.ico"> 
 		<link rel="stylesheet" type="text/css" href="styles/simple_styles2.css">
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
 		<link rel="stylesheet" href="plugins/fontawesome-5.6.1/css/all.css">
-		<script src="js/modernizr.custom.js"></script>
+
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 		<link  rel="stylesheet" type="text/css" href="libs/menucool/js-image-slider.css"/>
-		
-		
-		
 
 	</head>
 	<body>
@@ -52,6 +45,9 @@ border: 5px solid green;
 	
 	<div class="container">	
 		<h1>THEME1</h1>	
+		
+		
+		
 			<div class="row">
 			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
 			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
@@ -81,48 +77,56 @@ border: 5px solid green;
 			
 				<div class="checkbox check">
 	            </div>
-	             <div id="sliderFrame">
+	             <div id="sliderFrame" class="expander">
 	             
 			        <div id="slider">
 			       
 			        </div>
 			    </div>
 			
+			<style>
+			.testDiv  {
+			  width:100px;
+			  display:none;
+			}
+			
+			.detail {
+			width:100px;
+			display:none;
+			}
+			
+			</style>
+			<div id='testDiv'>
+			</div>
 					            	
 		</div>
 		<!-- /container -->
 
-		<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-		
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="js/modernizr.custom.js"></script>
 		<script src="libs/menucool/js-image-slider.js" type="text/javascript"/>
-		
 		<script src="js/grid.js"></script>
-		
 		<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 		<script>
-		  // Initialize Firebase
-		  var config = {
-		    apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
-		    authDomain: "travel-simulator.firebaseapp.com",
-		    databaseURL: "https://travel-simulator.firebaseio.com",
-		    projectId: "travel-simulator",
-		    storageBucket: "travel-simulator.appspot.com",
-		    messagingSenderId: "105538800439"
-		  };
-		  firebase.initializeApp(config);
+		// Initialize Firebase
+		var config = {
+		  apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+		  authDomain: "travel-simulator.firebaseapp.com",
+		  databaseURL: "https://travel-simulator.firebaseio.com",
+		  projectId: "travel-simulator",
+		  storageBucket: "travel-simulator.appspot.com",
+		  messagingSenderId: "105538800439"
+		};
+		firebase.initializeApp(config);
 		</script>
 		
 		<script>
-		var lat,lng,title,descs,keyword,img ;
+		var lat,lng,title,descs,keyword,img;
 		var testList = [0];
 		var newKey;
 		var current = -1;
 		
 		$(document).ready(function() {
-			
 	        CourseInit(testList, function(newKey){
 	            console.log(newKey);
 	        });
@@ -133,7 +137,6 @@ border: 5px solid green;
 	        			console.log(result);
 	        		}
 	        	);
-
 		}); 
 		
 		//unique ID 전송
@@ -165,15 +168,10 @@ border: 5px solid green;
 		})();
 		
 		
-		var myImage = $(".imgbox").first();
 		var count = 0; 
 		var images = [];
-		var myInterval = null;
 
-		var imageSlider = new mcImgSlider(sliderOptions);
 		$("#sliderFrame").hide();
-		var temp = "";
-		
 		var currentPno = null;
 		var checkPno = 0;
 		
@@ -186,36 +184,37 @@ border: 5px solid green;
 			
 			currentPno = pno;
 
-		    
-		$("#sliderFrame").hide('slow');
-
-		$.getJSON('/searchTest?pno='+pno,function(data){
-			images = [];
-			var html = "";
-			
-			$.each(data.imgList, function(index, value){
+			$.getJSON('/searchTest?pno='+pno,function(data){
+				images = [];
+				var html = "";
+				var testHTML = "";
 				
-				images.push(value.iname);
-
-				html += '<img class=\'detail\' src="'+images[index]+'"/>'
+				$.each(data.imgList, function(index, value){
+					
+					console.log(decodeURI(value.iname));
+					
+					images.push(decodeURI(value.iname));
+	
+					html += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
+					testHTML += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
+					
+					
+				})//end each				
+				$("#slider").html(html);
+				$("#testDiv").html(testHTML);
 				
-			})//end each				
-			$("#slider").html(html);
-			imageSlider.reload();
-			$("#sliderFrame").show('slow');
-
-		}); 
+				imageSlider.reload();
+			}); 
 		
-			if(current != pno){
+			if(current != currentPno){
 				$(".expander").hide();
-				current != -1? $(id).show() : $(id).slideDown();
-				current = pno;
+				current != -1? $(".expander").show() : $(".expander").slideDown();
+				current = currentPno;
 				return;
 			}else{
-				$(id).slideUp();
+				$(".expander").slideUp();
 				current = -1;
 			}
-		
 		});
 		
 		
@@ -231,11 +230,9 @@ border: 5px solid green;
 		    point.title = targetLi.data("title");
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
-
 			targetLi.toggleClass("selected");
 		
 			checkDupl(point);
-			
 			updateCourse(newKey, testList);			
 			
 		});
@@ -267,7 +264,6 @@ border: 5px solid green;
 		    point.img = $(this).data("img");
 			
 	        checkDupl(point);
-
 	        updateCourse(newKey, testList);
 		    
 		});
@@ -319,9 +315,7 @@ border: 5px solid green;
 	    }
 	    
 
-		
-		
-		</script>
-		
+
+		</script>		
 	</body>
 </html>
