@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>Offers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Travelix Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+    <link href="/plugins/font-awesome-5.6.1/css/all.css">
+    <link rel="stylesheet" href="/dist/uikit-3.0.0-rc.25/css/uikit.min.css"/>
+    <script src="/dist/uikit-3.0.0-rc.25/js/uikit.min.js"></script>
+    <script src="/dist/uikit-3.0.0-rc.25/js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <style type="text/css"> html {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    } </style>
+    <title>maps</title>
+</head>
+<body>
+<div class="super_container">
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <!-- Top Bar -->
+        
+        <div class="top_bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex flex-row">
+                        <div class="phone">
+                            <a href="/index"><img class="phone" src="/images/logo2.jpg"></a>
+                        </div>
+
+                        <fieldset class="field-container">
+                            <input type="text" placeholder="Insert Title" class="field" />
+                            <div class="icons-container">
+                                <div class="icon-search"></div>
+                                <div class="icon-close">
+                                    <div class="x-up"></div>
+                                    <div class="x-down"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="user_box ml-auto">
+                            <a class="glitch-btn" href="/boards/list" target="_self">
+                                <div class="text">NEXT</div>
+                                <div class="mask">
+                                    <span>NEXT</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="content_container">
+        <div class="wrapper">
+
+            <!--left tab-->
+
+            <div class="left-box">
+
+                <div class="date_tabs_container">
+                    <div class="column">
+                        <div class="col-lg-12">
+                            <div class="date_tabs">
+                                <button class="date_tab active">Day1</button>
+                                <!--<button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--map screen & schedules-->
+
+            <div class="middle-box">
+                <div id="map"><h1>MAP PART</h1></div>
+                <div class="toggle-nav">
+                <span class="e">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                </div>
+                <div class="nav-pane slide-out">
+                    <div class="courses">
+                        <div class="course" data-cno="1">
+                            <div class="date_detail">
+                                <h1>12월 21일 금요일</h1>
+                                <div class="date delete-bar">
+                                    <img src="/images/trash-alt-solid.svg"/>
+                                </div>
+                            </div>
+                            <div uk-sortable="group: sortable-group">
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 1
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 2
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 3
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 4
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="course" data-cno="2">
+                            <div class="date_detail">
+                                <h1>12월 22일 토요일</h1>
+                                <div class="date delete-bar">
+                                    <img src="/images/trash-alt-solid.svg"/>
+                                </div>
+                            </div>
+                            <div uk-sortable="group: sortable-group">
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 1
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 2
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 3
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-card uk-card-default uk-card-body uk-card-small">Item 4
+                                        <div class="delete-bar">
+                                            <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="course" data-cno="3">
+                            <div class="date_detail">
+                                <h1>12월 22일 토요일</h1>
+                                <div class="date delete-bar">
+                                    <img src="/images/trash-alt-solid.svg"/>
+                                </div>
+                            </div>
+                            <div uk-sortable="group: sortable-group"></div>
+                        </div>
+                        <div class="course add-bar">
+                            <div class="add-icon"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-info">
+                    <button>view info</button>
+                </div>
+                <div class="info-pane slide-out"><h1>info here</h1></div>
+            </div>
+
+            <!--sortable course & search tab-->
+
+            <div class="right-box">
+                <div class="material-ui tabs">
+                    <div class="tab active">TAB1</div>
+                    <div class="tab">TAB2</div>
+                    <div class="slider"></div>
+                </div>
+                <div class="tab_content">
+                    <div class="course-sort">
+                        <ul class="uk-nav uk-nav-default uk-width-medium"
+                            uk-sortable="cls-custom: uk-box-shadow-small uk-flex uk-flex-middle uk-background">
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                            <li><a href="#">Item</a></li>
+                        </ul>
+                    </div>
+                    <div class="search-tab">
+                        <div class="search-win">
+                            <input type="text" class="search-box"/>
+                            <span class="search-button">
+                             <span class="search-icon"></span>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="/js/maps_custom.js"></script>
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script> -->
+
+<script>
+
+    toggleInfoWin();
+    selectTab();
+    toggleSearchWin();
+    deleteContents();
+    addCourseTab();
+    selectDate();
+
+    var map;
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 33.3659432, lng: 126.35644},
+        zoom: 15,
+        minZoom: 12
+      });
+      
+      var marker = new google.maps.Marker({
+          position: {lat: 33.3659432, lng: 126.35644},
+          map: map,
+          title: 'Hello World!'
+        });
+    }
+
+
+    function selectDate() {
+        $(document).on("click", ".date_tab", function (e) {
+            $(".date_tab").removeClass("active");
+            $(e.target).addClass("active")
+        });
+
+    }
+
+    function addCourseTab() {
+
+        var addHtml = "<div class=\"course\" data-cno=\"3\">\n" +
+            "                            <div class=\"date_detail\">\n" +
+            "                                <h1>12월 22일 토요일</h1>\n" +
+            "                                <div class=\"date delete-bar\">\n" +
+            "                                    <img src=\"/images/trash-alt-solid.svg\"/>\n" +
+            "                                </div>\n" +
+            "                            </div>\n" +
+            "                            <div uk-sortable=\"group: sortable-group\"></div>\n" +
+            "                        </div>"
+
+        var btnHtml = "<button class=\"date_tab\">Day1</button>";
+
+        $(".add-bar").on("click", function (e) {
+            $(".date_tabs").append(btnHtml);
+            $(this).before(addHtml);
+            console.log($(".courses"));
+        });
+    }
+
+    function deleteContents() {
+        $(document).on("click", ".delete-bar", function () {
+            console.log($(this)[0].parentElement.parentElement)
+            $(this)[0].parentElement.parentElement.remove();
+        });
+    }
+
+    function toggleInfoWin() {
+        $('.toggle-nav').on('click', function () {
+            toggleNavigation($(this), $('.nav-pane'));
+        });
+
+        $("#map").on('click', function () {
+            if ($(".toggle-info").hasClass("open")) {
+                $(".toggle-info").removeClass("open")
+                $(".info-pane").removeClass("open")
+            }
+        });
+
+        $('.toggle-info').on('click', function () {
+            toggleInformation($(this), $('.info-pane'));
+        });
+
+
+        function toggleNavigation(btn, nav) {
+            btn.toggleClass('open');
+            nav.toggleClass('open');
+        }
+
+        function toggleInformation(btn, info) {
+            btn.toggleClass('open');
+            info.toggleClass('open');
+        }
+    }
+
+    function toggleSearchWin() {
+        $('.search-button').on('click', function () {
+            $(this).parent().toggleClass('open');
+        });
+    }
+
+    function selectTab() {
+        $('.tab_content>div:not(":first-of-type")').hide();
+
+        $('.tabs div').each(function (i) {
+            $(this).attr('data-tab', 'tab' + i);
+        });
+
+        $('.tab_content>div').each(function (i) {
+            $(this).attr('data-tab', 'tab' + i);
+        });
+
+        $('.tabs div').on('click', function () {
+            var dataTab = $(this).data('tab');
+            var getWrapper = $(this).closest('.right-box');
+            /*
+                        getWrapper.find('.tabs div').removeClass('active');
+                        $(this).addClass('active');*/
+            /*
+                        getWrapper.find('.line').width(0);
+                        line.animate({'width':'100%'}, 'fast');*/
+            getWrapper.find('.tab_content>div').hide();
+            getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
+        });
+
+
+    }
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
+</body>
+</html>
