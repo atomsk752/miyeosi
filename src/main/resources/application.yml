@@ -8,6 +8,15 @@ spring:
   thymeleaf:
     cache: false
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    generate-ddl: true
+    show-sql: true
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
   servlet:
     multipart:
       max-file-size: 20971520

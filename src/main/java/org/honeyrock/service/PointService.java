@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
+import org.json.simple.JSONArray;
 
 
 
@@ -25,4 +26,5 @@ public interface PointService {
 	
 	public int count(PageParam pageParam);
 
+	public JSONArray getBlog();
 }

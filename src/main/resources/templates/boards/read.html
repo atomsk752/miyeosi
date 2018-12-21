@@ -23,6 +23,9 @@
 	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 	<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/animate.css">
 
+	<link rel="stylesheet" type="text/css" href="../styles/spot_info.css">
+	<link rel="stylesheet" type="text/css" href="../styles/reset.css">
+
 </head>
 
 <body>
@@ -265,14 +268,100 @@
 										<p class="offers_text" th:text="${detail.descs}"></p>
 										
 										</div>
-										
-										<div class="read_blog">
+
+
+
+											<div class="spot_info_box community">
+
+												<div class="clear"></div>
+
+												
+												<div class="write_area">
+
+													<div class="write_review">
+														<div class="write_title r">댓글쓰기
+														<input type="text" id="pointreplyer">
+														</div>
+														
+			
+														<div class="review_box">
+															<div class="write_left">
+															</div>
+															<div class="write_center">
+															
+																<textarea id="pointreply" class="review_area" placeholder="댓글을 작성하세요."></textarea>
+															</div>
+															<div class="write_right">
+																<div class="btn_review_write" id="si_review_form_submit"
+																	data="new">등록</div>
+															</div>
+															<div class="clear"></div>
+														</div>
+													</div>
+												</div>
+
+
+												<div class="cmmt_tab_content review">
+
+<!-- 													<div class="cmmt_content_box" >
+														<div class="cmmt_c_user">
+															<div class="cmmt_c_user_txt">
+																<div class="cmmt_c_user_name" > 작성자
+																 <span> &nbsp;&nbsp;등록시간 </span>
+																</div>
+																<div class="cmmt_c_user_level">
+
+																	<div class="rv_cnt">좋아요 싫어요</div>
+																	<div class="clear"></div>
+																</div>
+															</div>
+															<div class="clear"></div>
+														</div>
+														<div class="cmmt_content">방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 방콕 투어 중
+															가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요 방콕 투투어 중 가장
+															잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게
+															놀았어요.</div>
+													</div> -->
+													
+												</div>
+
+											</div>
+
+
+
+											<!-- Modal -->
+							<div id="myModal" class="modal fade" role="dialog">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											
+											<h4 class="modal-title">Modal Header</h4>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+										<div class="modal-body">
+										<label>Reply Text</label>
+										<input type="text" class="form-control" name="replyText">
+										<label>Replyer</label>
+										<input type="text" class="form-control" name="replyer">
+										</div>
+										<div class="modal-footer">
+											<button id='delModalBtn' class="btn btn-danger">삭제</button>
+											<button id='modalBtn' class="btn btn-info">등록</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="read_blog">
 											<h2>BLOG</h2>
-											<div class="read_blog_list" th:value="*{title}">
-												블로그
+											<div class="read_blog_list" th:text="${blog}">
+											
 											</div>
 										</div>
-										
+					
 										<div class="offer_reviews">
 											<div class="footer_content footer_tags">
 												<ul class="tags_list clearfix">
@@ -558,7 +647,7 @@
 			</div>
 		</div>
 	</div>
-
+</div>
 </div>
 
 
@@ -576,11 +665,137 @@
 <script src="../plugins/parallax-js-master/parallax.min.js"></script>
 
 <script src="../js/read_custom.js"></script>
+<script src="../js/reply.js"></script>
 
+
+
+<script th:inline="javascript">
+	
+	$(document).ready(function(e){
+		
+		(function(){
+			replyManager.getAll([[${detail.pno}]], printList);
+		})();
+		
+		
+		
+		function printList(list){
+			var str = "";
+			var replyObj;
+			for(var i=0;i<list.length;i++){
+				replyObj = list[i];
+
+				str += "<div class='cmmt_content_box' >"+
+				 "<div class='cmmt_c_user'>"+
+				"<div class='cmmt_c_user_txt'>"+
+				"<div class='cmmt_c_user_name'>"+replyObj.pointreplyer+
+				"<span>"+'...'+formatDate(replyObj.regdate)+"</span>"+
+				"</div>"+
+				"<div class='cmmt_c_user_level'>"+
+				"<div class='rv_cnt'>"+replyObj.good+replyObj.bad+"</div>"+
+				"<div class='clear'></div>"+
+				"</div>"+
+				"</div>"+
+				"<div class='clear'></div>"+
+				"</div>"+
+				"<div class='review_opbtn'>"+
+				"<div class='rv_op_btn rop_delete' data-srl='"+replyObj.rno+"'>삭제</div>"+
+				"<div class='rv_op_btn line rop_edit' data-srl='"+replyObj.rno+"'>수정</div>"+
+				"</div>"+
+				"<div><div class='cmmt_content'>"+replyObj.pointreply+"</div></div>"+
+				"</div>";
+				
+				
+		/* 		str += "<tr>"+
+				"<th>"+ replyObj.rno+" </th>"+
+				"<th>"+ replyObj.pointreply+" </th>"+
+				"<th>"+ replyObj.pointreplyer+" </th>"+
+				"<th>"+ formatDate(replyObj.regdate)+" </th>"+
+				"</tr>"; */
+			}
+			$(".review").html(str);
+		}
+		
+		
+		function formatDate(timeValue){
+			var date = new Date(timeValue);
+			return date.getFullYear()
+				+ "-" + (date.getMonth()+1 >= 10?date.getMonth()+1:'0'+(date.getMonth()+1))
+				+ "-" + date.getDate()
+		}
+		
+		var mode = 'ADD';
+		
+		var pno = [[${detail.pno}]];
+		
+		function afterAll(list){
+			printList(list);
+			$("#myModal").modal("hide");
+			replyTextObj.val("");
+			replyerObj.val("");
+		}
+		var pointreply = $("#pointreply").val();
+		var pointreplyer = $("#pointreplyer").val();
+		$(".btn_review_write").click(function(e){
+			e.preventDefault();
+			
+		 	if(mode == 'ADD'){
+				var obj = {pointreply:pointreply, pointreplyer:pointreplyer, pno:pno};
+				console.log(obj);
+				replyManager.add(obj, function(list){
+					alert("댓글이 추가되었습니다.");
+					afterAll(list);
+				});
+			 
+			}else if(mode =='MOD'){
+				var obj = {pointreply:pointreply, pointreplyer:pointreplyer, pno:pno, rno:rno};
+				console.log(obj);
+				replyManager.update(obj, function(list){
+					alert("댓글이 수정되었습니다.");
+					afterAll(list);
+				});
+			}
+		});
+		$(".review").on("click",".rop_delete", function(e){
+			e.preventDefault();
+			rno = e.target.getAttribute("data-srl");
+			
+			
+			var obj = {pno:pno, rno:rno};
+			
+			replyManager.remove(obj, function(list){
+				printList(list);
+				alert("댓글 삭제 완료");
+				pointreply.val("");
+				pointreplyer.val("");
+			});
+			
+		});
+		var rno;
+		$(".review").on("click", ".rop_edit", function(e){
+			e.preventDefault();
+			rno = e.target.getAttribute("data-srl");	
+			
+			mode = 'MOD';
+			
+			pointreplyValue = $(this).closest(".cmmt_c_user");
+			console.log(pointreplyValue);
+			
+			replyTextObj.val(tds[1].innerHTML);
+			replyerObj.val(tds[2].innerHTML);
+			$("#myModal").modal("show");
+			$(".modal-title").text("Modify/Delete Reply");
+		});
+			
+
+	});
+		
+		
+</script>  
 
 <script>
-
-    function initMap() {
+	
+	    function initMap() {
 
     	var lat = $(".date_tab").data("lat");
     	var lng = $(".date_tab").data("lng");
@@ -596,8 +811,6 @@
         });
         
     }
-    
-    
 
     $(document).ready(function() {
     	var keyword = $("#demo").data("keyword");
@@ -691,7 +904,7 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     });
-
+    
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap" async defer></script>

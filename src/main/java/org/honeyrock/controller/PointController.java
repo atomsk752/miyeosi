@@ -65,6 +65,8 @@ public class PointController {
 	public void readGET(PointVO vo, Model model) {
 		
 		model.addAttribute("detail", service.get(vo));
+		model.addAttribute("blog", service.getBlog());
+		
 	}
 	
 	@GetMapping("/register")

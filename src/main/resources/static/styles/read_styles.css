@@ -32,6 +32,7 @@
 	10.4 Footer - Contact Info
 11. Copyright
 
+   REPLY
 
 ******************************/
 
@@ -1491,7 +1492,7 @@ section
 .offer_reviews
 {
 	position: absolute;
-	top: 0;
+	top: 0px;
 	right: 0;
 }
 .offer_reviews_content
@@ -1977,8 +1978,6 @@ section
 
 }
 
-
-
 .read_descs{
 	padding-bottom: 10%;
 }
@@ -1986,4 +1985,98 @@ section
 .read_blog{
 	padding-bottom: 10%;
 }
+
+
+
+
+/* reply */
+
+/* .spot_info_box{
+	width:100%;
+	background:white;
+	border:1px solid #d8d8d8;
+}
+.clear{
+	clear:both;
+}
+.write_area{
+	width:100%;
+	border-bottom: 1px solid #dbdbdb;
+	padding:30px 20px 0px 40px;
+	text-align:center;
+}
+.write_right{
+	float:left;
+	width:90px;
+	vertical-align:top;
+	height: 50px;
+}
+
+.btn_review_write{
+	    margin-top: 0px;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    color: white;
+    font-size: 15px;
+    background: #ff9320;
+    border: 1px solid #f7870f;
+    cursor: pointer;
+    margin-bottom: 30px;
+}
+.cmmt_tab_content{
+	padding-left:25px;
+}
+
+.cmmt_tab_content .review{
+	width:100%;
+	padding-left:30px;
+}
+
+.cmmt_content_box{
+	margin-top:20px;
+}
+
+.cmmt_c_user{
+	width:552px;
+	display:block;
+	float:left;
+}
+.cmmt_c_user_txt{
+	float:left;
+	margin-left:10px;
+	width:315px;
+}
+.cmmt_c_user_name{
+	font-size:16px;
+	font-weight:bold;
+	color:#555555;
+	margin-top:5px;
+}
+
+.cmmt_c_user_level{
+	margin-top:5px;
+}
+
+.cmmt_c_user_level .rv_cnt{
+	float:left;
+	color:#ff9320;
+	font-size:12px;
+	margin-left:5px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
