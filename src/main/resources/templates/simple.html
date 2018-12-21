@@ -75,10 +75,10 @@ border: 5px solid green;
  				</div>
 			</div>
 			
-				<div class="checkbox check">
-	            </div>
-	             <div id="sliderFrame" class="expander">
-	             
+				
+				
+	            <div id="sliderFrame" class="expander">
+	             	<div id="checkBoxContainer"></div>
 			        <div id="slider">
 			       
 			        </div>
@@ -172,6 +172,8 @@ border: 5px solid green;
 		var images = [];
 
 		$("#sliderFrame").hide();
+		
+		var checkPnoList = [];
 		var currentPno = null;
 		var checkPno = 0;
 		
@@ -191,23 +193,52 @@ border: 5px solid green;
 				
 				$.each(data.imgList, function(index, value){
 					
-					console.log(decodeURI(value.iname));
-					
 					images.push(decodeURI(value.iname));
 	
 					html += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
 					testHTML += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
 					
-					
 				})//end each				
 				$("#slider").html(html);
 				$("#testDiv").html(testHTML);
-				
+
 				imageSlider.reload();
 			}); 
+			//var targetCheck = $("div[data-index='"+currentPno+"']");
+			
+			//$(".checkbox").attr("data-index")
+			
+
+
+			var sliderCheck = "";
+		/* 	if(targetCheck){
+				sliderCheck += "<div class="+"'checkbox check is-checked'"+"data-index='"+currentPno+"'></div>";
+				$("#checkBoxContainer").html(sliderCheck);
+			}else{
+				sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
+				$("#checkBoxContainer").html(sliderCheck);
+			} */
+			sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
+			$("#checkBoxContainer").html(sliderCheck);
+			
+			console.log("--------------")
+			console.log(currentPno);
+			console.log(checkPnoList);
+			var dataIndex = checkPnoList.indexOf(currentPno);
+			console.log(dataIndex);
+			
+			
+/* 			if(checkPnoList.indexOf(currentPno)!=-1){
+				
+				$(".checkbox").addClass('is-checked');
+				return;
+				} */
+			
+
 		
 			if(current != currentPno){
 				$(".expander").hide();
+				
 				current != -1? $(".expander").show() : $(".expander").slideDown();
 				current = currentPno;
 				return;
@@ -215,13 +246,15 @@ border: 5px solid green;
 				$(".expander").slideUp();
 				current = -1;
 			}
+			
+			
+			
 		});
-		
 		
 		$("#slider").on("click", "div", function(e){
 
 			var targetLi = $("li[data-pno='"+currentPno+"']");
-			
+			var targetCheck = $("div[data-index='"+currentPno+"']");
 			var point = new Object() ;
 			
 		    point.pno = targetLi.data("pno");
@@ -231,28 +264,37 @@ border: 5px solid green;
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
 			targetLi.toggleClass("selected");
-		
+			targetCheck.toggleClass('is-checked');
+			
 			checkDupl(point);
 			updateCourse(newKey, testList);			
 			
+			for (var i = 1; i < testList.length; i++) {
+				
+				checkPnoList.push(testList[i].pno);
+				
+			}
+			
+			console.log(checkPnoList)
+			
 		});
 
-
-		var checkPnoList = [];
+		
 		$('.checkbox').click(function(){
 		
  			var targetLi = $("li[data-pno='"+currentPno+"']");
-			
+ 			
+ 			console.log(currentPno);
+ 			
 			targetLi.addClass("selected");
-			 
-			checkPnoList.push(currentPno);
 			
+			checkPnoList.push(currentPno);
+
 			checkSelected(currentPno);
 			
-			$(this).toggleClass('is-checked');
-			
+			//$(this).toggleClass('is-checked');
+
 			var pno = $(this).data("pno");
-			
 			var html = $("#thumb" + pno).html();
 
 		    point.pno = $(this).data("pno");
@@ -262,14 +304,11 @@ border: 5px solid green;
 		    //point.descs = $(this).data("descs");
 		    point.keyword = $(this).data("keyword");
 		    point.img = $(this).data("img");
-			
-	        checkDupl(point);
-	        updateCourse(newKey, testList);
 		    
 		});
 		
 		
-	     function checkDupl(param) {
+	    function checkDupl(param) {
 		     	
 	     	var beforeSize = testList.length;
 
@@ -282,6 +321,9 @@ border: 5px solid green;
 	     	}else{
 	     		testList = result;
 	     	}
+	     	
+
+	     
 
 		 } 
 		     
@@ -314,8 +356,6 @@ border: 5px solid green;
 	        
 	    }
 	    
-
-
 		</script>		
 	</body>
 </html>
