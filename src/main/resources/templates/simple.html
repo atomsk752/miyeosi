@@ -79,7 +79,8 @@ border: 5px solid green;
  				</div>
 			</div>
 			
-				
+				<div class="checkbox check">
+	            </div>
 	             <div id="sliderFrame">
 	             
 			        <div id="slider">
@@ -113,6 +114,7 @@ border: 5px solid green;
 		  };
 		  firebase.initializeApp(config);
 		</script>
+		
 		<script>
 		var lat,lng,title,descs,keyword,img ;
 		var testList = [0];
@@ -131,7 +133,6 @@ border: 5px solid green;
 	        			console.log(result);
 	        		}
 	        	);
-
 
 		}); 
 		
@@ -168,12 +169,13 @@ border: 5px solid green;
 		var count = 0; 
 		var images = [];
 		var myInterval = null;
-		var point = new Object() ;
+
 		var imageSlider = new mcImgSlider(sliderOptions);
 		$("#sliderFrame").hide();
 		var temp = "";
 		
 		var currentPno = null;
+		var checkPno = 0;
 		
 		$('.toggle').click(function (e) {
 			
@@ -183,34 +185,27 @@ border: 5px solid green;
 			var pno =  $(this)[0].firstElementChild.defaultValue;
 			
 			currentPno = pno;
-			
-		    point.pno = $(this).data("pno");
-		    point.lat = $(this).data("lat");
-		    point.lng = $(this).data("lng");
-		    point.title = $(this).data("title");
-		    point.keyword = $(this).data("keyword");
-		    point.img = $(this).data("img");
+
 		    
-			
-			$("#sliderFrame").hide('slow');
+		$("#sliderFrame").hide('slow');
 
-			$.getJSON('/searchTest?pno='+pno,function(data){
-				images = [];
-				var html = "";
+		$.getJSON('/searchTest?pno='+pno,function(data){
+			images = [];
+			var html = "";
+			
+			$.each(data.imgList, function(index, value){
 				
-				$.each(data.imgList, function(index, value){
-					
-					images.push(value.iname);
+				images.push(value.iname);
 
-					html += '<img class=\'detail\' src="'+images[index]+'"/>'
-					
-				})//end each				
-				$("#slider").html(html);
-				imageSlider.reload();
-				$("#sliderFrame").show('slow');
+				html += '<img class=\'detail\' src="'+images[index]+'"/>'
+				
+			})//end each				
+			$("#slider").html(html);
+			imageSlider.reload();
+			$("#sliderFrame").show('slow');
 
-			}) 
-			
+		}); 
+		
 			if(current != pno){
 				$(".expander").hide();
 				current != -1? $(id).show() : $(id).slideDown();
@@ -220,44 +215,49 @@ border: 5px solid green;
 				$(id).slideUp();
 				current = -1;
 			}
-			
+		
 		});
 		
 		
 		$("#slider").on("click", "div", function(e){
-			
-			//console.log( "current PNO: " + currentPno );
-			
+
 			var targetLi = $("li[data-pno='"+currentPno+"']");
 			
+			var point = new Object() ;
+			
+		    point.pno = targetLi.data("pno");
+		    point.lat = targetLi.data("lat");
+		    point.lng = targetLi.data("lng");
+		    point.title = targetLi.data("title");
+		    point.keyword = targetLi.data("keyword");
+		    point.img = targetLi.data("img");
+
 			targetLi.toggleClass("selected");
-			
-			
+		
 			checkDupl(point);
 			
-			updateCourse(newKey, testList);
-			
-			point = Object();
+			updateCourse(newKey, testList);			
 			
 		});
 
-		
 
+		var checkPnoList = [];
 		$('.checkbox').click(function(){
+		
+ 			var targetLi = $("li[data-pno='"+currentPno+"']");
+			
+			targetLi.addClass("selected");
+			 
+			checkPnoList.push(currentPno);
+			
+			checkSelected(currentPno);
+			
+			$(this).toggleClass('is-checked');
+			
 			var pno = $(this).data("pno");
 			
 			var html = $("#thumb" + pno).html();
-			/* var iValue = html.indexOf("<span></span><span></span>"); */
-			$(this).toggleClass('is-checked');
-			
-			/* if(iValue != -1){
-				$("#thumb" + pno + "> span").remove()
-			}else{
-				$("#thumb" + pno).prepend("<span></span><span></span>")
-			} */
-			
-			var point = new Object() ;
-		    
+
 		    point.pno = $(this).data("pno");
 		    point.lat = $(this).data("lat");
 		    point.lng = $(this).data("lng");
@@ -267,13 +267,35 @@ border: 5px solid green;
 		    point.img = $(this).data("img");
 			
 	        checkDupl(point);
-			
-	        console.log("----------------------------------------------------")
-	        console.log(point.lat);        
 
 	        updateCourse(newKey, testList);
 		    
 		});
+		
+		
+	     function checkDupl(param) {
+		     	
+	     	var beforeSize = testList.length;
+
+	     	var result  = testList.filter(x => parseInt(x.pno) != parseInt(param.pno)) ;
+	     	
+	     	var afterSize = result.length;
+	     	
+	     	if (beforeSize == afterSize) {
+	     		testList = result.concat(param)
+	     	}else{
+	     		testList = result;
+	     	}
+
+		 } 
+		     
+	    function updateCourse(key, newCourse, callback){
+	    	
+	        var updates = {};
+	        updates['/courses/' + key] = newCourse;
+	        firebase.database().ref("/courses/"+key).set(newCourse);
+	        
+	    }
 		
 		$("#prevBtn").click(function(){
 			event.preventDefault();
@@ -296,31 +318,7 @@ border: 5px solid green;
 	        
 	    }
 	    
-	     function checkDupl(param) {
-	     	
-	     	var beforeSize = testList.length;
-	     	
-	     	var result  = testList.filter(x => parseInt(x.pno) != parseInt(param.pno)) ;
-	     	    	
-	     	var afterSize = result.length;
-	     	
-	     	console.log(beforeSize + ": " + afterSize);
-	     	
-	     	if (beforeSize == afterSize) {
-	     		testList = result.concat(param)
-	     	}else{
-	     		testList = result;
-	     	}
 
-	     } 
-	     
-	    function updateCourse(key, newCourse, callback){
-	    	
-	        var updates = {};
-	        updates['/courses/' + key] = newCourse;
-	        firebase.database().ref("/courses/"+key).set(newCourse);
-	        
-	    }
 		
 		
 		</script>
