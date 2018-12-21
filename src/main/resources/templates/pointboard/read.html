@@ -112,7 +112,6 @@
                                 <div class="col-lg-11">
                                     <div class="offers_content">
                                         <div class="offers_price" th:text="${detail.title}"><span th:text="${#dates.format(detail.regdate, 'yyyy-MM-dd HH:mm')}"></span></div>
-                                        <input type="hidden" id="pno" th:value="${detail.pno}"></div>
 
                                         <!-- Milestones -->
 
@@ -264,6 +263,7 @@
                 </div>
             </div>
         </div>
+	</div>
     <form id="actionForm">
 		<input type="hidden" name='page' th:value="${pageObj.page}">
 		<input type="hidden" name='display' th:value="${pageObj.display}">
@@ -303,7 +303,7 @@
             console.log(latLng);
             map = new google.maps.Map(document.getElementById('map'), {
                 center: { lat: lat, lng: lng },
-                zoom: 20
+                zoom: 17
             });
             var marker = new google.maps.Marker({
                 position: latLng,
@@ -315,7 +315,7 @@
         $(document).ready(function () {
         	
         	var actionForm = $("#actionForm");     
-        	var pno = $("#pno").val();
+        	var pno = [[${detail.pno}]];
             var keyword = $("#demo").data("keyword");
             var keywordArr = keyword.split(",");
             console.log(keywordArr);

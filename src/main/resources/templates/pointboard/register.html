@@ -29,7 +29,7 @@
 	
 	
 	
-		<div class="container">
+		<div class="register">
 			<div class="row">
 				<div class="col">
 
@@ -44,27 +44,19 @@
 							<input type="text" name="category" class="contact_form_subject input_field" placeholder="Category" required="required" data-error="Subject is required.">
 							<input type="text" name="keyword" class="contact_form_subject input_field" placeholder="Keyword" required="required" data-error="Subject is required.">
 							<input type="text" name="img" class="contact_form_subject input_field" placeholder="Image" required="required" data-error="Subject is required.">
-							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">등록하기<span></span><span></span><span></span></button>
-
+							<button type="submit" id="form_submit_button" class="form_submit_button button">등록<span></span><span></span><span></span></button>
+							<button type="button" class="button cancel" onclick="history.go(-1);">취소<span></span><span></span><span></span></button>
 						</form>
+						
 					</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<!-- About -->
-	<div class="about">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-5">
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 <th:block layout:fragment="script">
+
 </th:block>
 
 </html>

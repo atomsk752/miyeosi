@@ -126,7 +126,7 @@
 					</div>
 					
 					<div class="tags_list clearfix">
-			            <form action="/pointboard/register" method="get" class="tag_item">
+			            <form action="/courseboard/register" method="get" class="tag_item">
 			                <button>글쓰기</button>
 			            </form>
 			        </div>
@@ -295,13 +295,47 @@
 		    	fingernail2B = "M229.6 17.5l-5.8 11.2c-.6 1.1-1.9 1.5-2.9.9l-2.5-1.3c-1.1-.6-1.5-1.9-.9-2.9l2.7-5.2c1.8-3.4 6-4.7 9.3-2.9.1 0 .1.1.1.2z",
 		    	fingernail1B = "M303.2 128.9l-.4-1.7c-.5-2.3.9-4.5 3.1-5l12.3-2.8c1.2 5.2-2 10.3-7.2 11.5l-3.5.8c-1.9.4-3.9-.8-4.3-2.8z"
 				;
-
 			
+			function initPagination() {
+				numLinks = pagLinks.length;
+				console.log(numLinks);
+				
+				curLink = 0;
+				for(var i = 0; i < numLinks; i++) {
+					pagLinks[i].addEventListener('click', onPagLinkClick);
+					pagLinks[i].rect = pagLinks[i].getBoundingClientRect();
+					pagLinks[i].num = i;
+				}
+				
+				
+				console.log("===============");
+				console.log(actionForm.find("input[name='page']").val());
+												
+				pagContainerRect = pagContainer.getBoundingClientRect();
+				
+				yDest = svgRect.top - 44;
+				yDistance = document.querySelector('footer').getBoundingClientRect().top - pagContainerRect.top;
+				
+				var current = actionForm.find("input[name='page']").val();
+				
+				if (current >= 11){
+					current = (parseInt(current) % 10); 
+				}else{
+					current = parseInt(current - 1);
+				}
+				console.log(current);
+				
+				TweenMax.set(indicator, {autoAlpha: 1, x: pagLinks[current].rect.left - pagContainerRect.left});
+				TweenMax.set(handSVG, {autoAlpha: 1, rotation: 0, x: pagLinks[current].rect.left - pagContainerRect.left - 253, y: yDistance});
+				TweenMax.set(fingerBG, {morphSVG: fingerBGB});
+				TweenMax.set(fingerBorder, {morphSVG: fingerBorderB});
+				TweenMax.set(fingernail1, {morphSVG: fingernail1B});
+				TweenMax.set(fingernail2, {morphSVG: fingernail2B});
+			}
 			
 			function onPagLinkClick(e) {
 				e.preventDefault();
 				
-		
 				var time = 0;
 				
 				if(TL && TL.isActive()) {TL.kill();}
@@ -330,6 +364,7 @@
 				}
 					TL
 						.to(indicator, .5, {x: e.target.rect.left - pagContainerRect.left, ease: Quad.easeInOut}, time)
+						.to(pagLinks[curLink-1], .2, {color: '#3a5e77', ease: Linear.easeNone}, time)
 						.to(handSVG, .5, {x: e.target.rect.left - pagContainerRect.left - 251, ease: Quad.easeInOut}, time)
 						.to(e.target, .2, {color: '#FFF', ease: Linear.easeNone}, time + .45)
 						
@@ -344,44 +379,12 @@
 					
 					setTimeout(function() {
 						actionForm.find("input[name='page']").val(curLink);
-						actionForm.attr("action","/courseboard/list").attr("method","get").submit();
+						actionForm.attr("action","/pointboard/list").attr("method","get").submit();
 					}, 1500);
 					
-				}
-
-	
-			function initPagination() {
-				numLinks = pagLinks.length;
-				
-				curLink = 0;
-				for(var i = 0; i < numLinks; i++) {
-					pagLinks[i].addEventListener('click', onPagLinkClick);
-					pagLinks[i].rect = pagLinks[i].getBoundingClientRect();		
-					pagLinks[i].num = i;
-				}
-				
-				console.log(numLinks);
-				
-				console.log(actionForm.find("input[name='page']").val());
-				
-				console.log($("#pagination-container").find());
-								
-				pagContainerRect = pagContainer.getBoundingClientRect();
-				
-				yDest = svgRect.top - 44;
-				yDistance = document.querySelector('footer').getBoundingClientRect().top - pagContainerRect.top;
-				
-				TweenMax.set(indicator, {autoAlpha: 1, x: pagLinks[actionForm.find("input[name='page']").val()-1].rect.left - pagContainerRect.left});
-				TweenMax.set(handSVG, {autoAlpha: 1, rotation: 0, x: pagLinks[actionForm.find("input[name='page']").val()-1].rect.left - pagContainerRect.left - 253, y: yDistance});
-				TweenMax.set(fingerBG, {morphSVG: fingerBGB});
-				TweenMax.set(fingerBorder, {morphSVG: fingerBorderB});
-				TweenMax.set(fingernail1, {morphSVG: fingernail1B});
-				TweenMax.set(fingernail2, {morphSVG: fingernail2B});
-				
-				
 			}
+
 			svgRect = handSVG.getBoundingClientRect();
-			
 			initPagination();
 		
 			
