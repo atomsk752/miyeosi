@@ -1095,6 +1095,7 @@ label {
 	top: 0;
 	right: 0;
 	width: 0px;
+	width: 30px;
 	background: red;
 	height: 100%;
 	-webkit-transition: width .3s ease-in-out;
@@ -1108,6 +1109,36 @@ label {
 	width: 20%;
 }
 
+} 
+
+
+.delete-btn {
+	cursor: pointer;
+	position: absolute;
+	z-index: 5;
+	top: 100px;
+	border-right: #0f7ae5 solid 8px;
+	border-bottom-right-radius: 3px;
+	float: left;
+	right: 0;
+	width: 4%;
+	background: white;
+	height: 59px;
+	
+}
+
+.delete-btn img{
+	margin: 17px 0 0 11px;
+	width: 50%;
+}
+
+
+
+
+/* .course ul:hover .delete-bar {
+	width: 20%;
+}
+ */
 .delete-bar img{
 	margin: 17px 0 0 11px;
 	width: 50%;
@@ -1116,6 +1147,9 @@ label {
 .date_detail:hover .delete-bar {
 	width: 20%;
 }
+/* .date_detail:hover .delete-bar {
+	width: 20%;
+} */
 
 
 .add-bar {

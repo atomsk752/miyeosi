@@ -79,13 +79,8 @@
                     <div class="column">
                         <div class="col-lg-12">
                             <div class="date_tabs">
-                                <button class="date_tab active">Day1</button>
-                                <!--<button class="date_tab">Day1</button>
-                                <button class="date_tab">Day1</button>
-                                <button class="date_tab">Day1</button>
-                                <button class="date_tab">Day1</button>
-                                <button class="date_tab">Day1</button>
-                                <button class="date_tab">Day1</button>-->
+                                <button data-cno="1" class="date_tab active">Day1</button>
+
                             </div>
                         </div>
                     </div>
@@ -108,9 +103,7 @@
                         <div class="course" data-cno="1">
                             <div class="date_detail">
                                 <h1>12월 21일 금요일</h1>
-                                <div class="date delete-bar">
-                                    <img src="/images/trash-alt-solid.svg"/>
-                                </div>
+                                
                            </div>
                             <ul id="day1" class=" sortable droptrue">
                                 <li> 
@@ -151,6 +144,11 @@
                         <div class="course add-bar">
                             <div class="add-icon"></div>
                         </div>
+
+                        <div class="course add-bar">
+                             <img src="/images/trash-alt-solid.svg"/>
+                        </div>
+
                     </div>
                 </div>
                 <div class="toggle-info">
@@ -220,6 +218,8 @@
     var markerArr = [];
     var recommendMarkerArr = [];
 
+    var day = 1;
+
 
 	
     function readCourse(key, callback){
@@ -274,7 +274,8 @@
     		map = new google.maps.Map(document.getElementById('map'),{center : course[course.length - 1], zoom: 11, minZoom: 10});
     		drawMarker(course, 1);
     		drawPath();
-    		
+    		drawDayList(simpleArr);
+
     		
     	});
     	 	 
@@ -352,6 +353,22 @@
        
     }
     
+
+
+    function drawDayList(arr){
+    	var str = "";
+    	$("#day1").html("");
+    	for(var i = 0; i < arr.length; i++){
+    		(function(arr){
+    			str = "<li data-idx = '" + i + "'><div class=\"ui-state-default\"><div>" + arr[i].title + "</div><div class=\"delete-bar\">" +
+    			"<img src=\"/images/trash-alt-solid.svg\"/></div></div></li>";
+    			$("#day1").append(str);
+    		})(course);
+    	}
+    	console.log("drawDayList")
+    }
+    
+
     var sortableUL = $("#sortable");
      sortableUL.sortable({
         update : function() {
@@ -411,13 +428,16 @@
     }
     function addCourseTab() {
 
-    	var addHtml = "<div class=\"course\" data-cno=\"3\"><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
-        "<div class=\"date delete-bar\"><img src=\"/images/trash-alt-solid.svg\"/>" +
-        "</div></div><ul class=\"sortable droptrue\"></ul></div>"
-
-        var btnHtml = "<button class=\"date_tab\">Day1</button>";
+    	
 
         $(".add-bar").on("click", function (e) {
+        	day += 1;
+        	var addHtml = "<div class=\"course\" data-cno='" + day + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
+            "<div class=\"date delete-bar\"><img src=\"/images/trash-alt-solid.svg\"/>" +
+            "</div></div><ul class=\"sortable droptrue\"></ul id='day" + day + "'></div>"
+
+            var btnHtml = "<button data-cno='" + day + "' class=\"date_tab\">Day" + day + "</button>";
+
             $(".date_tabs").append(btnHtml);
             $(this).before(addHtml);
             console.log($(".courses"));
@@ -427,6 +447,9 @@
 
     function deleteContents() {
         $(document).on("click", ".delete-bar", function () {
+
+        	day -= 1;
+        	console.log(day);
             console.log($(this)[0].parentElement.parentElement)
             $(this)[0].parentElement.parentElement.remove();
         });

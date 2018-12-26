@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 
-
 <html>
 	<head>
 	
 		<meta charset="UTF-8" />
-				
 		<link rel="shortcut icon" href="../favicon.ico"> 
 		<link rel="stylesheet" type="text/css" href="styles/simple_styles2.css">
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/component.css" />
 		<link rel="stylesheet" href="plugins/fontawesome-5.6.1/css/all.css">
-
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 		<link  rel="stylesheet" type="text/css" href="libs/menucool/js-image-slider.css"/>
-
 	</head>
 	<body>
 	
@@ -44,18 +40,16 @@ border: 5px solid green;
 </style>
 	
 	<div class="container">	
-		<h1>THEME1</h1>	
-		
-		
-		
+		<h1>THEME1</h1>		
 			<div class="row">
 			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
 			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
-			    <div class="row__inner">
+			    <div class="row__inner">    	
 			    	<ul id="og-grid" >
 						<li  class="tile" th:each="List, iterState : ${List}" th:id="thumb + ${List.pno}" th:data-pno="${List.pno}"
 						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
 						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
+
 							<div class="tile__media">
 					          <img class="tile__img" th:src="${List.img}"/>
 					        </div>
@@ -74,8 +68,6 @@ border: 5px solid green;
 					</ul>
  				</div>
 			</div>
-			
-				
 				
 	            <div id="sliderFrame" class="expander">
 	             	<div id="checkBoxContainer"></div>
@@ -357,5 +349,6 @@ border: 5px solid green;
 	    }
 	    
 		</script>		
+
 	</body>
 </html>

@@ -26,6 +26,11 @@ public class SampleController {
 		
 	}
 	
+	@GetMapping("/map")
+	public void map() {
+		
+	}
+	
 	@GetMapping("/simple")
 	public void simple(Model model) {
 		model.addAttribute("List", service.getList());
