@@ -1458,8 +1458,10 @@ section
 	font-size: 18px;
 	font-weight: 400;
 	color: #929191;
-	margin-top: 16px;
-	margin-bottom: 0px;
+	margin-top: 10px;
+	margin-bottom: 145px;
+	letter-spacing: 1px;
+	line-height: 30px;
 }
 .offers_icons
 {
@@ -1978,14 +1980,8 @@ section
 
 }
 
-.read_descs{
-	padding-bottom: 10%;
-}
-
-.read_blog{
-	padding-bottom: 10%;
-}
-
+/*드래그 색깔*/
+::selection { color:white; background: #4682ec; }
 
 
 

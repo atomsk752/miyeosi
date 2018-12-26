@@ -537,7 +537,7 @@ input,textarea{
 }
 
 .cmmt_tab_content{
-	padding-left:25px;
+
 }
 
 .cmmt_tab_content .review{
@@ -550,14 +550,16 @@ input,textarea{
 }
 
 .cmmt_c_user{
-	width:552px;
+	width:105px;
 	display:block;
 	float:left;
+	padding-left: 7px;
 }
 
 .review_opbtn{
 	width:236px;
 	float:right;
+	margin-top: -11px;
 }
 
 .rv_op_btn{
@@ -593,6 +595,7 @@ input,textarea{
 	font-weight:bold;
 	color:#555555;
 	margin-top:5px;
+	padding-bottom: 8px;
 }
 
 .cmmt_c_user_name span{
@@ -602,11 +605,16 @@ input,textarea{
 }
 
 .cmmt_c_user_level{
-	margin-top:5px;
+	margin-top: 23px;
+    margin-left: -6px;
 }
 
 .cmmt_c_user_level img{
 	float:left;
+}
+
+.regdateSpan{
+	color:#ff9320;
 }
 
 .cmmt_c_user_level .rv_cnt{
@@ -617,15 +625,14 @@ input,textarea{
 }
 
 .cmmt_content{
-	    width: 100%;
-    padding-left: 47px;
+	width: 100%;
     border-bottom: 1px solid #dbdbdb;
-    padding-top: 40px;
-    padding-bottom: 15px;
+    padding-top: 20px;
+    padding-bottom: 40px;
     font-size: 14px;
     color: #808080;
     line-height: 22px;
-    padding-right: 60px;
+    padding-right: 125px;
 }
 
 .cmmt_content_info{
@@ -750,7 +757,6 @@ input,textarea{
 
 .review_box{
 	width:100%;
-	margin-bottom:25px;
 }
 
 .write_left{
@@ -764,6 +770,7 @@ input,textarea{
 	width:630px;
 	text-align:left;
 	float:left;
+	margin-left: 20px;
 }
 
 .rate_box{
@@ -853,6 +860,7 @@ input,textarea{
 
 .blog_list{
 	width:100%;
+	padding: 20px;
 }
 
 .blog_content{
@@ -1117,3 +1125,10 @@ input,textarea{
 	left:10px;
 	top:8px;
 }
+
+.search_input{
+	width: 20%;
+	border: solid 1px #ededed;
+	margin-left: 20px;
+}
+

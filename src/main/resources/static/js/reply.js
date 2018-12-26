@@ -25,8 +25,8 @@ var replyManager = (function(){
 			$.ajax({
 				type:'put',
 				url: '/replies/'+obj.pno,
+				data:JSON.stringify(obj),
 				dataType:'json',
-				data: JSON.stringify(obj),
 				contentType: "application/json",
 				success:callback
 			});  

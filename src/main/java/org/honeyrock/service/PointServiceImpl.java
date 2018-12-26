@@ -106,12 +106,9 @@ public class PointServiceImpl implements PointService {
             
             itemsArray = (JSONArray) jsonObj.get("items");
             
-            
-            
             for(int i=0; i<itemsArray.size();i++) {
 //            	System.out.println("=================items : "+(i+1)+"=============================");
             	JSONObject itemsObject = (JSONObject) itemsArray.get(i);
-            	
             	
             	
             	Object title = itemsObject.get("title");
