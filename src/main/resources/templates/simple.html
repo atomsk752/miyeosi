@@ -129,6 +129,7 @@ border: 5px solid green;
 		$(document).ready(function() {
 	        CourseInit(testList, function(newKey){
 	            console.log(newKey);
+	            testList = [];
 	        });
 	        courseService.add(
 	        		{coursekey:newKey}
@@ -275,7 +276,7 @@ border: 5px solid green;
 				
 			}
 			
-			console.log(checkPnoList)
+			console.log(testList)
 			
 		});
 
@@ -329,9 +330,7 @@ border: 5px solid green;
 		     
 	    function updateCourse(key, newCourse, callback){
 	    	
-	        var updates = {};
-	        updates['/courses/' + key] = newCourse;
-	        firebase.database().ref("/courses/"+key).set(newCourse);
+	        firebase.database().ref('courses/' + key + '/day1').set(newCourse);
 	        
 	    }
 		
@@ -348,9 +347,10 @@ border: 5px solid green;
 			  });
 		});
 		
-	    function CourseInit(course, callback){
+	    function CourseInit(day1, callback){
 	        
-	        newKey = firebase.database().ref().child('courses').push(course).key;
+	        newKey = firebase.database().ref('courses').push({day1}).key;
+	       
 	        
 	        callback(newKey);
 	        

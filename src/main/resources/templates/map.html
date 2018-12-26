@@ -1,10 +1,500 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
+
 <head>
-<meta charset="utf-8">
-<title>Insert title here</title>
+    <title>Offers</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Travelix Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
+    <link href="/plugins/font-awesome-5.6.1/css/all.css">
+    <link rel="stylesheet" href="/dist/uikit-3.0.0-rc.25/css/uikit.min.css"/>
+    <script src="/dist/uikit-3.0.0-rc.25/js/uikit.min.js"></script>
+    <script src="/dist/uikit-3.0.0-rc.25/js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
+    <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <style type="text/css"> html {
+        overflow-x: hidden;
+        overflow-y: hidden;
+    } 
+    .sortable { list-style-type: none; margin: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
+       .sortable li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+    </style>
+    <title>maps</title>
 </head>
 <body>
+<div class="super_container">
 
+    <!-- Header -->
+
+    <header class="header">
+
+        <!-- Top Bar -->
+        
+        <div class="top_bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex flex-row">
+                        <div class="phone">
+                            <a href="/index"><img class="phone" src="/images/logo2.jpg"></a>
+                        </div>
+
+                        <fieldset class="field-container">
+                            <input type="text" placeholder="Insert Title" class="field" />
+                            <div class="icons-container">
+                                <div class="icon-search"></div>
+                                <div class="icon-close">
+                                    <div class="x-up"></div>
+                                    <div class="x-down"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="user_box ml-auto">
+                            <a class="glitch-btn" href="/boards/list" target="_self">
+                                <div class="text">NEXT</div>
+                                <div class="mask">
+                                    <span>NEXT</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="content_container">
+        <div class="wrapper">
+
+            <!--left tab-->
+
+            <div class="left-box">
+
+                <div class="date_tabs_container">
+                    <div class="column">
+                        <div class="col-lg-12">
+                            <div class="date_tabs">
+                                <button class="date_tab active">Day1</button>
+                                <!--<button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>
+                                <button class="date_tab">Day1</button>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--map screen & schedules-->
+
+            <div class="middle-box">
+                <div id="map"><h1>MAP PART</h1></div>
+                <div class="toggle-nav">
+                <span class="e">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </span>
+                </div>
+                <div class="nav-pane slide-out">
+                    <div class="courses">
+                        <div class="course" data-cno="1">
+                            <div class="date_detail">
+                                <h1>12월 21일 금요일</h1>
+                                <div class="date delete-bar">
+                                    <img src="/images/trash-alt-solid.svg"/>
+                                </div>
+                           </div>
+                            <ul id="day1" class=" sortable droptrue">
+                                <li> 
+                                    <div class="ui-state-default">
+                                        <div>Item1</div>
+                                        <div class="delete-bar">
+                                           <img src="/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>    
+                                </li>
+                                <li> 
+                                    <div class="ui-state-default">
+                                        <div>Item2</div>
+                                        <div class="delete-bar">
+                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>    
+                                </li>
+                                <li> 
+                                    <div class="ui-state-default">
+                                        <div>Item3</div>
+                                        <div class="delete-bar">
+                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>    
+                                </li>
+                                <li> 
+                                    <div class="ui-state-default">
+                                        <div>Item4</div>
+                                        <div class="delete-bar">
+                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                        </div>
+                                    </div>    
+                                </li>
+                            </ul>
+                        </div>
+                       
+                        <div class="course add-bar">
+                            <div class="add-icon"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="toggle-info">
+                    <button>view info</button>
+                </div>
+                <div class="info-pane slide-out"><h1>info here</h1></div>
+            </div>
+
+            <!--sortable course & search tab-->
+
+            <div class="right-box">
+                <div class="material-ui tabs">
+                    <div class="tab active">TAB1</div>
+                    <div class="tab">TAB2</div>
+                    <div class="slider"></div>
+                </div>
+                <div class="tab_content">
+                    <div class="course-sort">
+                        <ul id="sortable">
+                        </ul>
+                    </div>
+                    <div class="search-tab">
+                        <div class="search-win">
+                            <input type="text" class="search-box"/>
+                            <span class="search-button">
+                             <span class="search-icon"></span>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end container -->
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/styles/bootstrap4/popper.js"></script>
+<script src="/styles/bootstrap4/bootstrap.min.js"></script>
+<script src="/plugins/Isotope/isotope.pkgd.min.js"></script>
+<script src="/plugins/easing/easing.js"></script>
+<script src="/plugins/parallax-js-master/parallax.min.js"></script>
+<script src="/js/maps_custom.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script> -->
+
+<script>
+// Initialize Firebase
+	var config = {
+	  apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+	  authDomain: "travel-simulator.firebaseapp.com",
+	  databaseURL: "https://travel-simulator.firebaseio.com",
+	  projectId: "travel-simulator",
+	  storageBucket: "travel-simulator.appspot.com",
+	  messagingSenderId: "105538800439"
+	};
+	firebase.initializeApp(config);
+	
+	var fixedkey= "-LUdmIE_RNRizhNmwx0r";
+    var map;
+    var course = [];
+    var simpleArr = [];
+    var markerArr = [];
+    var recommendMarkerArr = [];
+
+
+	
+    function readCourse(key, callback){
+    	
+    	firebase.database().ref().child('courses/'+key +'/day1').once("value").then(function(data){
+    		
+    		var result = data.val();
+    		callback(result);
+    	});
+    	
+    };
+    
+    function updateCourse(key, newCourse, callback){
+    	
+        firebase.database().ref('courses/' + key + '/day1').set(newCourse);
+        
+    };
+
+    toggleInfoWin();
+    selectTab();
+    toggleSearchWin();
+    deleteContents();
+    addCourseTab();
+    selectDate();
+    sortDayList()
+
+    
+    function initMap() {
+
+      
+      var marker = new google.maps.Marker({
+          position: {lat: 33.3659432, lng: 126.35644},
+          map: map,
+          title: 'Hello World!'
+        });
+      
+		getMarkerData();
+      
+      
+    }
+    
+    function getMarkerData(){
+    	
+      	readCourse(fixedkey, function(data) {
+    		console.log("callback.........................");
+    		for (var i = 0; i < data.length; i++) {
+    			simpleArr.push(data[i]);
+    			course.push(data[i]);
+    		}
+    		
+    		drawList(simpleArr);
+    		map = new google.maps.Map(document.getElementById('map'),{center : course[course.length - 1], zoom: 11, minZoom: 10});
+    		drawMarker(course, 1);
+    		drawPath();
+    		
+    		
+    	});
+    	 	 
+    };
+ // draw marker
+    function drawMarker(arr, type) {
+        for (var i = 0; i < arr.length; i++) {
+            var marker = new google.maps.Marker({
+                position : arr[i],
+                title : arr[i].title,
+                descs : arr[i].descs,
+                myPos : arr[i],
+                map : map
+            });
+            
+            if(type === 1){
+                markerArr.push(marker)
+                
+            }else if(type === 2){
+                recommendMarkerArr.push(marker);
+            }
+
+            drawInfoWin(marker)
+
+        }//end for 
+    }
+ 
+    //draw infowindow
+    function drawInfoWin(marker) {
+        var infoWindow = new google.maps.InfoWindow;
+        google.maps.event.addListener(marker, 'mouseover',
+                function() {
+                    var str = "<div><strong>"
+                    str += marker.title;
+                    str += "</strong>";
+                    str += "<br><text>" + marker.position;
+                    str += "</text></div>";
+                    infoWindow.setContent(str);
+                    infoWindow.open(map, marker);
+                });
+        google.maps.event.addListener(marker, 'mouseout',
+                function() {
+                    infoWindow.close();
+                });
+    }
+    
+ 	// draw path
+    function drawPath() {
+        
+        poly = new google.maps.Polyline({ //선분 모양 설정
+            strokeColor : '#000000',
+            strokeOpacity : 1.0,
+            strokeWeight : 3
+        });
+        
+        for (var i = 0; i < markerArr.length; i++) {         
+            poly.getPath().push(markerArr[i].position);
+        }       
+        poly.setMap(map);
+    }   
+    
+    function drawList(arr) {
+        var str = "";
+        $("#sortable-list").html("");
+        for (var i = 0; i < arr.length; i++) {
+            (function(arr) {
+                str = "<li data-idx ='"+i+"'>"
+                        + course[i].title;
+                str += "</li>";
+                $(".course-sort ul").append(str);
+            })(course);
+        }
+        
+        console.log("drawlist");
+       
+    }
+    
+    var sortableUL = $("#sortable");
+     sortableUL.sortable({
+        update : function() {
+            console.log("ddddd");
+            var liList = sortableUL.find("li");
+            var arr = [];
+            for (var i = 0; i < liList.length; i++) {
+                arr.push($(liList[i]).attr("data-idx"));
+            }
+            var temp = [];
+            var tempCourse = [];
+            for (var i = 0; i < liList.length; i++) {
+                temp.push(markerArr[arr[i]]);
+                tempCourse.push(course[arr[i]]);
+            }
+            markerArr = temp;
+            course = tempCourse;
+            redrawMarker(markerArr);
+            reArrangeIdx();
+            updateCourse(fixedkey, course);
+        }
+    }); 
+    
+    function reArrangeIdx() {
+        var liList = sortableUL.find("li");
+        var arr = [];
+        for (var i = 0; i < liList.length; i++) {
+            $(liList[i]).attr("data-idx", i);
+        }
+    }
+    //redraw marker
+    function redrawMarker(arr) {
+        for (var i = 0; i < markerArr.length; i++) {
+            arr[i].setMap(null);
+            poly.getPath().pop(arr[i].position);
+        }
+        for (var i = 0; i < arr.length; i++) { //마인드맵 마커 생성
+            arr[i].setMap(map);
+            poly.getPath().push(arr[i].position); //경로 그리기   
+        }
+    }   
+
+
+    function selectDate() {
+        $(document).on("click", ".date_tab", function (e) {
+            $(".date_tab").removeClass("active");
+            $(e.target).addClass("active")
+        });
+
+    }
+
+    function sortDayList() {
+        $( "ul.droptrue" ).sortable({
+            connectWith: "ul"
+        });
+        $( ".sortable" ).disableSelection();
+    }
+    function addCourseTab() {
+
+    	var addHtml = "<div class=\"course\" data-cno=\"3\"><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
+        "<div class=\"date delete-bar\"><img src=\"/images/trash-alt-solid.svg\"/>" +
+        "</div></div><ul class=\"sortable droptrue\"></ul></div>"
+
+        var btnHtml = "<button class=\"date_tab\">Day1</button>";
+
+        $(".add-bar").on("click", function (e) {
+            $(".date_tabs").append(btnHtml);
+            $(this).before(addHtml);
+            console.log($(".courses"));
+            sortDayList()
+        });
+    }
+
+    function deleteContents() {
+        $(document).on("click", ".delete-bar", function () {
+            console.log($(this)[0].parentElement.parentElement)
+            $(this)[0].parentElement.parentElement.remove();
+        });
+    }
+
+    function toggleInfoWin() {
+        $('.toggle-nav').on('click', function () {
+            toggleNavigation($(this), $('.nav-pane'));
+        });
+
+        $("#map").on('click', function () {
+            if ($(".toggle-info").hasClass("open")) {
+                $(".toggle-info").removeClass("open")
+                $(".info-pane").removeClass("open")
+            }
+        });
+
+        $('.toggle-info').on('click', function () {
+            toggleInformation($(this), $('.info-pane'));
+        });
+
+
+        function toggleNavigation(btn, nav) {
+            btn.toggleClass('open');
+            nav.toggleClass('open');
+        }
+
+        function toggleInformation(btn, info) {
+            btn.toggleClass('open');
+            info.toggleClass('open');
+        }
+    }
+
+    function toggleSearchWin() {
+        $('.search-button').on('click', function () {
+            $(this).parent().toggleClass('open');
+        });
+    }
+
+    function selectTab() {
+        $('.tab_content>div:not(":first-of-type")').hide();
+
+        $('.tabs div').each(function (i) {
+            $(this).attr('data-tab', 'tab' + i);
+        });
+
+        $('.tab_content>div').each(function (i) {
+            $(this).attr('data-tab', 'tab' + i);
+        });
+
+        $('.tabs div').on('click', function () {
+            var dataTab = $(this).data('tab');
+            var getWrapper = $(this).closest('.right-box');
+            /*
+                        getWrapper.find('.tabs div').removeClass('active');
+                        $(this).addClass('active');*/
+            /*
+                        getWrapper.find('.line').width(0);
+                        line.animate({'width':'100%'}, 'fast');*/
+            getWrapper.find('.tab_content>div').hide();
+            getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
+        });
+
+
+    }
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
 </body>
 </html>
