@@ -12,6 +12,7 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="../js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://www.earthtory.com/res/css/component/default.css?v=150805" />
 
 <th:block layout:fragment="style"></th:block>
 </head>
@@ -41,7 +42,7 @@
                                 <li class="main_nav_item"><a href="/courseboard/list">forum</a></li>
                                 <li class="main_nav_item"><a href="/course">course</a></li>
                                 <li class="main_nav_item"><a href="/gallery">gallery</a></li>
-                                <li class="main_nav_item"><a href="/login">login</a></li>
+                                <li class="main_nav_item"><a href="javascript:void(0)"onclick="et_modal('365px','529px','1','0','/login','2','1')">login</a></li>
                             </ul>
                         </div>
                         <div class="content_search ml-lg-0 ml-auto">
@@ -164,7 +165,92 @@
 
 
 <th:block layout:fragment="script"></th:block>
-
+<script th:inline="javascript">
+	// 로그인 모달창
+	function et_modal(width, height, type, loading, url, scroll_type, animation, bg_close, close_type){ 
+		$('html').css('overflow-y','hidden');
+		if(bg_close == '1'){
+			var bg_class = 'et_modal_bg on';
+		}else{
+			var bg_class = 'et_modal_bg';
+		}
+		if(scroll_type == '0'){
+			var m_height = height.replace('px','');
+			var margin = parseInt(height)/2;
+			var modal_default_html = '<div class="et_modal">';
+					modal_default_html += '<div class="et_modal_layer">';
+						modal_default_html += '<div class="'+bg_class+'"></div>';
+						modal_default_html += '<div class="et_modal_load">로딩중</div>';
+						modal_default_html += '<div class="et_modal_window" style="width:'+width+'px;height:'+height+'px;margin-top:-'+margin+'px;top:50%;">';
+						if(close_type == '1'){
+							modal_default_html += '<div class="et_modal_close">X</div>';
+						}
+							modal_default_html += '<iframe id="modal_view" border="0" frameborder="0" class="et_iframe" src="" scrolling=no allowTransparency="true"></iframe>';
+						modal_default_html += '</div>';
+					modal_default_html += '</div>';
+				modal_default_html += '</div>';
+		}else if(scroll_type == '1'){
+			var modal_default_html = '<div class="et_modal">';
+					modal_default_html += '<div class="et_modal_layer">';
+						modal_default_html += '<div class="'+bg_class+'"></div>';
+						modal_default_html += '<div class="et_modal_load">濡쒕뵫以�</div>';
+						modal_default_html += '<div class="et_modal_window" style="width:'+width+';height:100%;margin-top:10px;overflow:scroll">';
+						if(close_type == '1'){
+							modal_default_html += '<div class="et_modal_close">X</div>';
+						}
+							modal_default_html += '<iframe id="modal_view" scrolling="no" border="0" frameborder="0" class="et_iframe" style="width:1000px;height:1500px;" src="" allowTransparency="true"></iframe>';
+						modal_default_html += '</div>';
+					modal_default_html += '</div>';
+				modal_default_html += '</div>';
+		}else if(scroll_type == '2'){
+			var m_height = height.replace('px','');
+			var margin = parseInt(height)/2;
+			var modal_default_html = '<div class="et_modal" style="overflow:hidden;">';
+					modal_default_html += '<div class="et_modal_layer">';
+						modal_default_html += '<div class="'+bg_class+'"></div>';
+						modal_default_html += '<div class="et_modal_load">濡쒕뵫以�</div>';
+						modal_default_html += '<div class="et_modal_window" style="width:'+width+';height:'+height+';margin-top:-'+margin+'px;top:50%;overflow:hidden;">';
+						if(close_type == '1'){
+							modal_default_html += '<div class="et_modal_close">X</div>';
+						}
+							modal_default_html += '<iframe id="modal_view" scrolling="no" border="0" frameborder="0" class="et_iframe" src="" style="overflow:hidden;" allowTransparency="true"></iframe>';
+						modal_default_html += '</div>';
+					modal_default_html += '</div>';
+				modal_default_html += '</div>';		
+		}
+		
+		
+		$('body').prepend(modal_default_html);
+		$('#modal_view').attr('src', url);    
+	
+		if(animation == '0'){
+			if(loading == '1'){
+				var scriptTag = "<script>$('#modal_view', window.parent.document).load(function(){$('.et_modal_window', window.parent.document).show();$('.et_modal_load', window.parent.document).hide();})<";
+				scriptTag +=  "/script>";
+				$('#modal_view').contents().find('body').append(scriptTag);
+			}else{
+				$('.et_modal_load').hide();
+				$('.et_modal_window').show();
+			}
+		}else if(animation == '1'){
+			if(loading == '1'){
+				var scriptTag = "<script>$('#modal_view', window.parent.document).load(function(){$('.et_modal_window', window.parent.document).fadeIn();$('.et_modal_load', window.parent.document).hide();})<";
+				scriptTag +=  "/script>";
+				$('#modal_view').contents().find('body').append(scriptTag);
+			}else{
+				$('.et_modal_load').hide();
+				$('.et_modal_window').fadeIn();
+			}		
+		}
+	
+	}
+	
+	$(document).ready(function() {
+		$('body').on('click','.et_modal_close, .et_modal_bg.on',function(){
+			$('.et_modal').remove();
+		});
+	});
+</script>
 </body>
 
 </html>

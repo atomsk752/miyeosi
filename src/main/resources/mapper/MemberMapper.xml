@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.honeyrock.mapper.MemberMapper">
+  
+	<select id="getList" resultType="org.honeyrock.domain.MemberVO">
+		select * from tbl_member
+	</select>
+	
+	<select id="read" resultType="org.honeyrock.domain.MemberVO">
+		select * from tbl_member where usermail = #{usermail}
+	</select>
+	
+	<insert id="register">
+		insert into tbl_member (usermail, username, userpw, usernick, usersex, userage)
+		values (#{usermail}, #{username}, #{userpw}, #{usernick}, #{usersex}, #{userage})
+	</insert>
+	
+	<update id="update">
+		update tbl_member set usernick=#{usernick}, usersex=#{usersex}, userage=#{userage} where usermail=#{usermail}
+	</update>
+	
+	<delete id="delete">
+  		update tbl_member set del=1 where usermail=#{usermail}
+  	</delete>
+  
+  </mapper>

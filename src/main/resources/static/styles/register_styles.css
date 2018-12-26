@@ -1594,7 +1594,7 @@ section
   visibility: hidden;
   pointer-events: none;
 }
-.register{
+.contact_container{
     width: 60%;
     padding-right: 15px;
     padding-left: 15px;

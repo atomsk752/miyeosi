@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ㅊ <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{/layout/layout1}">
@@ -17,7 +17,7 @@
 		<div class="home_background parallax-window" data-parallax="scroll"
 			data-image-src="../images/contact_background.jpg"></div>
 		<div class="home_content">
-			<div class="home_title">contact</div>
+			<div class="home_title">modify</div>
 		</div>
 	</div>
 
@@ -29,7 +29,7 @@
 	
 	
 	
-		<div class="container">
+		<div class="contact_container">
 			<div class="row">
 				<div class="col">
 
@@ -43,7 +43,8 @@
 							<textarea id="contact_form_message" class="text_field contact_form_message" name="coursecontent" rows="4" placeholder="coursecontent" th:text="*{detail.coursecontent}" required="required" data-error="Coursecontent is required."></textarea>
 							<input type="hidden" name="coursebno" th:value='*{detail.coursebno}'/>
 							
-							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">수정하기<span></span><span></span><span></span></button>
+							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">수정<span></span><span></span><span></span></button>
+							<button type="button" class="button cancel" onclick="history.go(-1);">취소<span></span><span></span><span></span></button>
 						</form>
 					</div>
 

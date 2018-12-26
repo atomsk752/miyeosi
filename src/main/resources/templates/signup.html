@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>MIYEOSI</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
+<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
+<script type="text/javascript" src="https://www.earthtory.com/res/js/component.js"></script>
+<style>
+.modal_wrap{width:365px;border-top:solid #1a7ad9 2px;font-family:nanum;}
+.modal_title{font-size:19px;height:60px;border-bottom:solid #cccccc 1px;color:#363636;font-weight:bold;padding:22px 0px 0px 20px;}
+.modal_content{padding:20px;}
+.na_login{width:325px;height:40px;line-height:40px;background:#03cf5d;color:#fff;margin-bottom:20px;text-align:center;font-size:15px;cursor:pointer;}
+.kk_login{width:325px;height:40px;line-height:40px;background:#F0DD00;color:#fff;margin-bottom:20px;text-align:center;font-size:15px;cursor:pointer;}
+.fb_login{width:325px;height:40px;line-height:40px;background:#3b5998;color:#fff;margin-bottom:20px;text-align:center;font-size:15px;cursor:pointer;}
+.gg_login{width:325px;height:40px;line-height:40px;background:#dd4b39;color:#fff;margin-bottom:20px;text-align:center;font-size:15px;cursor:pointer;}
+.modal_line{width:365px;height:1px;background:#ccc;}
+
+.et_login{width:325px;height:40px;line-height:40px;background:#1a7ad9;color:#fff;text-align:center;font-size:15px;cursor:pointer;}
+.input_txt{width:325px;height:31px;border:solid #c8c8ca 1px;margin-bottom:10px;font-family:'nanum';padding-left:10px;}
+
+#auto_login{width:120px;height:20px;padding-left:29px;background:url('/res/img/member/check_box_null.png') no-repeat;line-height:20px;cursor:pointer;margin-bottom:10px;}
+#auto_login.on{background:url('res/img/member/check_box_checked.png') no-repeat;}
+.et_login_sub_box{padding-top:10px;font-size:13px;color:#808080;}
+.et_login_sub_box a{color:#808080;}
+.et_modal_close{top:22px;right:10px;width:23px;height:23px;background:url('../images/modal_close_btn.png') no-repeat;cursor:pointer;position: absolute;color: #fff;}
+
+#loading_wrap{display:none;text-align:center;padding-top:100px;}
+#confirm_term{height: 20px;  padding-left: 29px;  background: url('/res/img/member/check_box_null.png') no-repeat;  line-height: 20px;  cursor: pointer;  margin-bottom: 10px;}
+#confirm_term.on{background:url('/res/img/member/check_box_checked.png') no-repeat;}
+.radio_box{height:30px;}
+.ml10{margin-left:10px;}
+</style>
+<body>
+
+<div id="content_wrap">
+	<div class="modal_wrap">
+		<div class="modal_title">
+			<!--어스토리 로그인-->MIYEOSI 회원가입		</div>
+		<div class="et_modal_close" onclick="et_modal_close()"></div>
+			<div class="modal_content">
+			
+				<div class="error_area"></div>	
+					<form action="/signup" method="post" id="join_form" name="join_form">
+						<!--//<input type="hidden" value="" name="referrer" />-->
+							<input type="text" name="username" id="username" class="input_txt" placeholder="이름" value="" />
+						<input type="text" name="usermail" id="usermail" class="input_txt" placeholder="이메일 주소" value=""  onKeyUp="vali_mail();" />
+						<input type="password" name="userpw" id="userpw" class="input_txt" placeholder="비밀번호 (6자 ~ 20자)" value="" onKeyUp="vali_pw();" />
+						<input type="hidden" name="password_confirm" class="default_input" value ="" />
+						<input type="text" name="usernick" id="usernick" class="input_txt" placeholder="닉네임" value="" />
+						<input type="text" name="userage" id="userage" class="input_txt" placeholder="나이" value="" />
+						<div class="radio_box">
+							<label class="radio gender" data-val="female" data-name="gender">여&nbsp;&nbsp;&nbsp;</label>
+		
+							<label class="radio gender" data-val="male" data-name="gender">남</label>
+							<input type="hidden" name="usersex" value="" class="gender" id="r_gender" />
+							<div class="clear"></div>
+						</div>				
+		
+		
+		
+						<div class="error_area">
+											</div>				
+						<div class="et_login" onclick="join_submit();">
+							<!--회원가입-->회원가입				</div>
+					</form><!---->
+				<div class="et_login_sub_box"><span><a href="/ko/member/find_pw">비밀번호 찾기</a> | <a href="/ko/member/join" style="color:#1a7ad9">회원가입</a></span></div>
+				
+			</div>
+		</div>
+				
+	</div>
+
+
+
+</div>
+<div id="loading_wrap">
+	<img src="/res/img/common/w_ic_loading2.gif">
+</div>	
+
+
+
+<script>
+
+	parent.$('.et_modal_window').css('height','400px');
+	var margin = 400/2;
+	parent.$('.et_modal_window').css('margin-top','-'+margin+'px');
+
+	$('.radio').click(function(){
+		var _this = $(this).attr('data-val');
+		$('#r_gender').val(_this);
+	});
+	
+	$('#content_wrap').show();
+	parent.$('#modal_view').css('background','#fff');
+	
+	function vali_mail(){
+		var bol = true;
+		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+		if (exptext.test($('#email_address').val())!=true){
+			$('#email_address').addClass('vali');
+			$('#email_address').attr('data-vali','1');
+		}else{
+			$('#email_address').removeClass('vali');
+			$('#email_address').attr('data-vali','0');
+		}
+		return bol;     // bol 값을 반환 . 이메일 형식이 아니면 false
+	}
+	
+	function vali_pw(){
+		var pw = $('#password').val();
+		if(pw.length < 6){
+			$('#password').addClass('vali');
+			$('#password').attr('data-vali','1');
+		}else{
+			$('#password').removeClass('vali');
+			$('#password').attr('data-vali','0');
+		}
+	}
+
+	
+	function join_submit(){
+		if($('#username').val() == ''){
+			alert('이름은 필수입력사항입니다.');//"이름"은 필수 정보입니다.');
+			$('#username').focus();
+		}else if($('#usermail').val() == ''){
+			alert('이메일주소는 필수입니다.');//"이메일"은 필수 정보입니다.');
+			$('#usermail').focus();
+		}else if($('#usermail').attr('data-vali') == '1'){
+			alert('잘못된 이메일 형식입니다.');//잘못된 이메일 형식입니다.');
+			$('#email_address').focus();
+		}else if($('#userpw').val() == ''){
+			alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
+			$('#password').focus();
+		}else if($('#userpw').attr('data-vali') == '1'){
+			alert('비밀번호는 6자 이상이어야 합니다.');//비밀번호는 6자 이상이어야 합니다.');
+			$('#password').focus();
+		}else if($('#r_gender') .val() == ''){
+			alert('성별을 선택하세요.');
+		}else{
+			document.join_form.submit();
+		}	
+	
+	}
+	
+	$('#confirm_term').click(function(){
+	_is_checked = $(this).attr('data');
+	if(_is_checked == '0'){
+	$(this).attr('data','1');
+	$(this).addClass('on');
+	}else{
+	$(this).attr('data','0');
+	$(this).removeClass('on');
+	}
+	})
+	
+	//닫기 버튼
+	function et_modal_close(){
+		$('html',parent.document).css('overflow-y','scroll');
+		$('.et_modal',parent.document).remove();
+	}
+
+</script>
+
+</body>
+
+</html>
