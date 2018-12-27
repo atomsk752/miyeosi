@@ -16,6 +16,7 @@
     <script src="/dist/uikit-3.0.0-rc.25/js/uikit-icons.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <script src="js/search.js"></script>
     <style type="text/css"> html {
         overflow-x: hidden;
         overflow-y: hidden;
@@ -171,12 +172,14 @@
                         </ul>
                     </div>
                     <div class="search-tab">
+                    	
                         <div class="search-win">
-                            <input type="text" class="search-box"/>
+                            <input id="tags" type="text" class="search-box"/>
                             <span class="search-button">
                              <span class="search-icon"></span>
                           </span>
                         </div>
+                        
                     </div>
                 </div>
             </div>
@@ -186,7 +189,8 @@
 
 </div>
 
-
+<form id="actionForm">
+</form>
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/styles/bootstrap4/popper.js"></script>
@@ -220,7 +224,33 @@
 
     var day = 1;
 
-
+    $(document).ready(function(){
+    	
+    	var actionForm = $("#actionForm");
+    	
+    	//검색창 자동완성
+    	function display(data) {
+	        $("#tags").autocomplete({
+	            source: data,
+	            focus: function(event, ui) {
+	                return false;
+	            },
+	            select: function(event, ui) {
+	                console.log(ui.item);
+	                $("#tags").val(ui.item.value);
+	                actionForm.append("<input type='hidden' name='search' value='"+ui.item.value+"'>");
+	                actionForm.append("<li name='search' value='"+ui.item.value+"'>"+ui.item.value+"</li>");
+	                actionForm.attr("action","simple").attr("method","get").submit();
+	            }
+	        });
+    	}
+    	
+    	searchService.autoComplete(function(result){
+    		display(result);    		
+    	});
+    	
+    	
+    });
 	
     function readCourse(key, callback){
     	

@@ -43,12 +43,12 @@
 	</select>
 
 	<select id="searchPoint" resultType="org.honeyrock.domain.PointVO">
-		select
-		*
-		from
-		tbl_point
-		where
-		title like concat("%",#{keyword},"%")
+		select * from tbl_point 
+		where 1=1 
+		<include refid="category"></include>
+		and pno > (select max(pno) - 100000 from tbl_point)
+		and del = 0 
+		order by pno desc limit #{skip},#{display}
 	</select>
 	
 	<select id="getPointName" resultType="String">
@@ -56,6 +56,7 @@
 		title
 		from
 		tbl_point
+		order by pno desc limit 1, 10
 	</select>
 	
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
@@ -67,5 +68,19 @@
 		limit 0, 30 
 	</select>
 	
+	<sql id="category">
+		<if test="category != null">
+			<if test="category == 'S'.toString()">
+				and category = 'S'
+			</if>
+			<if test="category == 'R'.toString()">
+				and category = 'R'
+			</if>
+			<if test="category == 'H'.toString()">
+				and category = 'H'
+			</if>
+		</if>
+	</sql>
+
 
 </mapper>
