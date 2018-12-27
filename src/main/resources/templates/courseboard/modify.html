@@ -1,0 +1,69 @@
+ㅊ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+
+<th:block layout:fragment="style">
+<link rel="stylesheet" type="text/css" href="/styles/register_styles.css">
+<link rel="stylesheet" type="text/css" href="/styles/contact_responsive.css">
+</th:block>
+	
+<div layout:fragment="content">
+
+		<!-- Home -->
+
+
+	<div class="home">
+		<div class="home_background parallax-window" data-parallax="scroll"
+			data-image-src="../images/contact_background.jpg"></div>
+		<div class="home_content">
+			<div class="home_title">modify</div>
+		</div>
+	</div>
+
+
+
+	<!-- Contact -->
+
+	<div class="contact_form_section">
+	
+	
+	
+		<div class="contact_container">
+			<div class="row">
+				<div class="col">
+
+					<!-- Contact Form -->
+					<div class="contact_form_container">
+						<div class="contact_title text-center">수 정</div>
+						<form th:action="@{/courseboard/modify}" method="post" id="contact_form" class="contact_form text-center">
+							<input type="text" name="coursetitle" class="contact_form_name input_field" placeholder="Title" th:value="*{detail.coursetitle}" required="required" data-error="Title is required.">
+							<input type="text" name="coursekey" class="contact_form_name input_field" placeholder="key" th:value="*{detail.coursekey}" required="required" data-error="key is required.">
+							<input type="text" name="usermail" class="contact_form_email input_field" placeholder="usermail" th:value="*{detail.usermail}" required="required" data-error="Usermail is required." value="admin@test.com">
+							<textarea id="contact_form_message" class="text_field contact_form_message" name="coursecontent" rows="4" placeholder="coursecontent" th:text="*{detail.coursecontent}" required="required" data-error="Coursecontent is required."></textarea>
+							<input type="hidden" name="coursebno" th:value='*{detail.coursebno}'/>
+							
+							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">수정<span></span><span></span><span></span></button>
+							<button type="button" class="button cancel" onclick="history.go(-1);">취소<span></span><span></span><span></span></button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- About -->
+	<div class="about">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-5">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<th:block layout:fragment="script">
+</th:block>
+
+</html>

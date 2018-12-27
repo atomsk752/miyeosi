@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{/layout/layout1}">
+
+<th:block layout:fragment="style">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../plugins/jqcloud2/dist/jqcloud.min.js"></script>
+    <link rel="stylesheet" href="../plugins/jqcloud2/dist/jqcloud.min.css">
+    <link rel="stylesheet" type="text/css" href="../styles/read_styles.css">
+    <link rel="stylesheet" type="text/css" href="../styles/read_responsive.css">
+    
+    <!-- earthtory -->
+	<!-- <link rel="stylesheet" href="https://www.earthtory.com/res/css/mypage/plan/plan_sub.css" /> -->
+	<link rel="stylesheet" href="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.css" />
+	<!-- <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script> -->
+
+</th:block>
+
+<div layout:fragment="content">
+
+    <!-- Home -->
+
+    <div class="home">
+        <div class="home_background parallax-window" data-parallax="scroll" data-image-src="../images/about_background.jpg"></div>
+        <div class="home_content">
+            <div class="home_title" th:text="${detail.coursetitle}"></div>
+        </div>
+    </div>
+
+    <!-- Offers -->
+
+    <div class="offers">
+
+        <!-- Search -->
+
+        <div class="search">
+            <div class="search_inner">
+
+                <!-- Search Contents -->
+
+                <div class="container fill_height no-padding">
+                    <div class="row fill_height no-margin">
+                        <div class="col fill_height no-padding">
+
+
+                            <div class="date_tabs_container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="date_tabs">
+
+<!--                                             <button class="date_tab" th:data-lat="33.4890113" th:data-lng="126.4983023">33.4890113</button>
+
+                                            <button class="date_tab">126.4983023</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="map" class="map"></div>
+                            </div>
+
+                            <div class="search_tabs_container">
+								<div class="spot_list_box">
+				<!-- <div class="spot_list_item">
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-1')" title="바르셀로나 국제 공항">
+                        <div class="spot_number">1</div>
+                        <div class="spot_title">바르셀...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-2')" title="호스탈 Bcn 람블라스">
+                        <div class="spot_number">2</div>
+                        <div class="spot_title">호스탈...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-3')" title="Irati Taverna Basca">
+                        <div class="spot_number">3</div>
+                        <div class="spot_title">Irati ...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-4')" title="에스크리바">
+                        <div class="spot_number">4</div>
+                        <div class="spot_title">에스크...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-5')" title="츄레리아 사그라다 파밀리아">
+                        <div class="spot_number">5</div>
+                        <div class="spot_title">츄레리...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-6')" title="람블라 거리">
+                        <div class="spot_number">6</div>
+                        <div class="spot_title">람블라...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-7')" title="레이알 광장">
+                        <div class="spot_number">7</div>
+                        <div class="spot_title">레이알...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-8')" title="구엘 궁전">
+                        <div class="spot_number">8</div>
+                        <div class="spot_title">구엘 ...</div>
+                    </div>
+                    <div class="spot_item" onclick="page_scroll('day_sch_box','1-9')" title="콜럼버스 기념탑">
+                        <div class="spot_number">9</div>
+                        <div class="spot_title">콜럼버...</div>
+                    </div>
+                    <div class="clear"></div>
+                </div> -->
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Offers -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-1 temp_col"></div>
+                <div class="col-lg-11">
+                    <div class="tab">
+						<button class="tablinks active" id="courseboard">코스게시판</button>
+						<button class="tablinks" id="pointboard">장소게시판</button>
+						<button class="tablinks" id="freeboard">자유게시판</button>
+						<button class="tablinks" id="tipboard">정보공유게시판</button>
+						<button class="tablinks" id="reviewboard">여행후기게시판</button>
+                    </div>
+                    <div id="COURSE" class="col-lg-12 tabcontent" style="display: block;">
+                        <!-- Offers Grid -->
+
+                        <!-- Offers Item -->
+
+                        <div class="offers_item rating_4" id="코스게시판">
+                            <div class="row">
+                                <div class="col-lg-1 temp_col"></div>
+
+                                <div class="col-lg-11">
+                                    <div class="offers_content">
+                                        <div class="offers_price" th:text="${detail.coursetitle}"><span th:text="${#dates.format(detail.regdate, 'yyyy-MM-dd HH:mm')}"></span></div>
+
+
+                                        <div class="read_descs">
+
+                                            <p class="offers_text" th:text="${detail.coursecontent}"></p>
+
+                                        </div>
+
+                                        <div class="offer_reviews">
+                                            <div class="footer_content footer_tags">
+	                                            <div class="tag_item">
+	                                                <button class="modify">수정</button>
+	                                            </div>
+	                                            <div class="tag_item">
+	                                                <button class="delete">삭제</button>
+	                                            </div>
+	                                            <div class="tag_item">
+	                                                <button class="list">목록으로</button>
+	                                            </div>
+                                            </div>
+                                        </div>
+                                        <!-- earthtory -->
+
+										<div class="page_left">
+											<div class="day_box" data-id="1">
+												<div class="day_info_box">
+													<div class="day_txt">DAY1</div>
+													<div class="day_info">
+														<div class="day_info_left">
+															<div class="date">2015.08.01 (토)</div>
+															<div class="day_title">뭐넣지</div>
+														</div>
+														<div class="day_info_right" style="display: none;"></div>
+														<div class="clear"></div>
+													</div>
+													<div class="clear"></div>
+												</div>
+												<div id="pointList">
+													
+												</div>
+												
+												
+	<!-- 											<div class="day_sch_box" data-id="1-1">
+														<div class="day_sch_num">
+															<div class="sch_num">1</div>
+														</div>
+														<div class="sch_content">
+															<img
+																src="http://img.earthtory.com/img/place_img/58/2133_0_et.jpg"
+																alt="" class="spot_img"
+																onerror="this.src='/res/img/common/no_img/sight55.png';"
+																onclick="window.open('/ko/city/osaka_58/attraction/triangle-park_2133');"
+																style="cursor: pointer;">
+															<div class="spot_content_box">
+																<div class="spot_name"
+																	onclick="window.open('/ko/city/osaka_58/attraction/triangle-park_2133');"
+																	style="cursor: pointer;">pointName</div>
+																<div class="spot_info">
+																	<div class="tag">category</div>
+																	<div class="sinfo_line"></div>
+																	<div class="sinfo_txt">
+																		good / bad  <span>1개의 평가</span>
+																	</div>
+																	<div class="clear"></div>
+																</div>
+															</div>
+															<div class="clear"></div>
+														</div>
+														<div class="clear"></div>
+														<div class="clear"></div>
+													</div> -->
+												
+											</div>
+										</div>
+
+										<!-- end earthtory -->
+									</div>
+								</div>
+							</div>
+	
+	
+						</div>
+	                    <div id="TENDENCY" class="tabcontent">
+	                        <div class="offers_sorting_container">
+	
+	                            <ul class="offers_sorting">
+	                                <li>
+	                                    <span class="sorting_text">price</span>
+	                                    <i class="fa fa-chevron-down"></i>
+	                                    <ul>
+	                                        <li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'
+	                                            data-parent=".price_sorting"><span>show all</span></li>
+	                                        <li class="sort_btn" data-isotope-option='{ "sortBy": "price" }'
+	                                            data-parent=".price_sorting"><span>ascending</span></li>
+	                                    </ul>
+	                                </li>
+	                                <li>
+	                                    <span class="sorting_text">location</span>
+	                                    <i class="fa fa-chevron-down"></i>
+	                                    <ul>
+	                                        <li class="sort_btn" data-isotope-option='{ "sortBy": "original-order" }'><span>default</span>
+	                                        </li>
+	                                        <li class="sort_btn" data-isotope-option='{ "sortBy": "name" }'>
+	                                            <span>alphabetical</span></li>
+	                                    </ul>
+	                                </li>
+	                                <li>
+	                                    <span class="sorting_text">stars</span>
+	                                    <i class="fa fa-chevron-down"></i>
+	                                    <ul>
+	                                        <li class="filter_btn" data-filter="*"><span>show all</span></li>
+	                                        <li class="sort_btn" data-isotope-option='{ "sortBy": "stars" }'>
+	                                            <span>ascending</span></li>
+	                                        <li class="filter_btn" data-filter=".rating_3"><span>3</span></li>
+	                                        <li class="filter_btn" data-filter=".rating_4"><span>4</span></li>
+	                                        <li class="filter_btn" data-filter=".rating_5"><span>5</span></li>
+	                                    </ul>
+	                                </li>
+	                                <li class="distance_item">
+	                                    <span class="sorting_text">distance from center</span>
+	                                    <i class="fa fa-chevron-down"></i>
+	                                    <ul>
+	                                        <li class="num_sorting_btn"><span>distance</span></li>
+	                                        <li class="num_sorting_btn"><span>distance</span></li>
+	                                        <li class="num_sorting_btn"><span>distance</span></li>
+	                                    </ul>
+	                                </li>
+	                                <li>
+	                                    <span class="sorting_text">reviews</span>
+	                                    <i class="fa fa-chevron-down"></i>
+	                                    <ul>
+	                                        <li class="num_sorting_btn"><span>review</span></li>
+	                                        <li class="num_sorting_btn"><span>review</span></li>
+	                                        <li class="num_sorting_btn"><span>review</span></li>
+	                                    </ul>
+	                                </li>
+	                            </ul>
+	                        </div>
+						</div>
+	
+					</div>
+	
+	
+				</div>
+			</div>
+		</div>
+	</div>
+	<form id="actionForm">
+			<input type="hidden" name='page' th:value="${pageObj.page}">
+			<input type="hidden" name='display' th:value="${pageObj.display}">
+			<input type="hidden" name='category' th:value="${pageObj.category}">
+			<input type="hidden" name='type' th:value="${pageObj.type}">
+			<input type="hidden" name='keyword' th:value="${pageObj.keyword}">
+	</form>
+		
+	<form id="tabForm">
+	</form>
+</div>
+   	
+    
+
+
+
+<th:block layout:fragment="script">
+
+	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"
+	        async defer></script>
+	        
+    <script src="../plugins/greensock/TweenMax.min.js"></script>
+    <script src="../plugins/greensock/TimelineMax.min.js"></script>
+    <script src="../plugins/scrollmagic/ScrollMagic.min.js"></script>
+    <script src="../plugins/greensock/animation.gsap.min.js"></script>
+    <script src="../plugins/greensock/ScrollToPlugin.min.js"></script>
+    <!-- <script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script> -->
+    <script type="text/javascript" src="https://www.earthtory.com/res/js/js/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script>
+    <script src="../js/read_custom.js"></script>
+    
+    <script src="../js/fb.js"></script>
+
+    <script th:inline="javascript">
+    
+	    var map;
+	    var coursekey = [[${detail.coursekey}]];
+	    var pointList = $("#pointList");
+		var poly;
+	    var course;
+	    var markerArr = [];
+	    var spotList = $('.spot_list_box');
+	    var spotNav = new Array();
+    
+		// 맵 설정
+        function initMap() {
+        	getFBData();
+        }
+		
+     	// firebaseDB 가져오기
+        function getFBData(){
+            courseService.readCourse(coursekey, function(data) {
+            	course = data;
+/*             	console.log("==============");
+            	console.log(course); */
+            	drawList(course);
+            	drawSpotList(course);
+            	
+            	var lat = Number(course[0].lat);
+                var lng = Number(course[0].lng);
+                var latLng = { lat: lat, lng: lng };
+            	map = new google.maps.Map(document.getElementById('map'),{center : { lat: lat, lng: lng }, zoom: 11, minZoom: 8});
+
+                drawMarker(course);
+                drawPath();
+                reset_spot_list();
+            });
+        }
+     	
+        // draw path
+        function drawPath() {
+        	var lineSymbol = {
+					path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+				};
+            poly = new google.maps.Polyline({ //선분 모양 설정
+            	icons: [{
+					  icon: lineSymbol,
+					  repeat:'100px',
+					  offset: '100%'
+					}],
+                strokeColor : '#000000',
+                strokeOpacity : 1,
+                strokeWeight : 1.5
+            });
+            
+            for (var i = 0; i < markerArr.length; i++) {         
+                poly.getPath().push(markerArr[i].position);
+            }       
+            poly.setMap(map);
+        }  
+     	
+        // draw marker
+        function drawMarker(arr) {
+            for (var i = 0; i < arr.length; i++) {
+            	var lat = Number(arr[i].lat);
+                var lng = Number(arr[i].lng);
+                var latLng = { lat: lat, lng: lng };
+                var marker = new google.maps.Marker({
+                    position : latLng,
+                    title : arr[i].title,
+                    descs : arr[i].descs,
+                    myPos : latLng,
+                    map : map
+                });
+                markerArr.push(marker);
+                
+            }//end for 
+        }
+
+        //draw list
+        function drawList(arr) {
+            var str = "";
+            pointList.html("");
+            for (var i = 0; i < arr.length; i++) {
+                (function(arr) {
+                   	str = "<div class='day_sch_box' data-id='"+(i+1)+"'>";
+						str += "<div class='day_sch_num'><div class='sch_num'>"+(i+1)+"</div></div>";
+							str += "<div class='sch_content'>";
+								str += "<img ";
+									str += "src='"+arr[i].img+"'";
+									str += "alt='' class='spot_img'";
+									str += "onerror=" + "this.src='/res/img/common/no_img/sight55.png'; ";
+									str += "onclick=" + "window.open('/pointboard/read?pno="+arr[i].pno+"'); ";
+									str += "style='cursor: pointer;'>";
+								str += "<div class='spot_content_box'>";
+									str += "<div class='spot_name'";
+										str += "onclick=" + "window.open('/pointboard/read?pno="+arr[i].pno+"'); ";
+										str += "style='cursor: pointer;'>"+arr[i].title+"</div>";
+									str += "<div class='spot_info'>";
+										str += "<div class='tag'>category</div>";
+										str += "<div class='sinfo_line'></div>";
+										str += "<div class='sinfo_txt'>";
+										str += "good / bad  <span>1개의 평가</span>";
+									str += "</div>";
+									str += "<div class='clear'></div>";
+								str += "</div>";
+							str += "</div>";
+							str += "<div class='clear'></div>";
+						str += "</div>";
+						str += "<div class='clear'></div>";
+						str += "<div class='clear'></div>";
+					str += "</div>";
+					pointList.append(str);
+                })(course);
+            }
+        }
+        
+
+        
+        //draw spotList 오른쪽 맵밑에 네비지점
+        function drawSpotList(arr) {
+            var list = "";
+            var str = "";
+            spotList.html("");
+           	list = '<div class="spot_list_item">';
+            for (var i = 0; i < arr.length; i++) {
+                (function(arr) {
+                	
+               		str = '<div class="spot_item" onClick="page_scroll(\'day_sch_box\',\''+(i+1)+'\');set_center('+arr[i].lat+','+arr[i].lng+');" title="'+arr[i].title+'">';
+               			str += '<div class="spot_number">'+(i+1)+'</div>';
+               			str += '<div class="spot_title">'+arr[i].title.cut(10,'...')+'</div>';
+               		str += '</div>';
+               		
+               		if((i+1)%9 == 0){
+               			console.log(i);
+               			str += '<div class="clear"></div>';
+        				str += '</div>';
+        				str += '<div class="spot_list_item">';
+               		}
+                	
+                	list += str;
+                })(course);
+            }
+            list += '</div>';
+            spotList.append(list);
+        }
+        
+        // 맵 중심을 lat,lng로 가게
+    	function set_center(_this_lat, _this_lng){
+    		var latLng = new google.maps.LatLng(_this_lat, _this_lng);
+    	    map.setCenter(latLng);
+    		map.setZoom(15);
+    	}
+        
+        // pagescroll move
+    	function page_scroll(target,id){
+    		var xtop = parseInt($('.'+target+'[data-id='+id+']').offset().top)-100;
+    		$('body,html').animate({scrollTop:xtop});
+    	}
+        
+    	// 스팟리스트 슬라이드 리셋
+    	function reset_spot_list(){ 
+    		spotList.trigger('destroy.owl.carousel').removeClass('owl-carousel owl-loaded');
+    		spotList.find('.owl-stage-outer').children().unwrap();
+    		spotList.owlCarousel({
+    			navigation : false,
+    			nav:true,
+    			slideSpeed : 300,
+    			paginationSpeed : 400,
+    			singleItem : true,
+    			items:1,
+    			navText:['<img src="https://www.earthtory.com/res/img/mypage/plan/sub/spot_list_prev.gif">','<img src="https://www.earthtory.com/res/img/mypage/plan/sub/spot_list_next.gif">']
+    		});	
+    	}
+    	
+    	// scroll 이동
+    	$(document).scroll(function(){
+			var stop_top = $('.footer').position().top;
+			var stop = $(document).scrollTop();
+			var bodyHeight = parseInt($(document).height())-parseInt($('.footer').height())-1250;
+
+/* 			console.log(stop);
+			console.log("=======================================");
+			console.log(bodyHeight); */
+			
+			if(stop > 363){
+/* 				$('.tab').css('position','fixed');
+				$('.tab').css('top',100);
+				$('.tab').css('z-index','10');
+				$('.tab').css('left','50%');
+				$('.tab').css('margin-left','-546px'); */
+				
+
+				if(stop < parseInt(stop_top)-700){
+					$('.search').css('position','fixed');
+					$('.search').css('top','100px');
+					$('.search').css('margin-right','198px');
+				}
+			}else{
+				$('.tab').attr('style','');
+				$('.wrap.page').attr('style','');
+				$('.search').attr('style','');
+			}
+			
+/* 
+			if(stop > 0){
+				$('.btn_top').fadeIn();
+			}else{
+				$('.btn_top').fadeOut();
+			}
+			var _this_day = '1';
+			$('.day_box').each(function(){
+				var xtop = parseInt($(this).offset().top)-100;
+				if(stop >= xtop){
+					_this_day = $(this).attr('data-id');
+				}
+			});
+			set_day(_this_day); */
+		});
+
+
+        $(document).ready(function () {
+        	
+        	var actionForm = $("#actionForm");     
+        	var coursebno = [[${detail.coursebno}]];
+        	
+/*         	// 포인트 이동
+        	$('.spot_list_box').owlCarousel({
+    			navigation : false,
+    			nav:true,
+    			slideSpeed : 300,
+    			paginationSpeed : 400,
+    			singleItem : true,
+    			items:1,
+    			navText:['<img src="/res/img/mypage/plan/sub/spot_list_prev.gif">','<img src="/res/img/mypage/plan/sub/spot_list_next.gif">']
+    		}); */
+            
+        	// 목록으로 이동
+        	$(".list").on("click", function(e){
+        		
+        		actionForm.attr("action","/courseboard/list").attr("method","get").submit();
+        		
+        	});
+        	
+        	// 삭제로 이동
+        	$(".delete").on("click", function(e){
+        		
+        		actionForm.append("<input type='hidden' name='coursebno' value='"+coursebno+"'>");
+        		actionForm.attr("action","/courseboard/delete").attr("method","post").submit();
+        		
+        	});	
+        	
+        	// 수정으로 이동
+        	$(".modify").on("click", function(e){
+        		
+        		actionForm.append("<input type='hidden' name='coursebno' value='"+coursebno+"'>");
+        		actionForm.attr("action","/courseboard/modify").attr("method","get").submit();
+        		
+        	});	
+            
+			// 탭 이동
+			$('.tablinks').on('click',function(evt) {
+				console.log(evt.target.id);
+				var tab_id = evt.target.id;
+				var tabForm = $("#tabForm")
+				tabForm.attr("action","/"+tab_id+"/list").attr("method","get").submit();
+				
+/* 				console.log(this.innerHTML)
+				// Declare all variables
+				var i, tabcontent, tablinks;
+				var cityName = this.innerHTML;
+				// Get all elements with class="tabcontent" and hide them
+				tabcontent = document
+						.getElementsByClassName("tabcontent");
+	
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+	
+				// Get all elements with class="tablinks" and remove the class "active"
+				tablinks = document
+						.getElementsByClassName("tablinks");
+				console.log(tablinks)
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className
+							.replace(" active", "");
+				}
+	
+				// Show the current tab, and add an "active" class to the button that opened the tab
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active"; */
+			});
+        });
+
+    </script>
+
+</th:block>
+
+</html>
