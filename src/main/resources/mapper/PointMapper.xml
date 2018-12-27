@@ -7,7 +7,6 @@
 <mapper namespace="org.honeyrock.mapper.PointMapper">
 
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
-
 		select * from tbl_point 
 		where 1=1 
 		<include refid="search"></include>
@@ -15,8 +14,8 @@
 		and pno > (select max(pno) - 100000 from tbl_point)
 		and del = 0 
 		order by pno desc limit #{skip},#{display}
-
 	</select>
+	
 	<select id="count" resultType="int">
 		select count(*) from tbl_point
 		where 1=1

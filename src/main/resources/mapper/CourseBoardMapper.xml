@@ -7,15 +7,14 @@
 <mapper namespace="org.honeyrock.mapper.CourseBoardMapper">
 
 	<select id="getList" resultType="org.honeyrock.domain.CourseBoardVO">
-
 		select * from tbl_course_board
 		where 1=1 
 		<include refid="search"></include>
 		and coursebno > (select max(coursebno) - 100000 from tbl_course_board)
 		and del = 0 
 		order by coursebno desc limit #{skip},#{display}
-
 	</select>
+	
 	<select id="count" resultType="int">
 		select count(*) from tbl_course_board
 		where 1=1

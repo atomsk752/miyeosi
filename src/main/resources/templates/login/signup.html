@@ -49,13 +49,13 @@
 			<div class="modal_content">
 			
 				<div class="error_area"></div>	
-					<form action="/signup" method="post" id="join_form" name="join_form">
-						<!--//<input type="hidden" value="" name="referrer" />-->
-							<input type="text" name="username" id="username" class="input_txt" placeholder="이름" value="" />
-						<input type="text" name="usermail" id="usermail" class="input_txt" placeholder="이메일 주소" value=""  onKeyUp="vali_mail();" />
+					<form action="/login/signup" method="post" id="join_form" name="join_form">
+						<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+						<input type="text" name="username" id="username" class="input_txt" placeholder="이름" value="" />
+						<input type="text" name="usermail" id="usermail" class="input_txt" placeholder="이메일 주소" th:value="${vo.usermail}"  onKeyUp="vali_mail();" />
 						<input type="password" name="userpw" id="userpw" class="input_txt" placeholder="비밀번호 (6자 ~ 20자)" value="" onKeyUp="vali_pw();" />
 						<input type="hidden" name="password_confirm" class="default_input" value ="" />
-						<input type="text" name="usernick" id="usernick" class="input_txt" placeholder="닉네임" value="" />
+						<input type="text" name="usernick" id="usernick" class="input_txt" placeholder="닉네임" th:value="${vo.usernick}" />
 						<input type="text" name="userage" id="userage" class="input_txt" placeholder="나이" value="" />
 						<div class="radio_box">
 							<label class="radio gender" data-val="female" data-name="gender">여&nbsp;&nbsp;&nbsp;</label>
@@ -67,12 +67,10 @@
 		
 		
 		
-						<div class="error_area">
-											</div>				
-						<div class="et_login" onclick="join_submit();">
-							<!--회원가입-->회원가입				</div>
+						<div class="error_area"></div>				
+						<div class="et_login" onclick="join_submit();">회원가입</div>
 					</form><!---->
-				<div class="et_login_sub_box"><span><a href="/ko/member/find_pw">비밀번호 찾기</a> | <a href="/ko/member/join" style="color:#1a7ad9">회원가입</a></span></div>
+				<div class="et_login_sub_box"><span>이미 회원이신가요? <a href="/login/customLogin">로그인</a></span></div>
 				
 			</div>
 		</div>
@@ -105,24 +103,24 @@
 	function vali_mail(){
 		var bol = true;
 		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-		if (exptext.test($('#email_address').val())!=true){
-			$('#email_address').addClass('vali');
-			$('#email_address').attr('data-vali','1');
+		if (exptext.test($('#usermail').val())!=true){
+			$('#usermail').addClass('vali');
+			$('#usermail').attr('data-vali','1');
 		}else{
-			$('#email_address').removeClass('vali');
-			$('#email_address').attr('data-vali','0');
+			$('#usermail').removeClass('vali');
+			$('#usermail').attr('data-vali','0');
 		}
 		return bol;     // bol 값을 반환 . 이메일 형식이 아니면 false
 	}
 	
 	function vali_pw(){
-		var pw = $('#password').val();
+		var pw = $('#userpw').val();
 		if(pw.length < 6){
-			$('#password').addClass('vali');
-			$('#password').attr('data-vali','1');
+			$('#userpw').addClass('vali');
+			$('#userpw').attr('data-vali','1');
 		}else{
-			$('#password').removeClass('vali');
-			$('#password').attr('data-vali','0');
+			$('#userpw').removeClass('vali');
+			$('#userpw').attr('data-vali','0');
 		}
 	}
 
@@ -136,13 +134,13 @@
 			$('#usermail').focus();
 		}else if($('#usermail').attr('data-vali') == '1'){
 			alert('잘못된 이메일 형식입니다.');//잘못된 이메일 형식입니다.');
-			$('#email_address').focus();
+			$('#usermail').focus();
 		}else if($('#userpw').val() == ''){
 			alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
-			$('#password').focus();
+			$('#userpw').focus();
 		}else if($('#userpw').attr('data-vali') == '1'){
 			alert('비밀번호는 6자 이상이어야 합니다.');//비밀번호는 6자 이상이어야 합니다.');
-			$('#password').focus();
+			$('#userpw').focus();
 		}else if($('#r_gender') .val() == ''){
 			alert('성별을 선택하세요.');
 		}else{

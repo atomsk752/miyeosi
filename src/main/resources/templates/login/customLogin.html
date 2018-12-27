@@ -44,10 +44,11 @@
 			<div class="modal_content">
 			
 				<div class="error_area"></div>	
-				<form action="/login" method="post" id="login_form" name="login_form">
-					<input type="hidden" value="" name="referrer" />
-					<div><input type="text" name="usermail"  id="usermail" class="input_txt" placeholder="이메일 주소"></div>
-					<div><input type="password" name="userpw" id="userpw" class="input_txt" placeholder="비밀번호"></div>
+				<form action="/login/customLogin" method="post" id="login_form" name="login_form">
+					<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+					<div><input type="text" name="username"  id="username" class="input_txt" placeholder="이메일 주소" value="dlswo@naver.com"></div>
+					<div><input type="password" name="password" id="password" class="input_txt" placeholder="비밀번호" value="123456"></div>
+					<div class="remember"><input type="checkbox" id="remember-me" name="remember-me">&nbsp;&nbsp;자동로그인</div>
 					<div class="et_login" onclick="login_submit();">
 						<!--로그인-->로그인				</div>
 				</form>
@@ -56,18 +57,13 @@
 		<div class="modal_line"></div>
 		<div class="modal_content">
 
-			<div class="na_login" onclick="na_login()">
-			<!--Google 로그인-->Naver로 로그인</div>
-			<div class="kk_login" onclick="kk_login()">
-			<!--Google 로그인-->Kakao로 로그인</div>
-				
-			<div class="fb_login" onclick="fb_login()">
-				<!--Facebook 로그인-->Facebook으로 로그인</div>
-			<div class="gg_login" onclick="gg_login()">
-				<!--Google 로그인-->Google로 로그인</div>
+			<div class="na_login" onclick="na_login()">Naver로 로그인</div>
+			<div class="kk_login" onclick="kk_login()">Kakao로 로그인</div>
+			<div class="fb_login" onclick="fb_login()">Facebook으로 로그인</div>
+			<div class="gg_login" onclick="gg_login()">Google로 로그인</div>
 				
 			<div class="modal_line"></div>
-			<div class="et_login_sub_box"><span><a href="/ko/member/find_pw">비밀번호 찾기</a> | <a href="/signup" style="color:#1a7ad9">회원가입</a></span></div>
+			<div class="et_login_sub_box"><span><a href="/ko/member/find_pw">비밀번호 찾기</a> | <a href="/login/signup" style="color:#1a7ad9">회원가입</a></span></div>
 		</div>		
 	</div>
 
@@ -85,11 +81,19 @@
 	var margin = 418/2;
 	parent.$('.et_modal_window').css('margin-top','-'+margin+'px');
 	
+	function na_login(){
+		// $('#content_wrap').hide();
+		// parent.$('#modal_view').css('background','transparent');
+		// $('#loading_wrap').show();
+		location.href='https://nid.naver.com/oauth2.0/authorize?client_id=LDp9BYkvyaslYqUOz1h5&response_type=code&redirect_uri=http://localhost:8080/naverlogin';
+		//location.href='/gauth';
+	}
+	
 	function kk_login(){
 		// $('#content_wrap').hide();
 		// parent.$('#modal_view').css('background','transparent');
 		// $('#loading_wrap').show();
-		window.open('https://kauth.kakao.com/oauth/authorize?client_id=56be861a71206f778fd48e53ee4c4623&redirect_uri=http://localhost:8080/kakaologin&response_type=code&scope=account_email,age_range,birthday,gender','earthtory_login','width=400, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=yes');
+		location.href='https://kauth.kakao.com/oauth/authorize?client_id=56be861a71206f778fd48e53ee4c4623&redirect_uri=http://localhost:8080/kakaologin&response_type=code&scope=account_email,age_range,birthday,gender';
 		//location.href='/gauth';
 	}
 	
@@ -97,7 +101,7 @@
 		// $('#content_wrap').hide();
 		// parent.$('#modal_view').css('background','transparent');
 		// $('#loading_wrap').show();
-		window.open('/gauth','earthtory_login','width=400, height=450, toolbar=no, menubar=no, scrollbars=no, resizable=yes');
+		location.href=('https://accounts.google.com/o/oauth2/auth?client_id=392762300432-eq62skbdmkuve2p72cmf661mt7daho73.apps.googleusercontent.com&redirect_uri=http://localhost:8080/googlelogin&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/plus.me');
 		//location.href='/gauth';
 	}
 	
@@ -108,7 +112,7 @@
 	//parent.$('#modal_view').css('background','transparent');
 	//parent.$('.et_modal_layer').hide();
 	//$('#loading_wrap').show();
-		window.open('/fblogin?fb=1&ref=','earthtory_login','width=400, height=300, toolbar=no, menubar=no, scrollbars=no, resizable=yes');
+		location.href=('https://www.facebook.com/v3.2/dialog/oauth?client_id=470771946780386&redirect_uri=http://localhost:8080/facebooklogin&response_type=code&scope=public_profile,user_age_range,user_gender,user_birthday');
 	}
 	
 	//닫기 버튼
@@ -118,28 +122,16 @@
 	}
 	
 	function login_submit(){
-				if($('#email').val() == ''){
-					alert('이메일주소는 필수입니다.');//"이메일"은 필수 정보입니다.');
-					$('#email').focus();
-				}else if($('#pw').val() == ''){
-					alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
-					$('#pw').focus();
-				}else{
-					document.login_form.submit();
-				}
-		
-	}
-	
-	$('#auto_login').click(function(){
-		_is_checked = $(this).attr('data');
-		if(_is_checked == '0'){
-			$(this).attr('data','1');
-			$(this).addClass('on');
+		if($('#email').val() == ''){
+			alert('이메일주소는 필수입니다.');//"이메일"은 필수 정보입니다.');
+			$('#email').focus();
+		}else if($('#pw').val() == ''){
+			alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
+			$('#pw').focus();
 		}else{
-			$(this).attr('data','0');
-			$(this).removeClass('on');
+			document.login_form.submit();
 		}
-	})
+	}
 </script>
 
 </body>

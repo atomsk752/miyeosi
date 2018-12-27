@@ -2095,5 +2095,7 @@ section
 .et-radio_txt:after{
 	clear:both;
 }
-
+.remember{
+	margin-bottom: 10px;
+}
 

@@ -41,6 +41,11 @@ public class LoginServiceImpl implements LoginService {
 	public int delete(MemberVO vo) {
 		return mapper.delete(vo);
 	}
+
+	@Override
+	public int registerAuth(MemberVO vo) {
+		return mapper.registerAuth(vo);
+	}
 	
 	
 

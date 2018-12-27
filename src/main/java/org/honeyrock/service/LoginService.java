@@ -12,6 +12,8 @@ public interface LoginService {
 	
 	public int register(MemberVO vo);
 	
+	public int registerAuth(MemberVO vo);
+	
 	public int update(MemberVO vo);
 	
 	public int delete(MemberVO vo);
