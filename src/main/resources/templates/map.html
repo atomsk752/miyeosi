@@ -20,8 +20,7 @@
         overflow-x: hidden;
         overflow-y: hidden;
     } 
-    .sortable { list-style-type: none; margin: 0; float: left; margin-right: 10px; background: #eee; padding: 5px; width: 143px;}
-       .sortable li { margin: 5px; padding: 5px; font-size: 1.2em; width: 120px; }
+    
     </style>
     <title>maps</title>
 </head>
@@ -79,7 +78,7 @@
                     <div class="column">
                         <div class="col-lg-12">
                             <div class="date_tabs">
-                                <button data-cno="1" class="date_tab active">Day1</button>
+                                <button id="dayBtn1" class="date_tab active">Day1</button>
 
                             </div>
                         </div>
@@ -105,7 +104,7 @@
                                 <h1>12월 21일 금요일</h1>
                                 
                            </div>
-                            <ul id="day1" class=" sortable droptrue">
+                            <ul id="day1" class="sortable droptrue">
                                 <li> 
                                     <div class="ui-state-default">
                                         <div>Item1</div>
@@ -118,7 +117,7 @@
                                     <div class="ui-state-default">
                                         <div>Item2</div>
                                         <div class="delete-bar">
-                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                           <img src="/images/trash-alt-solid.svg"/>
                                         </div>
                                     </div>    
                                 </li>
@@ -126,7 +125,7 @@
                                     <div class="ui-state-default">
                                         <div>Item3</div>
                                         <div class="delete-bar">
-                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                           <img src="/images/trash-alt-solid.svg"/>
                                         </div>
                                     </div>    
                                 </li>
@@ -134,7 +133,7 @@
                                     <div class="ui-state-default">
                                         <div>Item4</div>
                                         <div class="delete-bar">
-                                           <img src="../static/images/trash-alt-solid.svg"/>
+                                           <img src="/images/trash-alt-solid.svg"/>
                                         </div>
                                     </div>    
                                 </li>
@@ -144,7 +143,7 @@
                         <div class="course add-bar">
                             <div class="add-icon"></div>
                         </div>
-                        <div class="course add-bar">
+                        <div class="course delete-btn">
                              <img src="/images/trash-alt-solid.svg"/>
                         </div>
                     </div>
@@ -228,16 +227,17 @@
     	
     };
     
-    function updateCourse(key, newCourse, callback){
+    function updateCourse(key, day, newCourse, callback){
     	
-        firebase.database().ref('courses/' + key + '/day1').set(newCourse);
+        firebase.database().ref('courses/' + key + '/day' + day).set(newCourse);
         
     };
 
     toggleInfoWin();
     selectTab();
     toggleSearchWin();
-    deleteContents();
+    deletePoints();
+    deleteDays()
     addCourseTab();
     selectDate();
     sortDayList()
@@ -363,6 +363,35 @@
     }
     
     
+    
+    $(".sortable").sortable({
+    	update : function() {
+            for(var i = 0; i < day; i++){
+            	console.log("sortable working....");
+                var liList = $("#day" + (i+1)).find("li");
+                console.log(liList);
+                var arr = [];
+                for (var j = 0; j < liList.length; j++) {
+                    arr.push($(liList[j]).attr("data-idx"));
+                }
+                var temp = [];
+                var tempCourse = [];
+                for (var j = 0; j < liList.length; j++) {
+                    temp.push(markerArr[arr[j]]);
+                    tempCourse.push(course[arr[j]]);
+                }
+                markerArr = temp;
+                course = tempCourse;
+                reArrangeIdx();
+                updateCourse(fixedkey, i + 1, course);
+            }//end for
+        }//end func
+       
+   }); 
+    
+    
+    
+    
     var sortableUL = $("#sortable");
      sortableUL.sortable({
         update : function() {
@@ -382,7 +411,7 @@
             course = tempCourse;
             redrawMarker(markerArr);
             reArrangeIdx();
-            updateCourse(fixedkey, course);
+            updateCourse(fixedkey, 1, course);
         }
     }); 
     
@@ -424,27 +453,39 @@
     	
 
         $(".add-bar").on("click", function (e) {
-        	day += 1;
-        	var addHtml = "<div class=\"course\" data-cno='" + day + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
-            "<div class=\"date delete-bar\"><img src=\"/images/trash-alt-solid.svg\"/>" +
-            "</div></div><ul class=\"sortable droptrue\"></ul id='day" + day + "'></div>"
+        	if(day < 6){
+        		day += 1;
+            	var addHtml = "<div class=\"course\" data-cno='" + day + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
+                "</div><ul id='day" + day + "' class=\"sortable droptrue\"></ul ></div>"
 
-            var btnHtml = "<button data-cno='" + day + "' class=\"date_tab\">Day" + day + "</button>";
-        	
-            $(".date_tabs").append(btnHtml);
-            $(this).before(addHtml);
-            console.log($(".courses"));
+                var btnHtml = "<button id='dayBtn" + day + "' class=\"date_tab\">Day" + day + "</button>";
+            	
+                $(".date_tabs").append(btnHtml);
+                $(this).before(addHtml);
+        	}else {
+        		e.preventDefault();
+        	}
+
             sortDayList()
         });
     }
 
-    function deleteContents() {
+    function deletePoints() {
         $(document).on("click", ".delete-bar", function () {
-        	day -= 1;
-        	console.log(day);
-            console.log($(this)[0].parentElement.parentElement)
             $(this)[0].parentElement.parentElement.remove();
         });
+    }
+    
+    function deleteDays(){
+    	$(".delete-btn").on("click", function(e){
+    		if(day <= 1){
+    			e.preventDefault();
+    		}else{
+    			$("#day" + day)[0].parentElement.remove();
+        		$("#dayBtn" + day).remove();
+    			day -= 1;
+    		} 
+    	});
     }
 
     function toggleInfoWin() {
