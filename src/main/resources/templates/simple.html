@@ -322,7 +322,7 @@ border: 5px solid green;
 		     
 	    function updateCourse(key, newCourse, callback){
 	    	
-	        firebase.database().ref('courses/' + key + '/day1').set(newCourse);
+	        firebase.database().ref('courses/' + key + '/untitled/day1').set(newCourse);
 	        
 	    }
 		
@@ -341,7 +341,7 @@ border: 5px solid green;
 		
 	    function CourseInit(day1, callback){
 	        
-	        newKey = firebase.database().ref('courses').push({day1}).key;
+	        newKey = firebase.database().ref('courses').push({"untitled":{day1}}).key;
 	       
 	        
 	        callback(newKey);

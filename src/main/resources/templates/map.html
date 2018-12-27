@@ -16,6 +16,7 @@
     <script src="/dist/uikit-3.0.0-rc.25/js/uikit-icons.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <script src="js/search.js"></script>
     <style type="text/css"> html {
         overflow-x: hidden;
         overflow-y: hidden;
@@ -169,9 +170,13 @@
                     </div>
                     <div class="search-tab">
                         <div class="search-win">
-                            <input type="text" class="search-box"/>
+                            <input id="tags" type="text" class="search-box"/>
+                            
                             <span class="search-button">
                              <span class="search-icon"></span>
+                             <input type="hidden" id="search-id">
+                             <ul class="search-list">
+                       		 </ul>
                           </span>
                         </div>
                     </div>
@@ -208,7 +213,7 @@
 	};
 	firebase.initializeApp(config);
 	
-	var fixedkey= "-LUdmIE_RNRizhNmwx0r";
+	var fixedkey= "-LUj9ufoxNGpBYRyIEM0";
     var map;
     var course = [];
     var simpleArr = [];
@@ -216,7 +221,38 @@
     var recommendMarkerArr = [];
     var day = 1;
 
-	
+
+    	
+    	var actionForm = $("#actionForm");
+    	
+    	//검색창 자동완성
+    	function display(data) {
+    	    $( "#tags" ).autocomplete({
+    	        minLength: 1,
+    	        source: data,
+    	        focus: function( event, ui ) {
+    	          $( "#tags" ).val( ui.item.value );
+    	          return false;
+    	        },
+    	        select: function( event, ui ) {
+    	          $( "#search-id" ).val( ui.item.value );
+    	   
+    	          return false;
+    	        }
+    	      })
+    	      .autocomplete( "instance" )._renderItem = function( ul, item ) {
+    	        return $( "<li></li>" )
+    	          .append( "<div>" + item.value + "</div>" )
+    	          .appendTo( ul );
+    	      };
+    	}
+    	
+    	
+    		   		
+
+    	
+
+    
     function readCourse(key, callback){
     	
     	firebase.database().ref().child('courses/'+key +'/day1').once("value").then(function(data){
@@ -253,8 +289,9 @@
         });
       
 		getMarkerData();
-      
-      
+		searchService.autoComplete(function(result){
+		display(result); 
+		});
     }
     
     function getMarkerData(){
@@ -400,7 +437,7 @@
             var arr = [];
             for (var i = 0; i < liList.length; i++) {
                 arr.push($(liList[i]).attr("data-idx"));
-            }
+            }addCourseTab
             var temp = [];
             var tempCourse = [];
             for (var i = 0; i < liList.length; i++) {
