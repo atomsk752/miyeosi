@@ -36,9 +36,5 @@ public class SampleController {
 		model.addAttribute("List", service.getList());
 	}
 
-	
-	@GetMapping("/map")
-	public void map() {
-		
-	}
+
 }
