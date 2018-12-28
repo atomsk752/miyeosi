@@ -67,7 +67,7 @@ public class FacebookLogin {
 	
 	public static JsonNode getFacebookUserInfo(String autorize_code) {
 
-		final String RequestUrl = "https://graph.facebook.com/v3.2/me?fields=email,name,id,age_range,gender,picture,birthday";
+		final String RequestUrl = "https://graph.facebook.com/v3.2/me?fields=email,name,id,age_range,gender,picture,birthday&access_token=" + autorize_code;
 		
 		final HttpClient client = HttpClientBuilder.create().build();
 		final HttpPost post = new HttpPost(RequestUrl);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,13 +23,21 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		log.info("login success");
+		HttpSession session = request.getSession();
 		
-		authentication.getAuthorities().forEach(auth -> {
-			log.info("" + auth);
-		});
+		if (session != null) {
+            String redirectUrl = (String) session.getAttribute("prevPage");
+            if (redirectUrl != null) {
+                session.removeAttribute("prevPage");
+                getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+            } else {
+                super.onAuthenticationSuccess(request, response, authentication);
+            }
+        } else {
+            super.onAuthenticationSuccess(request, response, authentication);
+        }
 		
-		super.onAuthenticationSuccess(request, response, authentication);
+//		response.sendRedirect("/pointboard/list");
 	}
 	
 	@Override
@@ -51,8 +60,21 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-		log.info("Logout");
-		response.sendRedirect("/login/customLogin");		
+/*		HttpSession session = request.getSession();
+		if (session != null) {
+            String redirectUrl = (String) session.getAttribute("prevPage");
+            if (redirectUrl != null) {
+                session.removeAttribute("prevPage");
+                getRedirectStrategy().sendRedirect(request, response, redirectUrl);
+            } else {
+                super.onAuthenticationSuccess(request, response, authentication);
+            }
+        } else {
+            super.onAuthenticationSuccess(request, response, authentication);
+        }*/
+		String refererUrl = request.getHeader("referer");
+		log.info("refererUrl : " + refererUrl);
+		response.sendRedirect(refererUrl); //로그아웃시 이동할 주소
 	}
 
 }

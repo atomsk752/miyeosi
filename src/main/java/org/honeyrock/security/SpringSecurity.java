@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.Setter;
 import lombok.extern.java.Log;
@@ -29,31 +30,31 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	DataSource dataSource;
+	
 /*	@Override
 	public void configure(WebSecurity web) throws Exception
 	{
 		web.ignoring().antMatchers("/css/**", "/script/**", "image/**", "/fonts/**", "lib/**", "/**");
 	}*/
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		log.info("security");
 		http.authorizeRequests()
-				.antMatchers("/admin/**").hasRole("ADMIN")
-				.antMatchers("/css/**", "/js/**","/images/**", "/fonts/**", "/dist/**", "/libs/**", "/plugins/**", "/styles/**", "**/favicon.ico", "/login/customLogin","/index").permitAll()
-				.antMatchers("/pointboard/**").hasRole("MEMBER")
+				.antMatchers("/index","/**/list").permitAll() // 권한없이 들어갈 페이지
+				.antMatchers("/**/register","/**/modify","/**/delete").hasRole("MEMBER") //권한이 필요한 페이지 추가
 				.and()
 			.formLogin()
 				.loginPage("/login/customLogin").permitAll()
 				.successHandler(successHandler())
 				.failureHandler(failHandler())
+				//.defaultSuccessUrl("/index") // access denied 걸리면  로그인페이지 갈거라고 선언
 				.and()
 			.logout()
-				.logoutUrl("/login/customLogout")
-				.logoutSuccessHandler(logoutHandler())
-				.invalidateHttpSession(true)
-				.logoutSuccessUrl("/index")
-				.permitAll();
+				/*.logoutUrl("/login/customLogout")*/
+				.logoutRequestMatcher(new AntPathRequestMatcher("/login/customLogout")) //이걸로 하면 customlogout페이지 없이 가능
+				.logoutSuccessHandler(logoutHandler());
 		http.rememberMe().key("remember")
 			.userDetailsService(userDetailsService())
 			.tokenRepository(getJDBCReopsitory())
@@ -90,4 +91,5 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	public LogoutSuccessHandler logoutHandler() {
 		return new CustomLoginSuccessHandler();
 	}
+	
 }

@@ -12,6 +12,7 @@ import org.honeyrock.service.KakaoLogin;
 import org.honeyrock.service.LoginService;
 import org.honeyrock.service.NaverLogin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,9 @@ public class SocialLoginController {
 	@Setter(onMethod_ = @Autowired)
 	private LoginService service;
 	
+	@Autowired
+	PasswordEncoder pwEncoder;
+	
 	@RequestMapping(value = "/kakaologin" , produces = "application/json", method = {RequestMethod.GET, RequestMethod.POST})
 	public void kakaoLogin(@RequestParam("code") String code, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
@@ -46,20 +50,32 @@ public class SocialLoginController {
 		String usermail = vo.getUsermail();
 		String usernick = vo.getUsernick();
 		String redirectPage = "";
+		String dbusermail = "";
+		String dbuserpw = "";
 		
 		//DB에서 멤버리스트
 		List<MemberVO> memberList = service.getList();
 		
-		//DB에 저장된 sns_id 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
+		//DB에 저장된 usermail 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
 		FlashMap fm = RequestContextUtils.getOutputFlashMap(request);
 		
+		//usermail과 맵핑된 유저 데이터가 DB에 있는지 확인하는 작업.
 		for(int i = 0; i < memberList.size(); i++) {
-			log.info("memberList : " + memberList.get(i).getUsermail());
-			if(memberList.get(i).getUsermail().equals(usermail)){
-				redirectPage = "/index";
+			dbusermail = memberList.get(i).getUsermail();
+			if(dbusermail.equals(usermail)){
+				// defaultkey 를 1로 만듬
+				service.setDefaultkey(dbusermail);
+				dbuserpw = service.read(dbusermail).getDefaultkey();
+				log.info("defaultkey = " + dbuserpw);
+				redirectPage = "/login/customLoginTemp?username="+ dbusermail +"&password="+ dbuserpw;
+				
+				// 파라미터 전달은 1로 준 이후에 DB 내 defaultKey는 암호화 업데이트
+				String defaultkey = pwEncoder.encode(dbuserpw);
+				vo.setDefaultkey(defaultkey);
+				service.encodeDefaultkey(vo);
 				break;
 			}else {
-			// sns_id와 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
+			// usermail과 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
 			// flashmap에데이터 전달 
 			fm.put("usernick", usernick);
 			fm.put("usermail", usermail);
@@ -89,20 +105,32 @@ public class SocialLoginController {
 		String usermail = vo.getUsermail();
 		String usernick = vo.getUsernick();
 		String redirectPage = "";
+		String dbusermail = "";
+		String dbuserpw = "";
 		
 		//DB에서 멤버리스트
 		List<MemberVO> memberList = service.getList();
 		
-		//DB에 저장된 sns_id 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
+		//DB에 저장된 usermail 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
 		FlashMap fm = RequestContextUtils.getOutputFlashMap(request);
 		
+		//usermail과 맵핑된 유저 데이터가 DB에 있는지 확인하는 작업.
 		for(int i = 0; i < memberList.size(); i++) {
-			log.info("memberList : " + memberList.get(i).getUsermail());
-			if(memberList.get(i).getUsermail().equals(usermail)){
-				redirectPage = "/index";
+			dbusermail = memberList.get(i).getUsermail();
+			if(dbusermail.equals(usermail)){
+				// defaultkey 를 1로 만듬
+				service.setDefaultkey(dbusermail);
+				dbuserpw = service.read(dbusermail).getDefaultkey();
+				log.info("defaultkey = " + dbuserpw);
+				redirectPage = "/login/customLoginTemp?username="+ dbusermail +"&password="+ dbuserpw;
+				
+				// 파라미터 전달은 1로 준 이후에 DB 내 defaultKey는 암호화 업데이트
+				String defaultkey = pwEncoder.encode(dbuserpw);
+				vo.setDefaultkey(defaultkey);
+				service.encodeDefaultkey(vo);
 				break;
 			}else {
-			// sns_id와 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
+			// usermail과 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
 			// flashmap에데이터 전달 
 			fm.put("usernick", usernick);
 			fm.put("usermail", usermail);
@@ -130,20 +158,32 @@ public class SocialLoginController {
 		String usermail = vo.getUsermail();
 		String usernick = vo.getUsernick();
 		String redirectPage = "";
+		String dbusermail = "";
+		String dbuserpw = "";
 		
 		//DB에서 멤버리스트
 		List<MemberVO> memberList = service.getList();
 		
-		//DB에 저장된 sns_id 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
+		//DB에 저장된 usermail 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
 		FlashMap fm = RequestContextUtils.getOutputFlashMap(request);
 		
+		//usermail과 맵핑된 유저 데이터가 DB에 있는지 확인하는 작업.
 		for(int i = 0; i < memberList.size(); i++) {
-			log.info("memberList : " + memberList.get(i).getUsermail());
-			if(memberList.get(i).getUsermail().equals(usermail)){
-				redirectPage = "/index";
+			dbusermail = memberList.get(i).getUsermail();
+			if(dbusermail.equals(usermail)){
+				// defaultkey 를 1로 만듬
+				service.setDefaultkey(dbusermail);
+				dbuserpw = service.read(dbusermail).getDefaultkey();
+				log.info("defaultkey = " + dbuserpw);
+				redirectPage = "/login/customLoginTemp?username="+ dbusermail +"&password="+ dbuserpw;
+				
+				// 파라미터 전달은 1로 준 이후에 DB 내 defaultKey는 암호화 업데이트
+				String defaultkey = pwEncoder.encode(dbuserpw);
+				vo.setDefaultkey(defaultkey);
+				service.encodeDefaultkey(vo);
 				break;
 			}else {
-			// sns_id와 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
+			// usermail과 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
 			// flashmap에데이터 전달 
 			fm.put("usernick", usernick);
 			fm.put("usermail", usermail);
@@ -164,7 +204,7 @@ public class SocialLoginController {
 		log.info("=====" + code);
 		log.info("=====" + token);
 
-		JsonNode userInfo = FacebookLogin.getFacebookUserInfo(token.path("access_token").toString());
+		JsonNode userInfo = FacebookLogin.getFacebookUserInfo(token.path("access_token").asText());
 		
 		log.info("=====user info : " + userInfo);
 		
@@ -173,20 +213,32 @@ public class SocialLoginController {
 		String usermail = vo.getUsermail();
 		String usernick = vo.getUsernick();
 		String redirectPage = "";
+		String dbusermail = "";
+		String dbuserpw = "";
 		
 		//DB에서 멤버리스트
 		List<MemberVO> memberList = service.getList();
 		
-		//DB에 저장된 sns_id 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
+		//DB에 저장된 usermail 없을 때, 회원가입 페이지로 넘길 정보 (FlashMap 객체 생성)
 		FlashMap fm = RequestContextUtils.getOutputFlashMap(request);
 		
+		//usermail과 맵핑된 유저 데이터가 DB에 있는지 확인하는 작업.
 		for(int i = 0; i < memberList.size(); i++) {
-			log.info("memberList : " + memberList.get(i).getUsermail());
-			if(memberList.get(i).getUsermail().equals(usermail)){
-				redirectPage = "/index";
+			dbusermail = memberList.get(i).getUsermail();
+			if(dbusermail.equals(usermail)){
+				// defaultkey 를 1로 만듬
+				service.setDefaultkey(dbusermail);
+				dbuserpw = service.read(dbusermail).getDefaultkey();
+				log.info("defaultkey = " + dbuserpw);
+				redirectPage = "/login/customLoginTemp?username="+ dbusermail +"&password="+ dbuserpw;
+				
+				// 파라미터 전달은 1로 준 이후에 DB 내 defaultKey는 암호화 업데이트
+				String defaultkey = pwEncoder.encode(dbuserpw);
+				vo.setDefaultkey(defaultkey);
+				service.encodeDefaultkey(vo);
 				break;
 			}else {
-			// sns_id와 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
+			// usermail과 맵핑된 유저 데이터가 DB에 없을 시 회원가입 페이지로 이동 
 			// flashmap에데이터 전달 
 			fm.put("usernick", usernick);
 			fm.put("usermail", usermail);

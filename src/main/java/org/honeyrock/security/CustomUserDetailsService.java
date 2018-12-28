@@ -29,8 +29,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 		
 		CustomMember member;
 		
-		member = new CustomMember(vo);
-		
+		//customer(user) 로그인에서 일반 로그인인 경우
+		if (vo.getDefaultkey().equals("0")) {
+			member = new CustomMember(vo);
+		}
+		//customer(user) 로그인에서 소셜 로그인인 경우		
+		else { 
+			vo.setUserpw(vo.getDefaultkey());
+			member = new CustomMember(vo);
+			service.resetDefaultkey(username);
+		}
 		log.info("member : " + member);
 		
 		return member;

@@ -12,6 +12,11 @@
   		<result property="usersex" column="usersex"/>
   		<result property="userage" column="userage"/>
   		<result property="usernick" column="usernick"/>
+  		<result property="regdate" column="regdate"/>
+  		<result property="updatedate" column="updatedate"/>
+  		<result property="defaultkey" column="defaultkey"/>
+  		<result property="status" column="status"/>
+  		<result property="userlevel" column="userlevel"/>
   		<collection property="authList" resultMap="authMap"></collection>
   	</resultMap>
   	
@@ -25,7 +30,7 @@
 	</select>
 	
 	<select id="read" resultMap="memberMap">
-		select member.usermail, userpw, username, usersex, userage, usernick, auth
+		select member.usermail, userpw, username, usersex, userage, usernick, regdate, updatedate, defaultkey, status, userlevel, auth
 		from tbl_member member left outer join tbl_member_auth auth 
 		on member.usermail = auth.usermail
 		where member.usermail = #{usermail}
@@ -48,5 +53,17 @@
 	<delete id="delete">
   		update tbl_member set del=1 where usermail=#{usermail}
   	</delete>
+  	
+  	<update id = 'setDefaultkey'>
+		Update tbl_member SET defaultkey = '1' WHERE usermail = #{usermail}
+	</update>
+	
+	<update id = 'encodeDefaultkey'>
+		update tbl_member set defaultkey = #{defaultkey} WHERE usermail = #{usermail}
+	</update>
+	
+	<update id = 'resetDefaultkey'>
+		update tbl_member set defaultkey = '0' where usermail = #{usermail}
+	</update>
   
   </mapper>

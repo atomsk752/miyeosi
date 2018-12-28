@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -48,8 +49,21 @@ public class SampleController {
 	}
 	
 	@GetMapping({"/login/customLogin","/login/customLogout"})
-	public void login() {
-		
+	public void login(HttpServletRequest request) {
+		// 이전페이지로 이동 하지만 회원가입페이지는 막음.
+		String referrer = request.getHeader("Referer");
+		if(referrer.indexOf("http://localhost:8080/login/signup")<0) {
+			request.getSession().setAttribute("prevPage", referrer);
+		}
+	}
+	
+	@GetMapping("/login/customLoginTemp")
+	public void loginTemp(@RequestParam String username, @RequestParam String password, Model model) {
+		log.info("===========소셜 로그인페이지 ===============");
+		log.info(username);
+		log.info(password);
+		model.addAttribute("username", username);
+		model.addAttribute("password", password);
 	}
 	
 /*	@PostMapping("/login/customLogin")
@@ -78,9 +92,9 @@ public class SampleController {
 	@PostMapping("/login/signup")
 	public String signupPOST(MemberVO vo, RedirectAttributes rttr) {
 		
-		vo.setUserpw(pwEncoder.encode(vo.getUserpw()));
-		
 		log.info("vo : " + vo);
+		
+		vo.setUserpw(pwEncoder.encode(vo.getUserpw()));
 		
 		loginService.register(vo);
 		

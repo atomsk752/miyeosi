@@ -265,6 +265,7 @@
         </div>
 	</div>
     <form id="actionForm">
+    	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" name='page' th:value="${pageObj.page}">
 		<input type="hidden" name='display' th:value="${pageObj.display}">
 		<input type="hidden" name='category' th:value="${pageObj.category}">
