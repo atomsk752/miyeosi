@@ -1144,6 +1144,7 @@ label {
 
 
 .add-bar {
+	z-index: 50;
 	border-right: #0f7ae5 solid 8px;
 	border-bottom-right-radius: 3px;
 	float: left;
