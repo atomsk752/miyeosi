@@ -1,19 +1,20 @@
 package org.honeyrock.controller;
 
+import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.service.PointService;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.honeyrock.domain.PageParam;
-
 
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -64,10 +65,21 @@ public class PointController {
 	@GetMapping({"/read", "/modify"})
 	public void readGET(PointVO vo, Model model) {
 		
-		model.addAttribute("detail", service.get(vo));
-		model.addAttribute("blog", service.getBlog());
+		PointVO point = service.get(vo);
 		
+		model.addAttribute("detail", point);
 	}
+	
+	@GetMapping("/readBlog")
+	@ResponseBody
+	public JSONArray getPointBlog(String title) {
+		
+		JSONArray jsonArr = service.getBlog(title);
+		
+		return jsonArr;
+	}
+	
+	
 	
 	@GetMapping("/register")
 	public void registerGET() {

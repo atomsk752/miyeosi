@@ -367,7 +367,7 @@ input,textarea{
 	font-size:20px;
 	color:#363636;
 	font-weight:bold;
-	margin-top:55px;
+	margin-top:90px;
 }
 
 .title_big span{
@@ -860,7 +860,6 @@ input,textarea{
 
 .blog_list{
 	width:100%;
-	padding: 20px;
 }
 
 .blog_content{
@@ -1132,3 +1131,6 @@ input,textarea{
 	margin-left: 20px;
 }
 
+.blog_postdate{
+    color: #ff9320;
+}

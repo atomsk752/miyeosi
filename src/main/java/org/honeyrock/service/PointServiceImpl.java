@@ -71,12 +71,12 @@ public class PointServiceImpl implements PointService {
 
 
 	@Override
-	public JSONArray getBlog() {
+	public JSONArray getBlog(String keyword) {
 		String clientId = "XzwPg3Xx4q9mjPVtFq1q";//애플리케이션 클라이언트 아이디값";
-        String clientSecret = "hHsugwQQJz";//애플리케이션 클라이언트 시크릿값";
+        String clientSecret = "qyTwn2vCHL";//애플리케이션 클라이언트 시크릿값";
         JSONArray itemsArray = null;
         try {
-            String text = URLEncoder.encode("쇠소깍", "UTF-8");
+            String text = URLEncoder.encode(keyword, "UTF-8");
             String apiURL = "https://openapi.naver.com/v1/search/blog?query="+ text; // json 결과
             //String apiURL = "https://openapi.naver.com/v1/search/blog.xml?query="+ text; // xml 결과
             URL url = new URL(apiURL);
@@ -109,7 +109,6 @@ public class PointServiceImpl implements PointService {
             for(int i=0; i<itemsArray.size();i++) {
 //            	System.out.println("=================items : "+(i+1)+"=============================");
             	JSONObject itemsObject = (JSONObject) itemsArray.get(i);
-            	
             	
             	Object title = itemsObject.get("title");
             	Object descs = itemsObject.get("description");

@@ -350,31 +350,30 @@
 								</div>
 							</div>
 							
-							
-							<div class="title_big blog">
-			블로그&nbsp;
-		</div>
-
-		<div class="spot_info_box blog">
-			<div class="blog_list" th:text="${blog}">
-			<!--
-				<a href="#" class="blog_content" target="_blank">
-					<div class="blog_title">
-						3박 5일 싱가폴 여행(2) : 차이나타운 야쿤카야토스트 본점...
-					</div>
-					3박 5일 싱가폴여행(2) : 차이나타운 야쿤가야토스트 본점 / 미양원 망고빙수 20140905~20140909
-				</a>
-				-->
-			</div>
-			<div class="blog_source">
-				Powered by Naver
-			</div>
-		</div>
+									<div class="title_big blog">
+										블로그
+									</div>
+									
+							<input type='hidden' id='pointTitle' th:value="${detail.title}">
+									
+		
+										<div class="spot_info_box blog">
+											<div class="blog_list">
+												 <!-- <a href="#" class="blog_content" target="_blank">
+													<div class="blog_title">
+														3박 5일 싱가폴 여행(2) : 차이나타운 야쿤카야토스트 본점...
+													</div>
+													3박 5일 싱가폴여행(2) : 차이나타운 야쿤가야토스트 본점 / 미양원 망고빙수 20140905~20140909
+												</a> -->
+											</div>
+											<div class="blog_source">
+												Powered by Naver
+											</div>
+										</div>
 
 										<div class="offer_reviews">
 											<div class="footer_content footer_tags">
 												<ul class="tags_list clearfix">
-
 													<form th:action="@{/boards/modify}" method="get"  class="tag_item">
 														<input type="hidden" name="pno" th:value='*{detail.pno}'/>
 														<button >수정</button>
@@ -660,7 +659,6 @@
 </div>
 
 
-
 <script src="../styles/bootstrap4/popper.js"></script>
 <script src="../styles/bootstrap4/bootstrap.min.js"></script>
 <script src="../plugins/Isotope/isotope.pkgd.min.js"></script>
@@ -679,6 +677,10 @@
 
 
 <script th:inline="javascript">
+
+	
+	
+	
 	
 	$(document).ready(function(e){
 		
@@ -687,13 +689,42 @@
 		})();
 		
 		
+		var pointTitle = $("#pointTitle").val();
 		
+		function get_blog(){
+			$.ajax({
+				type:'get',
+				url:'/boards/readBlog',
+				data:{title:pointTitle},
+				success:function(obj){
+					
+					var str = "";
+					str += "<ul>";
+					for(var i = 0; i < obj.length; i++){
+						str += "<a href='"+obj[i].link+"'class='blog_content' target='_blank'>"+
+						"<div class='blog_title'>"+
+						obj[i].title+
+						"</div>"+
+						obj[i].description+
+						"<div class='blog_postdate'>"+
+						obj[i].postdate+
+						"</div>"+
+						"</a>";
+					};
+					str += "</ul>";
+					$(".blog_list").html(str);
+					
+				}
+			});
+		}; 
+		get_blog();
+
 		function printList(list){
 			var str = "";
 			var replyObj;
 			for(var i=0;i<list.length;i++){
 				replyObj = list[i];
-
+				
 				str += "<div class='cmmt_content_box' >"+
 				 "<div class='cmmt_c_user'>"+
 				"<div class='cmmt_c_user_txt'>"+
@@ -712,8 +743,7 @@
 				"</div>"+
 				"<div class='cmmt_content'>"+replyObj.pointreply+"</div>"+
 				"</div>";
-				
-				
+
 		/* 		str += "<tr>"+
 				"<th>"+ replyObj.rno+" </th>"+
 				"<th>"+ replyObj.pointreply+" </th>"+
@@ -809,6 +839,7 @@
 			pointreplyObj.val(pointreplyValue);
 			pointreplyerObj.val(pointreplyerValue);
 		});
+		
 	});
 
 </script>  

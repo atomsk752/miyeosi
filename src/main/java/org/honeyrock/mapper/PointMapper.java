@@ -24,6 +24,7 @@ public interface PointMapper {
 	
 	public int delete(PointVO vo);
 	
+	
 
 
 }

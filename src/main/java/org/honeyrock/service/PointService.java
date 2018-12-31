@@ -10,7 +10,6 @@ import org.json.simple.JSONArray;
 
 public interface PointService {
 
-	
 	public List<PointVO> getList(PageParam pageParam);
 	
 	public int getTotal(PageParam pageParam);
@@ -18,7 +17,6 @@ public interface PointService {
 	public PointVO get(PointVO vo);
 	
 	public void register(PointVO vo);
-
 	
 	public boolean modify(PointVO vo);
 	
@@ -26,5 +24,6 @@ public interface PointService {
 	
 	public int count(PageParam pageParam);
 
-	public JSONArray getBlog();
+	public JSONArray getBlog(String keyword);
+	
 }
