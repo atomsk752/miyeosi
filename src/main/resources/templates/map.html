@@ -112,10 +112,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="toggle-info">
-                    <button>view info</button>
+                <div class="info-pane slide-out">
+                <div class = "info-title">
                 </div>
-                <div class="info-pane slide-out"><h1>info here</h1></div>
+                <div class = "info-img">
+                </div>
+                </div>
             </div>
 
             <!--sortable course & search tab-->
@@ -184,6 +186,14 @@
 	courseObject['day0']['jsons'] = [];
 	courseObject['day0']['markers'] = [];
 	courseObject['day0']['li'] = [];
+	
+	var recommendObject = {};
+    
+    recommendObject['day0']= {};
+    recommendObject['day0']['jsons'] = [];
+    recommendObject['day0']['markers'] = [];
+    recommendObject['day0']['li'] = [];
+	
 	courseObject.findPoint = function (day, idx){
 		
 		var arrayIndex = courseObject.findIndex(day, idx);
@@ -246,39 +256,68 @@
     
     var map; 
     
+    var totalIndex = 0;
+
     readCourse(fixedkey, title, function(data) {
-		console.log("callback.........................");
-		for (var i = 0; i < data.length; i++) {
-			
-			courseObject.day0['jsons'].push(data[i]);
-			
-			var marker = new google.maps.Marker({
-	                position : data[i],
-	                title : data[i].title,
-	                descs : data[i].descs,
-	                myPos : data[i],
-	                
-	            });
-			
-			if( i === 0 ){
-				map = new google.maps.Map(document.getElementById('map'),{center :{lat:data[i].lat,  lng:data[i].lng} , zoom: 11, minZoom: 10});
-			}
-			
-			marker.setMap(map);
-			courseObject['day0']['markers'].push(marker);
-			
-			var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";			
-			courseObject['day0']['li'].push(str);
-			
-			
-		
-		}
-		
-		//console.log("1-------------------------------");
-		//console.log(courseObject)
-		drawPath(courseObject['day0'].markers);
-		readyCourseDiv();
-		
+         console.log("callback.........................");
+         for (var i = 0; i < data.length; i++) {
+             
+             courseObject.day0['jsons'].push(data[i]);
+             
+             var marker = new google.maps.Marker({
+                     position : data[i],
+                     title : data[i].title,
+                     descs : data[i].descs,
+                     myPos : data[i],
+                     
+                 });
+             
+             if( i === 0 ){
+                 map = new google.maps.Map(document.getElementById('map'),{center :{lat:data[i].lat,  lng:data[i].lng} , zoom: 11, minZoom: 10});
+             }
+             
+             marker.setMap(map);
+             courseObject['day0']['markers'].push(marker);
+             
+             var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+             courseObject['day0']['li'].push(str);
+             
+             
+             toggleInfoWin(marker);
+         
+         }
+         totalIndex = data.length;
+         
+         $.getJSON("/map/recommendData", function(json1) {
+             $.each(json1, function(key, data) {
+                 
+                 
+                 recommendObject.day0['jsons'].push(data);
+                 
+                 var marker = new google.maps.Marker({
+                     position : data,
+                     title : data.title,
+                     descs : data.descs,
+                     myPos : data,
+                     
+                 });
+                 
+                 marker.setMap(map);
+                 recommendObject['day0']['markers'].push(marker);
+                 var str = "<li data-idx ='"+totalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data.title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                 recommendObject['day0']['li'].push(str);
+                 
+                 toggleInfoWin(marker);
+                                       
+             });
+             console.log(recommendObject);
+         });
+         
+         //console.log("1-------------------------------");
+         //console.log(courseObject)
+         drawPath(courseObject['day0'].markers);
+         readyCourseDiv();
+         
     });
     
     function readyCourseDiv(){
@@ -322,11 +361,10 @@
     	
     }
 	
-    
     $('.toggle-nav').on('click', function () {
         toggleNavigation($(this), $('.nav-pane'));
     });
-	
+
     function toggleNavigation(btn, nav) {
         btn.toggleClass('open');
         nav.toggleClass('open');
@@ -337,11 +375,6 @@
     })
      */
     
-    
-    
-     
-     
-     
      function sortDayList() {
     	
     	var originUL;
@@ -351,25 +384,25 @@
     	var targetListLi; 
     	var targetListUL;
     	
+    	
     	$("ul.dropthelist").sortable({
     		start: function(event, ui){
-    			originListUL = $("#" + event.target.id);
-    			targetListLi = ui.item;
+    			originUL = $("#" + event.target.id);
+    			targetLi = ui.item;
  			
     		},
     		update: function(event, ui){
 	    		
-	    		targetListUL = $(event.target);
-	    		console.log(targetListUL);
+    			targetUL = $(event.target);
+	    		console.log(targetUL);
 	    		//console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
 	    	
-	    		console.dir(originListUL[0].innerHTML);
+	    		console.dir(originUL[0].innerHTML);
 	    		console.log("this : " + event.target.innerHTML);
 	    		
-	    		originListUL[0].innerHTML = event.target.innerHTML;
-	    		refreshCourseObject(targetListUL, originListUL, targetListLi, targetListUL.attr("id") == originListUL.attr("id") );
+	    		originUL[0].innerHTML = event.target.innerHTML;
+	    		refreshCourseObject(targetUL, originUL, targetLi, targetUL.attr("id") == originUL.attr("id") );
 	    			//drawSidebarList();
-	    			
     		}
     			
     	})
@@ -398,7 +431,7 @@
 	    		//console.log(originUL.html());
 	    		
 	    		refreshCourseObject(targetUL, originUL, targetLi);
-	    		drawSidebarList();
+	    		drawSidebarList(targetTripDay);
 	    		
 	    		targetLi.attr("data-day", targetUL.attr("id").substring(3));
 	    		$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
@@ -415,22 +448,20 @@
 	    		if(targetUL.attr("id") == originUL.attr("id")){
 	    		
 	    			refreshCourseObject(targetUL, originUL, targetLi, targetUL.attr("id") == originUL.attr("id") );
-	    			drawSidebarList();
+	    			drawSidebarList(targetTripDay);
 	    			
 	    			$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
 	    		}
-	    		
-	    		
-	    		
-	    		
+
 	    	} 
         });
         $( ".sortable" ).disableSelection();
+    
         
     }
     
     
-    function drawSidebarList(){
+    function drawSidebarList(targetTripDay){
     	console.log("drawSidebar.................")
     	var str = "";
     	for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
@@ -441,11 +472,7 @@
     	
     	$(".course-sort ul").html(str);
     }
-    
-    
-    
-    
-    
+
     
     function refreshCourseObject(targetUL, originUL, targetLi, same ){
     	    	
@@ -517,9 +544,6 @@
     	
     }
     
-    function drawList(){
-    	
-    }
     
     $(".sortable").sortable({
     	update : function() {
@@ -586,7 +610,7 @@
     	 
     	 console.log($(".course-sort ul").attr("id"));
     	 drawPath(courseObject[targetTripDay].markers);
-    	 drawSidebarList();
+    	 drawSidebarList(targetTripDay);
     	 $(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
      });
      
@@ -620,7 +644,7 @@
 		
 		for(var i = 0; i <mapExistMarkers.length; i++  ){
 			mapExistMarkers[i].setMap(null);
-			
+			console.log("clear marker");
 		}
 		
 		if(poly){
@@ -660,8 +684,71 @@
             getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
         });
 
-
     }
+	
+	
+	deleteContents();
+	
+	function deleteContents(){
+		
+		$('.delete-btn').on('click', function(){
+			var idx = $(".course.box").length - 1;
+			var deletedDiv =  $('div[data-cno="' + idx + '"]');
+			var deletedLi = $('div[data-cno="' + idx + '"] ul li');
+			var deletedBtn = $('button[data-day="day' + idx + '"]');
+			var deletedIdx = [];
+			if($('#dayBtn' + (idx + 1)).hasClass("active")){
+				$('.date_tab').removeClass("active");
+				$('#dayBtn' + idx).addClass("active");
+			}
+			deletedDiv.remove();
+			deletedBtn.remove();
+			
+			for(var i = 0; i < deletedLi.length; i++){
+				courseObject.remove(idx, deletedLi[i].getAttribute("data-idx"));
+			}
+			drawSidebarList("day" + (idx - 1));
+		});
+		
+		
+		$(document).on("click", ".delete-bar", function(e){
+        	var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
+    		var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
+    		var targetLi = $('.course #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
+    		var targetListLi = $('.course-sort #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
+    		
+    		for(var i = 0; i < courseObject['day' + targetDay].markers.length; i++){
+    			courseObject['day' + targetDay].markers[i].setMap(null);
+    		}
+    		courseObject.remove(targetDay, targetIdx);
+    		
+    		targetLi.remove();
+    		targetListLi.remove();
+    		
+    		drawPath(courseObject['day' + targetDay].markers);
+    	});
+
+	}
+	
+	var infoWin = $('.info-pane');
+	var currentMarker;
+	
+    function toggleInfoWin(marker) {
+    	marker.addListener('click', function (e) {
+    		currentMarker == marker ? infoWin.toggleClass("open") : infoWin.addClass('open');
+    		currentMarker = marker;
+    		console.dir(marker.myPos.pno);
+    		$(".info-pane .info-title").html(marker.myPos.title)
+    		$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300'>")
+        });
+    }
+
+	$(".courses").not($(".course")).on("click", function(e){
+		console.log("not course");
+	});
+	/*nav 열린 채로 바탕을 누르면 접히게 해야되는데 무조건 접혀서 그거 수정해야됨*/
+	
+	
 	
 
 </script>
