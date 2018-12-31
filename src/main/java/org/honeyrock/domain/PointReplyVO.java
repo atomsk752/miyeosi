@@ -1,21 +1,20 @@
 package org.honeyrock.domain;
 
 import java.sql.Timestamp;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -23,35 +22,26 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "tbl_point")
-@EqualsAndHashCode(of = "pno")
-@ToString(exclude = "replies")
-public class PointVO {
+@Table(name = "tbl_point_reply")
+@ToString(exclude = "point")
+public class PointReplyVO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer pno;
-	private double lat;
-	private double lng;
-	private String title;
-	private String descs;
-	private String keyword;
-	private Integer cost;
-	private double time;
-	private String category;
+	private Integer rno;
+	
+	private String pointreply;
+	private String pointreplyer;
 	private Integer good;
 	private Integer bad;
 	private String img;
-	private String addpoint;
-	private String thumb;
-	private Integer del;
-	private String writer;
 	@CreationTimestamp
 	private Timestamp regdate;
 	@UpdateTimestamp
 	private Timestamp updatedate;
 	
-	@OneToMany(mappedBy = "point", cascade=CascadeType.ALL)
-	private List<PointReplyVO> replies;
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	private PointVO point;
 	
 }

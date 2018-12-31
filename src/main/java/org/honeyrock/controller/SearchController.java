@@ -43,5 +43,7 @@ public class SearchController {
 		
 		return new ResponseEntity<>(service.searchPoint(keyword),HttpStatus.OK);
 	}
+	
+	
 
 }

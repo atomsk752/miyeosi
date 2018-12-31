@@ -32,7 +32,6 @@
 	10.4 Footer - Contact Info
 11. Copyright
 
-
 ******************************/
 
 /***********
@@ -894,6 +893,9 @@ section
 	height: 100%;
 	right: 50px;
 	width: 100%;
+	padding-top: 470px;
+	right: 20px;
+	width: 90%;
 }
 .search_tabs
 {
@@ -1460,8 +1462,10 @@ section
 	font-size: 18px;
 	font-weight: 400;
 	color: #929191;
-	margin-top: 16px;
-	margin-bottom: 0px;
+	margin-top: 10px;
+	margin-bottom: 145px;
+	letter-spacing: 1px;
+	line-height: 30px;
 }
 .offers_icons
 {
@@ -1494,7 +1498,7 @@ section
 .offer_reviews
 {
 	position: absolute;
-	top: 0;
+	top: 0px;
 	right: 0;
 }
 .offer_reviews_content
@@ -2410,3 +2414,7 @@ section
 	width:100%;
 	padding-top:20px;
 }
+
+/*드래그 색깔*/
+::selection { color:white; background: #4682ec; }
+

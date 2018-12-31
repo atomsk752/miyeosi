@@ -13,6 +13,8 @@
     <link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.carousel.css">
     <link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
     <link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/animate.css">
+    <link rel="stylesheet" type="text/css" href="../styles/spot_info.css">
+	<link rel="stylesheet" type="text/css" href="../styles/reset.css">
 
 </th:block>
 
@@ -172,12 +174,6 @@
 
                                         </div>
 
-                                        <div class="read_blog">
-
-                                            네이버 블로그 가져오기
-
-                                        </div>
-
                                         <div class="offer_reviews">
                                             <div class="footer_content footer_tags">
 	                                            <div class="tag_item">
@@ -191,13 +187,97 @@
 	                                            </div>
                                             </div>
                                         </div>
+										
+										<div class="spot_info_box community">
+											<div class="clear"></div>
+											<div class="write_area">
+												<div class="write_review">
+													<div class="write_title r">댓글쓰기
+													<input type="text" id="pointreplyer" class="check_in search_input" placeholder="작성자를 입력하세요.">
+													</div>
+													<div class="review_box">
+														<div class="write_left">
+														</div>
+														<div class="write_center">
+															<input id="pointreply" class="review_area" placeholder="댓글을 작성하세요.">
+														</div>
+														<div class="write_right">
+															<div class="btn_review_write" id="si_review_form_submit"
+																data="new">등록</div>
+														</div>
+														<div class="clear"></div>
+													</div>
+												</div>
+											</div>
 
+											<div class="cmmt_tab_content review">
+<!-- 													<div class="cmmt_content_box" >
+														<div class="cmmt_c_user">
+															<div class="cmmt_c_user_txt">
+																<div class="cmmt_c_user_name" > 작성자
+																 <span> &nbsp;&nbsp;등록시간 </span>
+																</div>
+																<div class="cmmt_c_user_level">
 
-                                    </div>
+																	<div class="rv_cnt">좋아요 싫어요</div>
+																	<div class="clear"></div>
+																</div>
+															</div>
+															<div class="clear"></div>
+														</div>
+														<div class="cmmt_content">방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 방콕 투어 중
+															가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요 방콕 투투어 중 가장
+															잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게
+															놀았어요.</div>
+													</div> -->
+												
+											</div>
+										</div> <!-- end comunity -->
+										
+										<!-- Modal -->
+										<div id="myModal" class="modal fade" role="dialog">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														
+														<h4 class="modal-title">Modal Header</h4>
+														<button type="button" class="close" data-dismiss="modal">&times;</button>
+													</div>
+													<div class="modal-body">
+													<label>Reply Text</label>
+													<input type="text" class="form-control" name="replyText">
+													<label>Replyer</label>
+													<input type="text" class="form-control" name="replyer">
+													</div>
+													<div class="modal-footer">
+														<button id='delModalBtn' class="btn btn-danger">삭제</button>
+														<button id='modalBtn' class="btn btn-info">등록</button>
+													</div>
+												</div>
+											</div>
+										</div> <!-- end modal -->
+										
+										<!-- blog -->
+										<div class="title_big blog">블로그</div>
+										<input type='hidden' id='pointTitle'
+												th:value="${detail.title}">
+										<div class="spot_info_box blog">
+											<div class="blog_list">
+												<!-- <a href="#" class="blog_content" target="_blank">
+												<div class="blog_title">
+													3박 5일 싱가폴 여행(2) : 차이나타운 야쿤카야토스트 본점...
+												</div>
+												3박 5일 싱가폴여행(2) : 차이나타운 야쿤가야토스트 본점 / 미양원 망고빙수 20140905~20140909
+											</a> -->
+											</div>
+											<div class="blog_source">Powered by Naver</div>
+										</div> <!-- end blog -->
+										
+                                    </div> <!-- end offers_content -->
                                 </div>
                             </div>
-
-
                         </div>
                         <div id="TENDENCY" class="tabcontent">
                             <div class="offers_sorting_container">
@@ -291,8 +371,173 @@
     <script src="../plugins/greensock/ScrollToPlugin.min.js"></script>
     <script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
     <script src="../js/read_custom.js"></script>
+    <script src="../js/reply.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"
         async defer></script>
+        
+	<script th:inline="javascript">
+	
+		$(document).ready(function(e){
+				
+			(function(){
+				replyManager.getAll([[${detail.pno}]], printList);
+			})();
+			
+			
+			var pointTitle = $("#pointTitle").val();
+			
+			function get_blog(){
+				$.ajax({
+					type:'get',
+					url:'/pointboard/readBlog',
+					data:{title:pointTitle},
+					success:function(obj){
+						
+						var str = "";
+						str += "<ul>";
+						for(var i = 0; i < obj.length; i++){
+							str += "<a href='"+obj[i].link+"'class='blog_content' target='_blank'>"+
+							"<div class='blog_title'>"+
+							obj[i].title+
+							"</div>"+
+							obj[i].description+
+							"<div class='blog_postdate'>"+
+							obj[i].postdate+
+							"</div>"+
+							"</a>";
+						};
+						str += "</ul>";
+						$(".blog_list").html(str);
+						
+					}
+				});
+			}; 
+			get_blog();
+	
+			function printList(list){
+				var str = "";
+				var replyObj;
+				for(var i=0;i<list.length;i++){
+					replyObj = list[i];
+					
+					str += "<div class='cmmt_content_box' >"+
+					 "<div class='cmmt_c_user'>"+
+					"<div class='cmmt_c_user_txt'>"+
+					"<div class='cmmt_c_user_name'>"+replyObj.pointreplyer+
+					"</div><span class='regdateSpan'>"+formatDate(replyObj.regdate)+"</span>"+
+					"<div class='cmmt_c_user_level'>"+
+					/* "<div class='rv_cnt'>좋아요: "+replyObj.good+" 싫어요: "+replyObj.bad+"</div>"+ */
+					"<div class='clear'></div>"+
+					"</div>"+
+					"</div>"+
+					"<div class='clear'></div>"+
+					"</div>"+
+					"<div class='review_opbtn'>"+
+					"<div class='rv_op_btn rop_delete' data-srl='"+replyObj.rno+"'>삭제</div>"+
+					"<div class='rv_op_btn line rop_edit' data-srl='"+replyObj.rno+"'>수정</div>"+
+					"</div>"+
+					"<div class='cmmt_content'>"+replyObj.pointreply+"</div>"+
+					"</div>";
+	
+			/* 		str += "<tr>"+
+					"<th>"+ replyObj.rno+" </th>"+
+					"<th>"+ replyObj.pointreply+" </th>"+
+					"<th>"+ replyObj.pointreplyer+" </th>"+
+					"<th>"+ formatDate(replyObj.regdate)+" </th>"+
+					"</tr>"; */
+				}
+				$(".review").html(str);
+			}
+	
+			function formatDate(timeValue){
+				var date = new Date(timeValue);
+				return date.getFullYear()
+					+ "-" + (date.getMonth()+1 >= 10?date.getMonth()+1:'0'+(date.getMonth()+1))
+					+ "-" + date.getDate()
+			}
+			
+			var mode = 'ADD';
+			
+			var pno = [[${detail.pno}]];
+			
+			var pointreplyObj = $("#pointreply");
+			var pointreplyerObj = $("#pointreplyer");
+			
+			var pointreply;
+			var pointreplyer;
+	
+	 		/* function afterAll(list){
+				printList(list);
+				pointreply.val("");
+				pointreplyer.val("");
+			} */
+			
+			$(".btn_review_write").click(function(e){
+				e.preventDefault();
+				pointreply = pointreplyObj.val();
+				pointreplyer = pointreplyerObj.val();
+				
+			 	if(mode == 'ADD'){
+					var obj = {pointreply:pointreply, pointreplyer:pointreplyer, pno:pno};
+					console.log(obj);
+					replyManager.add(obj, function(list){
+						printList(list);
+						alert("댓글이 추가되었습니다.");
+						pointreplyObj.val("");
+						pointreplyerObj.val("");
+					});
+				 
+				}else if(mode =='MOD'){
+					var obj = {pointreply:pointreply, pointreplyer:pointreplyer, pno:pno, rno:rno};
+					console.log(obj);
+					replyManager.update(obj, function(list){
+						printList(list);
+						console.log(list);
+	
+						alert("댓글이 수정되었습니다.");
+						pointreplyObj.val("");
+						pointreplyerObj.val("");
+					});
+				}
+			});
+			$(".review").on("click",".rop_delete", function(e){
+				e.preventDefault();
+				pointreply = pointreplyObj.val();
+				pointreplyer = pointreplyerObj.val();
+				
+				rno = e.target.getAttribute("data-srl");
+				var obj = {pno:pno, rno:rno};
+				
+				replyManager.remove(obj, function(list){
+					printList(list);
+					alert("댓글삭제가 완료되었습니다.");
+					pointreplyObj.val("");
+					pointreplyerObj.val("");
+				});
+				
+			});
+			var rno;
+			$(".review").on("click", ".rop_edit", function(e){
+				e.preventDefault();
+				/*	pointreply = pointreplyObj.val();
+				pointreplyer = pointreplyerObj.val();
+				 */
+				rno = e.target.getAttribute("data-srl");
+				console.log(rno);
+				mode = 'MOD';
+				
+				pointreplyerValue = $(this).closest(".cmmt_content_box").find(".cmmt_c_user_name").html();
+				pointreplyValue = $(this).closest(".cmmt_content_box").find(".cmmt_content").html();
+				console.log(pointreplyerValue); 
+				console.log(pointreplyValue);
+				
+				pointreplyObj.val(pointreplyValue);
+				pointreplyerObj.val(pointreplyerValue);
+			});
+				
+		});
+	
+	</script>
 
     <script th:inline="javascript">
 

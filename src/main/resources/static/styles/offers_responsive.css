@@ -154,6 +154,10 @@
 		width: 100%;
 		margin-top: 28px;
 	}
+	.search_button
+	{
+		margin-top: 29px;
+	}
 	.offers_sorting_
 	{
 		margin-top: 105px;
@@ -235,7 +239,6 @@
     	margin-top: 0px;
     	margin-left: 42.5%;
     }
-}
 /************
 4. 1199px
 ************/
@@ -279,7 +282,6 @@
     {
     	margin-left: 40%;
     }
-}
 	
 
 /************
