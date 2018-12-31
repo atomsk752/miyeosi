@@ -180,10 +180,19 @@
 	var title = "untitled";
 	
 	var courseObject = {};
+	
 	courseObject['day0']= {};
 	courseObject['day0']['jsons'] = [];
 	courseObject['day0']['markers'] = [];
 	courseObject['day0']['li'] = [];
+	
+	var recommendObject = {};
+	
+	recommendObject['day0']= {};
+	recommendObject['day0']['jsons'] = [];
+	recommendObject['day0']['markers'] = [];
+	recommendObject['day0']['li'] = [];
+	
 	courseObject.findPoint = function (day, idx){
 		
 		var arrayIndex = courseObject.findIndex(day, idx);
@@ -195,6 +204,9 @@
 			marker: courseObject["day"+day]['markers'][arrayIndex], 
 			li: courseObject["day"+day]['li'][arrayIndex]   };
 	};
+
+    //get mindmap data
+
 	
 	courseObject.findIndex = function(day, dataIdx){
 		
@@ -239,13 +251,17 @@
     	firebase.database().ref().child('courses/'+key +'/'+ title +'/day1').once("value").then(function(data){
     		
     		var result = data.val();
+    		
+    		console.log("dataaa.val() : "+result);
+    		
     		callback(result);
     	});
     	
     };
     
     var map; 
-    
+   	var totalIndex = 0;
+   	var checkDuplList=[];
     readCourse(fixedkey, title, function(data) {
 		console.log("callback.........................");
 		for (var i = 0; i < data.length; i++) {
@@ -256,7 +272,7 @@
 	                position : data[i],
 	                title : data[i].title,
 	                descs : data[i].descs,
-	                myPos : data[i],
+	                myPos : data[i]
 	                
 	            });
 			
@@ -271,15 +287,88 @@
 			courseObject['day0']['li'].push(str);
 			
 			
+			marker.addListener('click', function(){
+				console.log("courseObject marker clicked....")
+			})
 		
 		}
+		
+		totalIndex = data.length;
+		
+	    $.getJSON("/map/recommendData", function(json1) {
+	        $.each(json1, function(key, data) {
+	        	
+	        	
+	        	recommendObject.day0['jsons'].push(data);
+	        	
+				var marker = new google.maps.Marker({
+	                position : data,
+	                title : data.title,
+	                descs : data.descs,
+	                myPos : data,
+	                icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+	                
+	            });
+				
+				checkDupl(marker);
+				marker.setMap(map);
+				recommendObject['day0']['markers'].push(marker);
+				var str = "<li data-idx ='"+totalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data.title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";			
+				recommendObject['day0']['li'].push(str);
+				
+				marker.addListener('click', function(){
+					console.log("recommendObject marker clicked....")
+					console.log(recommendObject['day0']['markers']);
+					
+					var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
+					courseObject[targetTripDay]['markers'].push(marker);
+					courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
+					courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
+				
+					drawPath(courseObject[targetTripDay].markers);
+					//courseObject[targetTripDay]['markers'].push(marker);
+					//console.log(courseObject['day0']['markers']);
+					drawSidebarList();
+					
+			    	var str = "";
+			    	for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
+			    		
+			    		str += courseObject[targetTripDay].li[i];
+			    	}
+			    	
+			    	$("ul.droptrue").html(str);
+				})
+				                       
+	        });
+	        
+	        
+	        //console.log(recommendObject['day0']['markers'].myPos);
+	    });
 		
 		//console.log("1-------------------------------");
 		//console.log(courseObject)
 		drawPath(courseObject['day0'].markers);
 		readyCourseDiv();
-		
+		console.log(recommendObject['day0']['markers']);
     });
+    
+    //중복 체크
+    function checkDupl(recommendObjectMarker) {
+     	
+     	//var beforeSize = testList.length;
+
+     	var result  = courseObject['day0']['markers'].filter(x => parseInt(x.myPos.pno) == parseInt(recommendObjectMarker.myPos.pno)) ;
+     	recommendObject['day0']['markers'].splice(result, 1);
+     	//var afterSize = result.length;
+     	
+     	/* if (beforeSize == afterSize) {
+     		testList = result.concat(param)
+     	}else{
+     		testList = result;
+     	} */
+     	
+	 }
+
     
     function readyCourseDiv(){
     	
@@ -388,14 +477,16 @@
 	            
 	        },
 	    	receive: function(event, ui) {
-	    		//console.log("receive");
+	    		console.log("receive");
 	    		
 	    		targetUL = $("#" + event.target.id);
 	    			    		
-	    		//console.log("target.......................")
-	    		//console.log(targetUL.html());
-	    		//console.log("orgin........................")
-	    		//console.log(originUL.html());
+	    		console.log("targetUL.......................")
+	    		console.log(targetUL);
+	    		console.log("originUL........................")
+	    		console.log(originUL);
+	    		console.log("targetLi........................")
+	    		console.log(targetLi);
 	    		
 	    		refreshCourseObject(targetUL, originUL, targetLi);
 	    		drawSidebarList();
@@ -517,18 +608,7 @@
     	
     }
     
-    function drawList(){
-    	
-    }
-    
-    $(".sortable").sortable({
-    	update : function() {
-    		
-    		console.log("sortable....");
-    	
-    		
-    	}
-    });
+
     		
 
         
@@ -660,6 +740,28 @@
             getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
         });
 
+
+    }
+	
+deletePoints();
+    
+    function deletePoints(){
+        $(document).on("click", ".delete-bar", function(e){
+           var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
+           var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
+           var targetLi = $('.course #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
+           var targetListLi = $('.course-sort #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
+           
+           for(var i = 0; i < courseObject['day' + targetDay].markers.length; i++){
+               courseObject['day' + targetDay].markers[i].setMap(null);
+           }
+           courseObject.remove(targetDay, targetIdx);
+           
+           targetLi.remove();
+           targetListLi.remove();
+           
+           drawPath(courseObject['day' + targetDay].markers);
+       });
 
     }
 	
