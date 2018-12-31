@@ -37,7 +37,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		else { 
 			vo.setUserpw(vo.getDefaultkey());
 			member = new CustomMember(vo);
-			service.resetDefaultkey(username);
+			service.resetDefaultkey(username); //다시 0으로 리셋
 		}
 		log.info("member : " + member);
 		

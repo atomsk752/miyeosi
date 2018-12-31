@@ -59,7 +59,7 @@
 		<input type="hidden" name='category' th:value="${pageObj.category}">
 		<input type="hidden" name='type' th:value="${pageObj.type}">
 		<input type="hidden" name='keyword' th:value="${pageObj.keyword}">
-		<input type="hidden" name='pno' th:value="${pageObj.pno}">
+		<input type="hidden" name='coursebno' th:value="${pageObj.coursebno}">
 	</form>
 </div>
 <th:block layout:fragment="script">
@@ -73,7 +73,7 @@
 		$(".cancel").on("click", function(e){
 			e.preventDefault();
 			
-			actionForm.attr("action","/pointboard/read").submit();
+			actionForm.attr("action","/courseboard/read").submit();
 		});
 		
 	});

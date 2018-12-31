@@ -13,7 +13,6 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="../js/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../styles/login_style.css">
-<!-- <link rel="stylesheet" type="text/css" href="../styles/offers_styles.css"> -->
 <script type="text/javascript" src="../js/component.js"></script>
 <style>
 form .inputGroup {
@@ -45,42 +44,69 @@ form input[type="text"] {
   /* padding: 14px 1em 0px; */
 }
 .radio_box{height:30px;}
+form label[for="Age"],
+form label[for="Sex"]{
+    display: inline-block;
+}
+.custom-select {
+    margin-left: 25px;
+    background-color: #f3fafd;
+    border: solid 2px #217093;
+  	border-radius: 4px;
+  	box-sizing: border-box;
+  	/* overflow: scroll; */
+}
+.half{
+	width: 50%;
+	float: left;
+}
+form .inputGroup5{
+	margin-bottom: 4.5em;
+}
 </style>
 <body>
 
 	<form action="/login/signup" method="post" id="login_form" name="login_form">
 		<div class="inputGroup inputGroup1">
-			<label for="email1">Name</label>
+			<label for="Name">Name</label>
 			<input type="text" id="username" class="username" maxlength="256"/>
 		</div>
-		<div class="inputGroup inputGroup1">
-			<label for="email1">Email</label>
-			<input type="text" id="usermail" class="usermail" maxlength="256" th:value="${vo.usermail}"/>
-		</div>
 		<div class="inputGroup inputGroup2">
-			<label for="userpw">Password</label>
-			<input type="password" id="userpw" class="userpw" placeholder="(6자 ~ 20자)" />
+			<label for="Email">Email</label>
+			<input type="text" id="usermail" class="usermail" maxlength="256" th:value="${vo.usermail}" onKeyUp="check_mail();"/>
 		</div>
-		<div class="inputGroup inputGroup1">
-			<label for="email1">Nickname</label>
+		<div class="inputGroup inputGroup3">
+			<label for="Password">Password</label>
+			<input type="password" id="userpw" class="userpw" placeholder="(6자 ~ 20자)" onKeyUp="check_pw();"/>
+		</div>
+		<div class="inputGroup inputGroup4">
+			<label for="Nickname">Nickname</label>
 			<input type="text" id="usernick" class="usernick" maxlength="256" th:value="${vo.usernick}"/>
 		</div>
-		<div class="inputGroup inputGroup1">
-			<label for="email1">Age</label>
-			<input type="text" id="userage" class="userage" maxlength="256"/>
-		</div>
-		<div class="inputGroup inputGroup1">
-			<label for="email1">Sex</label>
-			<div class="radio_box">
-				<label class="radio gender" data-val="female" data-name="gender">여&nbsp;&nbsp;&nbsp;</label>
-				<label class="radio gender" data-val="male" data-name="gender">남</label>
-				<input type="hidden" name="usersex" value="" class="gender" id="gender" />
+		<div class="inputGroup inputGroup5">
+			<div class="half">
+				<label for="Age">Age</label>
+				<!-- <input type="text" class="userage" maxlength="256"/> -->
+				<select class="custom-select" id="userage">
+				    <th:block th:each="num: ${#numbers.sequence(10,40)}">
+			        	<option th:value="${num}">[[${num}]]</option>
+			    	</th:block>
+				</select>
+			</div>
+			<div class="half">
+				<label for="Age">Sex</label>
+				<!-- <input type="text" class="userage" maxlength="256"/> -->
+				<select class="custom-select" id="gender">
+		        	<option th:value="male">남</option>
+		        	<option th:value="female">여</option>
+				</select>
 			</div>
 		</div>
 		<div class="inputGroup inputGroup3">
 			<button id="signup">sign up</button>
 		</div>	
 		<div class="inputGroup inputGroup3">
+			<a href="/login/customLogin"><label>Login now!</label></a>
 		</div>	
 	</form>
 	
@@ -108,6 +134,31 @@ form input[type="text"] {
 		location.href=('https://www.facebook.com/v3.2/dialog/oauth?client_id=470771946780386&redirect_uri=http://localhost:8080/facebooklogin&response_type=code&scope=public_profile,user_age_range,user_gender,user_birthday');
 	}
 	
+	// 이메일 형식 체크
+	function check_mail(){
+		var bol = true;
+		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+		if (exptext.test($('#usermail').val())!=true){
+			$('#usermail').addClass('check');
+			$('#usermail').attr('data-check','1');
+		}else{
+			$('#usermail').removeClass('check');
+			$('#usermail').attr('data-check','0');
+		}
+		return bol;     // bol 값을 반환 . 이메일 형식이 아니면 false
+	}
+
+	// 비밀번호 6자리이상 체크
+	function check_pw(){
+		var pw = $('#userpw').val();
+		if(pw.length < 6){
+			$('#userpw').addClass('check');
+			$('#userpw').attr('data-check','1');
+		}else{
+			$('#userpw').removeClass('check');
+			$('#userpw').attr('data-check','0');
+		}
+	}
 	
 	// 바꾼다
 	$(document).ready(function() {
@@ -136,13 +187,13 @@ form input[type="text"] {
 			}else if($('#usermail').val() == ''){
 				alert('이메일주소는 필수입니다.');//"이메일"은 필수 정보입니다.');
 				$('#usermail').focus();
-			}else if($('#usermail').attr('data-vali') == '1'){
+			}else if($('#usermail').attr('data-check') == '1'){
 				alert('잘못된 이메일 형식입니다.');//잘못된 이메일 형식입니다.');
 				$('#usermail').focus();
 			}else if($('#userpw').val() == ''){
 				alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
 				$('#userpw').focus();
-			}else if($('#userpw').attr('data-vali') == '1'){
+			}else if($('#userpw').attr('data-check') == '1'){
 				alert('비밀번호는 6자 이상이어야 합니다.');//비밀번호는 6자 이상이어야 합니다.');
 				$('#userpw').focus();
 			}else if($('#r_gender').val() == ''){
@@ -150,6 +201,7 @@ form input[type="text"] {
 			}else{
 				var str = "";
 				
+				console.log($('#usermail'));
 				str += "<input type='hidden' name='username' value='" + username.val() +"'>";
 				str += "<input type='hidden' name='userpw' value='" + userpw.val() +"'>";
 				str += "<input type='hidden' name='usermail' value='" + usermail.val() +"'>";

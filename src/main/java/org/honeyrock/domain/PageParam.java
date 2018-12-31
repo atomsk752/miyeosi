@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class PageParam {
 
-	private Integer pno, page, display, start, end, total;
+	private Integer pno, coursebno, page, display, start, end, total;
 	private Boolean next, prev;
 	private String category;
 	private String[] types;
