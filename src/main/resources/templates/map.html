@@ -176,7 +176,7 @@
 	};
 	firebase.initializeApp(config);
 	
-	var fixedkey= "-LUjJ-spjC4O86R1uwfw";
+	var fixedkey= "-LUjPJmFDsTr-MwLC6Du";
 	var title = "untitled";
 	
 	var courseObject = {};
@@ -252,7 +252,6 @@
     		
     		var result = data.val();
     		
-    		console.log("dataaa.val() : "+result);
     		
     		callback(result);
     	});
@@ -310,9 +309,8 @@
 	                
 	            });
 				
-				checkDupl(marker);
-				marker.setMap(map);
 				recommendObject['day0']['markers'].push(marker);
+		
 				var str = "<li data-idx ='"+totalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data.title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";			
 				recommendObject['day0']['li'].push(str);
 				
@@ -326,8 +324,6 @@
 					courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
 				
 					drawPath(courseObject[targetTripDay].markers);
-					//courseObject[targetTripDay]['markers'].push(marker);
-					//console.log(courseObject['day0']['markers']);
 					drawSidebarList();
 					
 			    	var str = "";
@@ -341,32 +337,60 @@
 				                       
 	        });
 	        
-	        
-	        //console.log(recommendObject['day0']['markers'].myPos);
+	        checkDupl(courseObject);
+	        //추천 마커 그리기
+			for (var i = 0; i < recommendObject['day0']['markers'].length; i++) {
+				
+				recommendObject['day0']['markers'][i].setMap(map);
+				
+			}
 	    });
 		
 		//console.log("1-------------------------------");
 		//console.log(courseObject)
 		drawPath(courseObject['day0'].markers);
 		readyCourseDiv();
-		console.log(recommendObject['day0']['markers']);
+		
     });
     
     //중복 체크
-    function checkDupl(recommendObjectMarker) {
+    function checkDupl(courseObject) {
+     			
+		var markers = courseObject['day0'].markers;
+		var reMarkers = recommendObject['day0'].markers;
+		var li = courseObject['day0'].li;
+		var reLi = recommendObject['day0'].li;
+		var jsons = courseObject['day0'].jsons;
+		var rejsons = recommendObject['day0'].jsons;
+		
+		console.log(li);
+		console.log(reLi);
+		
+		console.log("--------------------");
+		
+		var rePno=[];
+		var result = reMarkers.filter(m => {
+			
+			var check = true;
+			
+			for(var i = 0; i < markers.length; i++){
+				
+				if( parseInt(markers[i].myPos.pno) == parseInt(m.myPos.pno)){
+					rePno.push(m.myPos.pno);
+					//console.log(m.indexOf(m.myPos.pno));
+					
+					//console.log(reMarkers.indexOf(rePno));
+					//console.log(m.indexOf(m.myPos.pno))
+					check = false;
+				}
+			}
+			return check;
+		})	
+		
+		console.log(recommendObject['day0'].markers.indexOf(rePno[0]))
+     	recommendObject['day0'].markers = result;
      	
-     	//var beforeSize = testList.length;
-
-     	var result  = courseObject['day0']['markers'].filter(x => parseInt(x.myPos.pno) == parseInt(recommendObjectMarker.myPos.pno)) ;
-     	recommendObject['day0']['markers'].splice(result, 1);
-     	//var afterSize = result.length;
-     	
-     	/* if (beforeSize == afterSize) {
-     		testList = result.concat(param)
-     	}else{
-     		testList = result;
-     	} */
-     	
+		console.log(rePno);
 	 }
 
     
