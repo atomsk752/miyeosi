@@ -17,6 +17,7 @@
     <script src="js/search.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <link rel="stylesheet" type="text/css" href="../styles/spot_info.css">
     <style type="text/css"> html {
         overflow-x: hidden;
         overflow-y: hidden;
@@ -54,7 +55,7 @@
                         </fieldset>
 
                         <div class="user_box ml-auto">
-                            <a class="glitch-btn" href="/boards/list" target="_self">
+                            <a class="glitch-btn" href="/courseboard/list" target="_self">
                                 <div class="text">NEXT</div>
                                 <div class="mask">
                                     <span>NEXT</span>
@@ -113,10 +114,15 @@
                     </div>
                 </div>
                 <div class="info-pane slide-out">
-                <div class = "info-title">
-                </div>
-                <div class = "info-img">
-                </div>
+						<div class="info-part">
+							<div class="info-title"></div>
+							<div class="info-img"></div>
+						</div>
+						<div class="spot_info_box blog">
+								<div class="blog_list">
+								</div>
+								<div class="blog_source">Powered by Naver</div>
+							</div>
                 </div>
             </div>
 
@@ -124,8 +130,8 @@
 
             <div class="right-box">
                 <div class="material-ui tabs">
-                    <div class="tab active">TAB1</div>
-                    <div class="tab">TAB2</div>
+                    <div id="tab1" class="tab active">Day1</div>
+                    <div id="tab2" class="tab">SEARCH</div>
                     <div class="slider"></div>
                 </div>
                 <div class="tab_content">
@@ -371,10 +377,6 @@
         nav.toggleClass('open');
     }
     
-    $('.courses').on('click', function(e){
-    	console.log(e.clientX, e.clientY);
-    	/* toggleNavigation($('.toggle-nav'), $('.nav-pane')); */
-    })
     
     
      function sortDayList() {
@@ -607,7 +609,8 @@
          $(e.target).addClass("active");
     	 
     	 targetTripDay = $(this).attr("data-day");
-    	 
+    	 var currentDay = $(this)[0].innerText;
+    	 $("#tab1").html(currentDay);
     	 //console.log("targetDay: " + targetDay);
     	 $(".course-sort ul").attr("id", targetTripDay);
     	 
@@ -677,12 +680,12 @@
         $('.tabs div').on('click', function () {
             var dataTab = $(this).data('tab');
             var getWrapper = $(this).closest('.right-box');
-            /*
-                        getWrapper.find('.tabs div').removeClass('active');
-                        $(this).addClass('active');*/
-            /*
-                        getWrapper.find('.line').width(0);
-                        line.animate({'width':'100%'}, 'fast');*/
+            getWrapper.find('.tabs div').removeClass('active');
+            $(this).addClass('active');
+
+            /* getWrapper.find('.line').width(0);
+            line.animate({'width':'100%'}, 'fast'); */
+                        
             getWrapper.find('.tab_content>div').hide();
             getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
         });
@@ -739,13 +742,37 @@
 	var infoWin = $('.info-pane');
 	var currentMarker;
 	
-    function toggleInfoWin(marker) {
+	function toggleInfoWin(marker) {
     	marker.addListener('click', function (e) {
     		currentMarker == marker ? infoWin.toggleClass("open") : infoWin.addClass('open');
     		currentMarker = marker;
     		console.dir(marker.myPos.pno);
     		$(".info-pane .info-title").html(marker.myPos.title)
     		$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300'>")
+    		$.ajax({
+				type:'get',
+				url:'/pointboard/readBlog',
+				data:{title:marker.myPos.title},
+				success:function(obj){
+					
+					var str = "";
+					str += "<ul>";
+					for(var i = 0; i < 2; i++){
+						str += "<a href='"+obj[i].link+"'class='blog_content' target='_blank'>"+
+						"<div class='blog_title'>"+
+						obj[i].title+
+						"</div>"+
+						obj[i].description+
+						"<div class='blog_postdate'>"+
+						obj[i].postdate+
+						"</div>"+
+						"</a>";
+					};
+					str += "</ul>";
+					$(".blog_list").html(str);
+					
+				}
+			});
         });
     }
 	
@@ -762,6 +789,27 @@
     	}   
     }
 	
+    
+	$("#map").on("mousedown", function(e){
+		infoWin.hasClass("open") ? infoWin.removeClass("open") : e.preventDefault();
+		console.log("middle-box mousedown")
+	});
+	
+	$(".courses").on("click", function(e){
+		var length = $(".course.box").length;
+		e.clientX > 100 + (255 * length) && e.clientY > 170 ? $(".nav-pane").removeClass("open") : e.preventDefault();
+		console.log(e.clientY)
+		console.log(130 + 255 * length)
+	});
+    
+	toggleSearchWin();
+	
+	function toggleSearchWin() {
+        $('.search-button').on('click', function () {
+            $(this).parent().toggleClass('open');
+        });
+    }
+    
 	
 
 </script>

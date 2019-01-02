@@ -675,7 +675,7 @@ section
 *********************************/
 
 
-
+/* 
 .search
 {
 
@@ -744,8 +744,8 @@ section
 }
 .search_tab:first-child
 {
-	/*border-top-left-radius: 94px;*/
-	/*border-top-right-radius: 94px;*/
+	border-top-left-radius: 94px;
+	border-top-right-radius: 94px;
 	padding-left: 7px;
 }
 
@@ -795,7 +795,7 @@ section
 {
 	display: flex!important;
 }
-/* Fade in tabs */
+Fade in tabs
 @-webkit-keyframes fadeEffect {
 	from {opacity: 0;}
 	to {opacity: 1;}
@@ -858,7 +858,7 @@ section
 	text-transform: uppercase;
 	margin-bottom: 14px;
 }
-
+ */
 
 /****************************
  기본 설정
@@ -891,7 +891,7 @@ label {
     z-index: 11;
 
 	height: 100vh;
-	background-color: #e63927;
+	background-color: #1C63A2;
 }
 
 
@@ -952,7 +952,7 @@ label {
 .right-box {
 	flex: 1.5;
 	height: 100vh;
-	background-color: #027a00;
+	background-color: #1C63A2;
 }
 
 
@@ -1175,14 +1175,14 @@ label {
     transition: 300ms;
     transition-timing-function: cubic-bezier(0.42, 0, 1, 1);
     position: absolute;
-    -webkit-transform: translateY(242);
-    transform: translateY(242px);
+    -webkit-transform: translateY(302);
+    transform: translateY(302px);
     bottom: 0;
-    height: 240px;
+    height: 300px;
     width: 100%;
     background: white;
     border-right: 2px solid #223cd6;
-    display: flex;
+    display: -webkit-box;
     flex-direction: column;
     justify-content: space-around;
     /*box-shadow: 0px 3px 10px rgba(33, 33, 33, 0.5);*/
@@ -1193,7 +1193,23 @@ label {
     transform: translateY(0);
     transition: 400ms;
     transition-timing-function: cubic-bezier(0, 0, 0.7, 1);
+    display: -webkit-box;
 }
+
+.info-part {
+	margin-top: 20px;
+	margin-left: 10px;
+	width: 20%;
+}
+
+.info-title {
+	
+	color: black;
+	font-size: 1.5rem;
+}
+
+
+
 
 /*********************************
 지도부분
@@ -1282,6 +1298,7 @@ label {
 }
 .tab_content {
 	height: 100vh;
+	left: 7%;
 }
 
 .course-sort > ul > li > a {
@@ -1451,12 +1468,13 @@ NEXT 버튼
 }
 
 .ui-state-default {
+	border-width: 0px;
 	padding:10px 0 0 10px;
 	height: 50px;
 }
 
 .sortable li {
-		
+	margin-bottom: 3px;
 	padding: 5px;
 	font-size: 1.5em;
 	width: 200px;
