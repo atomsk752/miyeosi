@@ -43,7 +43,7 @@
                         </div>
 
                         <fieldset class="field-container">
-                            <input type="text" placeholder="Insert Title" class="field" />
+                            <input type="text" placeholder="Insert Title" value="untitled" class="field" />
                             <div class="icons-container">
                                 <div class="icon-search"></div>
                                 <div class="icon-close">
@@ -246,9 +246,10 @@
 	
     function readCourse(key, title, callback){
     	
-    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day1').once("value").then(function(data){
+    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
     		var result = data.val();
+    		console.log(result.length)
     		callback(result);
     	});
     	
@@ -370,10 +371,11 @@
         nav.toggleClass('open');
     }
     
-    /* $('.courses').on('click', function(){
-    	toggleNavigation($('.toggle-nav'), $('.nav-pane'));
+    $('.courses').on('click', function(e){
+    	console.log(e.clientX, e.clientY);
+    	/* toggleNavigation($('.toggle-nav'), $('.nav-pane')); */
     })
-     */
+    
     
      function sortDayList() {
     	
@@ -403,6 +405,7 @@
 	    		originUL[0].innerHTML = event.target.innerHTML;
 	    		refreshCourseObject(targetUL, originUL, targetLi, targetUL.attr("id") == originUL.attr("id") );
 	    			//drawSidebarList();
+	    		updateCourse(fixedkey, title);
     		}
     			
     	})
@@ -435,6 +438,7 @@
 	    		
 	    		targetLi.attr("data-day", targetUL.attr("id").substring(3));
 	    		$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
+	    		updateCourse(fixedkey, title);
 	    	},
 	    	update: function(event, ui){
 	    		
@@ -452,7 +456,7 @@
 	    			
 	    			$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
 	    		}
-
+	    		updateCourse(fixedkey, title);
 	    	} 
         });
         $( ".sortable" ).disableSelection();
@@ -576,24 +580,23 @@
     	courseObject['day'+ idx]['li'] = [];
     	
     	sortDayList();
-
+    	updateCourse(fixedkey, title);
      });
      
      var field = $('.field');
      
-     field.blur(function() {
-    	 
+     field.blur(function() { 
      	var newTitle = $(this).val();
-     	console.log(newTitle);
+     	title = newTitle;
+     	firebase.database().ref('/courses/' + fixedkey).set(title);
+     	updateCourse(fixedkey, title);
      	field.css({"background-color": "#1C63A2", "color" : "white"});
      	field.toggleClass("blurred");
      	field.on("click", function(e){
      		field.css({"background-color": "white", "color" : "black"});
      	});
-     	
      		
      	
-/*      	firebase.database().ref('/courses/' + fixedkey).child("untitled").update(newTitle);  */
      });
 
      var targetTripDay = "day0";
@@ -708,6 +711,7 @@
 				courseObject.remove(idx, deletedLi[i].getAttribute("data-idx"));
 			}
 			drawSidebarList("day" + (idx - 1));
+			updateCourse(fixedkey, title);
 		});
 		
 		
@@ -726,8 +730,10 @@
     		targetListLi.remove();
     		
     		drawPath(courseObject['day' + targetDay].markers);
+    		updateCourse(fixedkey, title);
     	});
-
+		
+		
 	}
 	
 	var infoWin = $('.info-pane');
@@ -742,12 +748,19 @@
     		$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300'>")
         });
     }
-
-	$(".courses").not($(".course")).on("click", function(e){
-		console.log("not course");
-	});
-	/*nav 열린 채로 바탕을 누르면 접히게 해야되는데 무조건 접혀서 그거 수정해야됨*/
 	
+    function updateCourse(key, title, callback){
+    	var newCourse = [];
+    	firebase.database().ref('courses/' + key).set(title);
+    	for(var i = 0; i < $(".course.box").length; i++){
+    		newCourse = courseObject['day' + i].jsons;
+    		firebase.database().ref('courses/' + key + '/' + title + '/day' + i).set(newCourse); 
+    		console.log("====================================================")
+    		console.log('path : courses/' + key + '/' + title + '/day' + i);
+    		console.log(newCourse);
+    		console.log("====================================================")
+    	}   
+    }
 	
 	
 

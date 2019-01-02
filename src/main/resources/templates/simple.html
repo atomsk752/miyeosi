@@ -260,7 +260,7 @@ border: 5px solid green;
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
-			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
+			updateCourse("-LUjJ-spjC4O86R1uwfw", testList);			
 			
 			for (var i = 1; i < testList.length; i++) {
 				
@@ -315,14 +315,11 @@ border: 5px solid green;
 	     		testList = result;
 	     	}
 	     	
-
-	     
-
-		 } 
+		 }
 		     
 	    function updateCourse(key, newCourse, callback){
 	    	
-	        firebase.database().ref('courses/' + key + '/day1').set(newCourse);
+	        firebase.database().ref('courses/' + key + '/untitled/day0').set(newCourse);
 	        
 	    }
 		
@@ -341,7 +338,7 @@ border: 5px solid green;
 		
 	    function CourseInit(day1, callback){
 	        
-	        newKey = firebase.database().ref('courses').push({day1}).key;
+	        newKey = firebase.database().ref('courses').push({"untitled":{day1}}).key;
 	       
 	        
 	        callback(newKey);
