@@ -37,6 +37,7 @@
 					<div class="contact_form_container">
 						<div class="contact_title text-center">수 정</div>
 						<form th:action="@{/pointboard/modify}" method="post" id="contact_form" class="contact_form text-center">
+							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							<input type="text" name="title" class="contact_form_name input_field" placeholder="Title"  th:value="*{detail.title}" required="required" data-error="Name is required.">
 							<input type="text" name="lat" class="contact_form_name input_field" placeholder="Lat"  th:value="*{detail.lat}" required="required" data-error="Email is required.">
 							<input type="text" name="lng" class="contact_form_email input_field" placeholder="Lng"  th:value="*{detail.lng}" required="required" data-error="Subject is required.">
@@ -46,7 +47,7 @@
 							<input type="hidden" name="pno" th:value='*{detail.pno}'/>
 							
 							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">수정<span></span><span></span><span></span></button>
-							<button type="button" class="button cancel" onclick="history.go(-1);">취소<span></span><span></span><span></span></button>
+							<button type="button" class="button cancel">취소<span></span><span></span><span></span></button>
 						</form>
 					</div>
 
@@ -54,8 +55,33 @@
 			</div>
 		</div>
 	</div>
+	<form id="actionForm">
+		<input type="hidden" name='page' th:value="${pageObj.page}">
+		<input type="hidden" name='display' th:value="${pageObj.display}">
+		<input type="hidden" name='category' th:value="${pageObj.category}">
+		<input type="hidden" name='type' th:value="${pageObj.type}">
+		<input type="hidden" name='keyword' th:value="${pageObj.keyword}">
+		<input type="hidden" name='pno' th:value="${pageObj.pno}">
+	</form>
 </div>
 <th:block layout:fragment="script">
+
+<script th:inline="javascript">
+	
+	$(document).ready(function(){
+		
+		var actionForm = $("#actionForm");
+		
+		$(".cancel").on("click", function(e){
+			e.preventDefault();
+			
+			actionForm.attr("action","/pointboard/read").submit();
+		});
+		
+	});
+
+</script>
+
 </th:block>
 
 </html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <title>MIYEOSI</title>
 <meta charset="utf-8">
@@ -42,7 +43,8 @@
                                 <li class="main_nav_item"><a href="/courseboard/list">forum</a></li>
                                 <li class="main_nav_item"><a href="/course">course</a></li>
                                 <li class="main_nav_item"><a href="/gallery">gallery</a></li>
-                                <li class="main_nav_item"><a href="javascript:void(0)"onclick="et_modal('365px','529px','1','0','/login','2','1')">login</a></li>
+                                <li sec:authorize="!hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/login/customLogin">login</a></li>
+                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/login/customLogout">logout</a></li>
                             </ul>
                         </div>
                         <div class="content_search ml-lg-0 ml-auto">
@@ -144,7 +146,8 @@
                                 <li class="footer_nav_item"><a href="/courseboard/list">forum</a></li>
                                 <li class="footer_nav_item"><a href="/course">course</a></li>
                                 <li class="footer_nav_item"><a href="/gallery">gallery</a></li>
-                                <li class="footer_nav_item"><a href="/login">login</a></li>
+                                <li sec:authorize="!hasRole('ROLE_MEMBER')" class="footer_nav_item"><a href="/login/customLogin">login</a></li>
+                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="footer_nav_item"><a href="/login/customLogout">logout</a></li>
                             </ul>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 package org.honeyrock.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -17,6 +18,8 @@ public class MemberVO {
 	private Date updatedate;
 	private Integer status;
 	private Integer userlevel;
-	private String userrole;
+	private String defaultkey;
+	
+	private List<MemberAuthVO> authList;
 	
 }

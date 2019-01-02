@@ -12,8 +12,16 @@ public interface MemberMapper {
 	
 	public int register(MemberVO vo);
 	
+	public int registerAuth(MemberVO vo);
+	
 	public int update(MemberVO vo);
 	
 	public int delete(MemberVO vo);
+	
+	public int setDefaultkey(String usermail);
+	
+	public int encodeDefaultkey(MemberVO vo);
+	
+	public int resetDefaultkey(String usermail);
 
 }

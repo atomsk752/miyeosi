@@ -41,6 +41,26 @@ public class LoginServiceImpl implements LoginService {
 	public int delete(MemberVO vo) {
 		return mapper.delete(vo);
 	}
+
+	@Override
+	public int registerAuth(MemberVO vo) {
+		return mapper.registerAuth(vo);
+	}
+
+	@Override
+	public int setDefaultkey(String usermail) {
+		return mapper.setDefaultkey(usermail);
+	}
+
+	@Override
+	public int encodeDefaultkey(MemberVO vo) {
+		return mapper.encodeDefaultkey(vo);
+	}
+
+	@Override
+	public int resetDefaultkey(String usermail) {
+		return mapper.resetDefaultkey(usermail);
+	}
 	
 	
 

@@ -5,17 +5,45 @@
   
   <mapper namespace="org.honeyrock.mapper.MemberMapper">
   
+  	<resultMap type="org.honeyrock.domain.MemberVO" id="memberMap">
+  		<id property="usermail" column="usermail"></id>
+  		<result property="userpw" column="userpw"/>
+  		<result property="username" column="username"/>
+  		<result property="usersex" column="usersex"/>
+  		<result property="userage" column="userage"/>
+  		<result property="usernick" column="usernick"/>
+  		<result property="regdate" column="regdate"/>
+  		<result property="updatedate" column="updatedate"/>
+  		<result property="defaultkey" column="defaultkey"/>
+  		<result property="status" column="status"/>
+  		<result property="userlevel" column="userlevel"/>
+  		<collection property="authList" resultMap="authMap"></collection>
+  	</resultMap>
+  	
+  	<resultMap type="org.honeyrock.domain.MemberAuthVO" id="authMap">
+  		<result property="usermail" column="usermail"/>
+  		<result property="auth" column="auth"/>
+  	</resultMap>
+  
 	<select id="getList" resultType="org.honeyrock.domain.MemberVO">
 		select * from tbl_member
 	</select>
 	
-	<select id="read" resultType="org.honeyrock.domain.MemberVO">
-		select * from tbl_member where usermail = #{usermail}
+	<select id="read" resultMap="memberMap">
+		select member.usermail, userpw, username, usersex, userage, usernick, regdate, updatedate, defaultkey, status, userlevel, auth
+		from tbl_member member left outer join tbl_member_auth auth 
+		on member.usermail = auth.usermail
+		where member.usermail = #{usermail}
 	</select>
 	
 	<insert id="register">
 		insert into tbl_member (usermail, username, userpw, usernick, usersex, userage)
 		values (#{usermail}, #{username}, #{userpw}, #{usernick}, #{usersex}, #{userage})
+	</insert>
+	
+	<insert id="registerAuth">
+		insert into tbl_member_auth (usermail, auth)
+		values (#{usermail}, 'ROLE_MEMBER')
 	</insert>
 	
 	<update id="update">
@@ -25,5 +53,17 @@
 	<delete id="delete">
   		update tbl_member set del=1 where usermail=#{usermail}
   	</delete>
+  	
+  	<update id = 'setDefaultkey'>
+		Update tbl_member SET defaultkey = '1' WHERE usermail = #{usermail}
+	</update>
+	
+	<update id = 'encodeDefaultkey'>
+		update tbl_member set defaultkey = #{defaultkey} WHERE usermail = #{usermail}
+	</update>
+	
+	<update id = 'resetDefaultkey'>
+		update tbl_member set defaultkey = '0' where usermail = #{usermail}
+	</update>
   
   </mapper>
