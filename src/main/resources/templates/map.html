@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Travelix Project">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/styles/jquery-ui.css">
     <link rel="stylesheet" type="text/css" href="/styles/bootstrap4/bootstrap.min.css">
     <link href="/plugins/font-awesome-5.6.1/css/all.css">
     <link rel="stylesheet" href="/dist/uikit-3.0.0-rc.25/css/uikit.min.css"/>
@@ -17,6 +17,8 @@
     <script src="js/search.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/maps_styles.css">
     <link rel="stylesheet" type="text/css" href="/styles/maps_responsive.css">
+    <link rel="stylesheet" type="text/css" href="/styles/spot_info.css">
+    <script src="js/search.js"></script>
     <style type="text/css"> html {
         overflow-x: hidden;
         overflow-y: hidden;
@@ -43,7 +45,7 @@
                         </div>
 
                         <fieldset class="field-container">
-                            <input type="text" placeholder="Insert Title" class="field" />
+                            <input type="text" placeholder="Insert Title" value="untitled" class="field" />
                             <div class="icons-container">
                                 <div class="icon-search"></div>
                                 <div class="icon-close">
@@ -54,7 +56,7 @@
                         </fieldset>
 
                         <div class="user_box ml-auto">
-                            <a class="glitch-btn" href="/boards/list" target="_self">
+                            <a class="glitch-btn" href="/courseboard/list" target="_self">
                                 <div class="text">NEXT</div>
                                 <div class="mask">
                                     <span>NEXT</span>
@@ -105,25 +107,33 @@
                         </div>
                        
                         <div class="course add-bar">
-                            <div class="add-icon"></div>
+                            <div id="plus1"></div>
+                            <div id="plus2"></div>
                         </div>
                         <div class="course delete-btn">
-                             <img src="/images/trash-alt-solid.svg"/>
+                             <div id="minus"></div>
                         </div>
                     </div>
                 </div>
-                <div class="toggle-info">
-                    <button>view info</button>
+                <div class="info-pane slide-out">
+						<div class="info-part">
+							<div class="info-title"></div>
+							<div class="info-img"></div>
+						</div>
+						<div class="spot_info_box blog">
+								<div class="blog_list">
+								</div>
+								<div class="blog_source">Powered by Naver</div>
+							</div>
                 </div>
-                <div class="info-pane slide-out"><h1>info here</h1></div>
             </div>
 
             <!--sortable course & search tab-->
 
             <div class="right-box">
                 <div class="material-ui tabs">
-                    <div class="tab active">TAB1</div>
-                    <div class="tab">TAB2</div>
+                    <div id="tab1" class="tab active">Day1</div>
+                    <div id="tab2" class="tab">SEARCH</div>
                     <div class="slider"></div>
                 </div>
                 <div class="tab_content">
@@ -176,22 +186,21 @@
 	};
 	firebase.initializeApp(config);
 	
-	var fixedkey= "-LUjPJmFDsTr-MwLC6Du";
+	var fixedkey= "-LUjJ-spjC4O86R1uwfw";
 	var title = "untitled";
 	
 	var courseObject = {};
-	
 	courseObject['day0']= {};
 	courseObject['day0']['jsons'] = [];
 	courseObject['day0']['markers'] = [];
 	courseObject['day0']['li'] = [];
 	
 	var recommendObject = {};
-	
-	recommendObject['day0']= {};
-	recommendObject['day0']['jsons'] = [];
-	recommendObject['day0']['markers'] = [];
-	recommendObject['day0']['li'] = [];
+    
+    recommendObject['day0']= {};
+    recommendObject['day0']['jsons'] = [];
+    recommendObject['day0']['markers'] = [];
+    recommendObject['day0']['li'] = [];
 	
 	courseObject.findPoint = function (day, idx){
 		
@@ -204,17 +213,10 @@
 			marker: courseObject["day"+day]['markers'][arrayIndex], 
 			li: courseObject["day"+day]['li'][arrayIndex]   };
 	};
-
-    //get mindmap data
-
 	
 	courseObject.findIndex = function(day, dataIdx){
 		
 		var dayLiObjects = courseObject['day' + day].li;
-		
-		//console.log("--------------------------");
-		//console.log(dataIdx);
-		//console.log("--------------------------");
 		
 		var arrayIndex = -1;
 		
@@ -248,548 +250,705 @@
 	
     function readCourse(key, title, callback){
     	
-    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day1').once("value").then(function(data){
+    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
     		var result = data.val();
-    		
-    		
+    		console.log(result.length)
     		callback(result);
     	});
     	
     };
     
     var map; 
-   	var totalIndex = 0;
-   	var checkDuplList=[];
+    
+    var totalIndex = 0;
+
     readCourse(fixedkey, title, function(data) {
-		console.log("callback.........................");
-		for (var i = 0; i < data.length; i++) {
-			
-			courseObject.day0['jsons'].push(data[i]);
-			
-			var marker = new google.maps.Marker({
-	                position : data[i],
-	                title : data[i].title,
-	                descs : data[i].descs,
-	                myPos : data[i]
-	                
-	            });
-			
-			if( i === 0 ){
-				map = new google.maps.Map(document.getElementById('map'),{center :{lat:data[i].lat,  lng:data[i].lng} , zoom: 11, minZoom: 10});
-			}
-			
-			marker.setMap(map);
-			courseObject['day0']['markers'].push(marker);
-			
-			var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";			
-			courseObject['day0']['li'].push(str);
-			
-			
-			marker.addListener('click', function(){
-				console.log("courseObject marker clicked....")
-			})
-		
-		}
-		
-		totalIndex = data.length;
-		
-	    $.getJSON("/map/recommendData", function(json1) {
-	        $.each(json1, function(key, data) {
-	        	
-	        	
-	        	recommendObject.day0['jsons'].push(data);
-	        	
-				var marker = new google.maps.Marker({
-	                position : data,
-	                title : data.title,
-	                descs : data.descs,
-	                myPos : data,
-	                icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-	                
-	            });
-				
-				recommendObject['day0']['markers'].push(marker);
-		
-				var str = "<li data-idx ='"+totalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data.title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";			
-				recommendObject['day0']['li'].push(str);
-				
-				marker.addListener('click', function(){
-					console.log("recommendObject marker clicked....")
-					console.log(recommendObject['day0']['markers']);
-					
-					var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
-					courseObject[targetTripDay]['markers'].push(marker);
-					courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
-					courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
-				
-					drawPath(courseObject[targetTripDay].markers);
-					drawSidebarList();
-					
-			    	var str = "";
-			    	for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
-			    		
-			    		str += courseObject[targetTripDay].li[i];
-			    	}
-			    	
-			    	$("ul.droptrue").html(str);
-				})
-				                       
-	        });
-	        
-	        checkDupl(courseObject);
-	        //추천 마커 그리기
-			for (var i = 0; i < recommendObject['day0']['markers'].length; i++) {
-				
-				recommendObject['day0']['markers'][i].setMap(map);
-				
-			}
-	    });
-		
-		//console.log("1-------------------------------");
-		//console.log(courseObject)
-		drawPath(courseObject['day0'].markers);
-		readyCourseDiv();
-		
-    });
-    
-    //중복 체크
-    function checkDupl(courseObject) {
-     			
-		var markers = courseObject['day0'].markers;
-		var reMarkers = recommendObject['day0'].markers;
-		var li = courseObject['day0'].li;
-		var reLi = recommendObject['day0'].li;
-		var jsons = courseObject['day0'].jsons;
-		var rejsons = recommendObject['day0'].jsons;
-		
-		console.log(li);
-		console.log(reLi);
-		
-		console.log("--------------------");
-		
-		var rePno=[];
-		var result = reMarkers.filter(m => {
-			
-			var check = true;
-			
-			for(var i = 0; i < markers.length; i++){
-				
-				if( parseInt(markers[i].myPos.pno) == parseInt(m.myPos.pno)){
-					rePno.push(m.myPos.pno);
-					//console.log(m.indexOf(m.myPos.pno));
-					
-					//console.log(reMarkers.indexOf(rePno));
-					//console.log(m.indexOf(m.myPos.pno))
-					check = false;
-				}
-			}
-			return check;
-		})	
-		
-		console.log(recommendObject['day0'].markers.indexOf(rePno[0]))
-     	recommendObject['day0'].markers = result;
-     	
-		console.log(rePno);
-	 }
-
-    
-    function readyCourseDiv(){
-    	
-    	console.log("readyCourseDiv");
-    	
-    	var str = "";
-    	$(".course-sort").each(function(idx, obj){
-    		var targetJsons = courseObject['day' + [idx]]['jsons'];
-    		var str = "<ul id='day0' class='sortable dropthelist'>";
-    		
-    		for(var i = 0; i < targetJsons.length; i++){
-    			str += "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"+targetJsons[i].title+"</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
-    		}
-    		str += "</ul>";
-    		
-    		obj.innerHTML = str;
-    		
-    		
-    	})
-    	
-    	
-    	$(".course.box").each(function(idx, obj){
-    		
-    		var targetJsons = courseObject['day'+[idx]]['jsons'];
-    		
-    		var str = "<div class='date_detail'><h1>12월 21일 금요일</h1></div><ul id='day0' class='sortable droptrue'>";
-    		
-    		for (var i = 0; i < targetJsons.length; i++){
-    		
-    			str+= "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"+targetJsons[i].title+"</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
-    		}
-    		
-    		str += "</ul>";
-    		
-    		obj.innerHTML = str;
-    		sortDayList();
-    		
-    	})
-    	
-    	
-    }
-	
-    
-    $('.toggle-nav').on('click', function () {
-        toggleNavigation($(this), $('.nav-pane'));
-    });
-	
-    function toggleNavigation(btn, nav) {
-        btn.toggleClass('open');
-        nav.toggleClass('open');
-    }
-    
-    /* $('.courses').on('click', function(){
-    	toggleNavigation($('.toggle-nav'), $('.nav-pane'));
-    })
-     */
-    
-    
-    
-     
-     
-     
-     function sortDayList() {
-    	
-    	var originUL;
-    	var targetLi; 
-    	var targetUL;
-    	var originListUL;
-    	var targetListLi; 
-    	var targetListUL;
-    	
-    	$("ul.dropthelist").sortable({
-    		start: function(event, ui){
-    			originListUL = $("#" + event.target.id);
-    			targetListLi = ui.item;
- 			
-    		},
-    		update: function(event, ui){
-	    		
-	    		targetListUL = $(event.target);
-	    		console.log(targetListUL);
-	    		//console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
-	    	
-	    		console.dir(originListUL[0].innerHTML);
-	    		console.log("this : " + event.target.innerHTML);
-	    		
-	    		originListUL[0].innerHTML = event.target.innerHTML;
-	    		refreshCourseObject(targetListUL, originListUL, targetListLi, targetListUL.attr("id") == originListUL.attr("id") );
-	    			//drawSidebarList();
-	    			
-    		}
-    			
-    	})
-    	
-    	
-        $( "ul.droptrue" ).sortable({
-            connectWith: "ul",
-         
-	        start: function(event,ui){
-	            console.log("start");
-	            
-	            originUL = $("#" + event.target.id);
-	            targetLi = ui.item;
-	            
-	            
-	            
-	        },
-	    	receive: function(event, ui) {
-	    		console.log("receive");
-	    		
-	    		targetUL = $("#" + event.target.id);
-	    			    		
-	    		console.log("targetUL.......................")
-	    		console.log(targetUL);
-	    		console.log("originUL........................")
-	    		console.log(originUL);
-	    		console.log("targetLi........................")
-	    		console.log(targetLi);
-	    		
-	    		refreshCourseObject(targetUL, originUL, targetLi);
-	    		drawSidebarList();
-	    		
-	    		targetLi.attr("data-day", targetUL.attr("id").substring(3));
-	    		$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
-	    	},
-	    	update: function(event, ui){
-	    		
-	    		//console.log("update............");
-	    		
-	    		targetUL = $("#" + event.target.id);
-	    		
-	    		//console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
-	    		
-	    		
-	    		if(targetUL.attr("id") == originUL.attr("id")){
-	    		
-	    			refreshCourseObject(targetUL, originUL, targetLi, targetUL.attr("id") == originUL.attr("id") );
-	    			drawSidebarList();
-	    			
-	    			$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
-	    		}
-	    		
-	    		
-	    		
-	    		
-	    	} 
+        console.log("callback.........................");
+        for (var i = 0; i < data.length; i++) {
+            
+            courseObject.day0['jsons'].push(data[i]);
+            
+            var marker = new google.maps.Marker({
+                    position : data[i],
+                    title : data[i].title,
+                    descs : data[i].descs,
+                    myPos : data[i]
+                    
+                });
+            
+            if( i === 0 ){
+                map = new google.maps.Map(document.getElementById('map'),{center :{lat:data[i].lat,  lng:data[i].lng} , zoom: 11, minZoom: 10});
+            }
+            
+            marker.setMap(map);
+            courseObject['day0']['markers'].push(marker);
+            
+            var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+            courseObject['day0']['li'].push(str);
+            
+            
+            marker.addListener('click', function(){
+                console.log("courseObject marker clicked....")
+            })
+        
+        }
+        
+        totalIndex = data.length;
+        var reTotalIndex = 0;
+        $.getJSON("/map/recommendData", function(data) {
+            for (var i = 0; i < data.length; i++) {
+                
+            
+      
+                
+                
+                recommendObject.day0['jsons'].push(data[i]);
+                
+                var marker = new google.maps.Marker({
+                    position : data[i],
+                    title : data[i].title,
+                    descs : data[i].descs,
+                    myPos : data[i],
+                    icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                    
+                });
+                
+                recommendObject['day0']['markers'].push(marker);
+                reTotalIndex = totalIndex + i
+                var str = "<li data-idx ='"+reTotalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                recommendObject['day0']['li'].push(str);
+                checkDupl(courseObject);
+                addMarkerEvent(marker);
+                                      
+            };
+            
+            
+            //추천 마커 그리기
+            for (var i = 0; i < recommendObject['day0']['markers'].length; i++) {
+                
+                recommendObject['day0']['markers'][i].setMap(map);
+                
+            }
+            
+            
+            console.log(recommendObject['day0']['li']);
+            console.dir(recommendObject['day0']['markers']);
         });
-        $( ".sortable" ).disableSelection();
         
-    }
-    
-    
-    function drawSidebarList(){
-    	console.log("drawSidebar.................")
-    	var str = "";
-    	for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
-    		
-    		str += courseObject[targetTripDay].li[i];
-    	}
-    	
-    	
-    	$(".course-sort ul").html(str);
-    }
-    
-    
-    
-    
-    
-    
-    function refreshCourseObject(targetUL, originUL, targetLi, same ){
-    	    	
-    	function findULPositionIdx(){
-    		
-    		var result = -1;
-    		
-    		targetUL.find("li").each(function(i, obj){
-    			
-    			var idx = obj.getAttribute("data-idx");
-    			
-    			//console.log('==============================' + i);
-    			//console.log(idx +"::::::::::::::::::" + targetLi.attr("data-idx"));
-    			
-    			if(targetLi.attr("data-idx") == idx){
-    				//console.log("if.................")
-    				result = i;
-    			}
-    		
-    		});
-    		return result;
-    		
-    	}
-    	
-    	
-    	var targetDay = courseObject[targetUL.attr("id")];
-    	//console.log(targetDay);
-    	
-    	var originDay = courseObject[originUL.attr("id")];
-    	//console.log(originDay);
-    	
-    	var targetPoint = courseObject.findPoint(targetLi.attr("data-day"), targetLi.attr("data-idx"));
-    	
-    	console.log("----------------------------------------refreshcourse start ----------------------------------------");
-    	console.log(targetPoint);
-    	
-    	var targetToDataIndex = findULPositionIdx();
-    	console.log("targetToDataIndex: "+targetToDataIndex);
-    	
-    	//console.log("targetArrayIndex==============================");
-  	
-    	
-    	
-    	var targetULId = targetUL.attr("id");
-
-    	console.log("targetULId : " + targetULId);
-    	
-    	/* if(!same){
-    		courseObject.remove(targetLi.attr("data-day"), targetLi.attr("data-idx"), same);
-    		courseObject[targetULId].jsons[targetToDataIndex] = targetPoint.json;
-        	courseObject[targetULId].markers[targetToDataIndex] = targetPoint.marker;
-        	courseObject[targetULId].li[targetToDataIndex] = targetPoint.li;        	
-    	}else{ */
-    		courseObject.remove(targetLi.attr("data-day"), targetLi.attr("data-idx"), same);
-    		courseObject[targetULId].jsons.splice(targetToDataIndex, 0, targetPoint.json)
-        	courseObject[targetULId].markers.splice(targetToDataIndex, 0, targetPoint.marker)
-        	courseObject[targetULId].li.splice(targetToDataIndex, 0, targetPoint.li)
-    	//}
-    	
-     	    	
-    	
-    	console.dir(courseObject);
-    	console.log("targetTripDay: " + targetTripDay);
-    	
-    	console.log("----------------------------------------refreshcourse end ----------------------------------------");
-    	
-    	drawPath(courseObject[targetTripDay].markers)
-    	
-    	
-    }
-    
-
-    		
-
+        //console.log("1-------------------------------");
+        //console.log(courseObject)
+        drawPath(courseObject['day0'].markers);
+        readyCourseDiv();
         
-     $(".add-bar").on("click", function (e) {
-     		
-		var idx = $(".course.box").length;
-		
-		console.log("idx: " + idx);
-		
-    	var addHtml = "<div class=\"course box\" data-cno='" + idx + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>" +
-        "</div><ul id='day" + idx + "' class=\"sortable droptrue\"></ul ></div>"
+   });
 
-        var btnHtml = "<button id='dayBtn" + (idx+1) + "' data-day='day"+ idx  +"'  class=\"date_tab\">Day" + (idx+1) + "</button>";
-        
-        $(".date_tabs").append(btnHtml);
-        $(this).before(addHtml);
-        
-    	courseObject['day'+ idx]= {};
-    	courseObject['day'+ idx]['jsons'] = [];
-    	courseObject['day'+ idx]['markers'] = [];
-    	courseObject['day'+ idx]['li'] = [];
-    	
-    	sortDayList();
+	function readyCourseDiv() {
 
-     });
-     
-     var field = $('.field');
-     
-     field.blur(function() {
-    	 
-     	var newTitle = $(this).val();
-     	console.log(newTitle);
-     	field.css({"background-color": "#1C63A2", "color" : "white"});
-     	field.toggleClass("blurred");
-     	field.on("click", function(e){
-     		field.css({"background-color": "white", "color" : "black"});
-     	});
-     	
-     		
-     	
-/*      	firebase.database().ref('/courses/' + fixedkey).child("untitled").update(newTitle);  */
-     });
+		console.log("readyCourseDiv");
 
-     var targetTripDay = "day0";
-     
-     $(".date_tabs").on("click", "button",  function (e) {
-    	 
-    	 $(".date_tab").removeClass("active");
-         $(e.target).addClass("active");
-    	 
-    	 targetTripDay = $(this).attr("data-day");
-    	 
-    	 //console.log("targetDay: " + targetDay);
-    	 $(".course-sort ul").attr("id", targetTripDay);
-    	 
-    	 console.log($(".course-sort ul").attr("id"));
-    	 drawPath(courseObject[targetTripDay].markers);
-    	 drawSidebarList();
-    	 $(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
-     });
-     
-     var poly = null;
-     var mapExistMarkers = [];
-  		
-   	
-     function drawPath(markerArr) {
-    	 
-    	 clearMap();
-         
-         poly = new google.maps.Polyline({ //선분 모양 설정
-             strokeColor : '#000000',
-             strokeOpacity : 1.0,
-             strokeWeight : 3
-         });
-         
-        
-        // console.log("drawPath:   " + mapExistMarkers.length);
-         mapExistMarkers = markerArr;
-         
-         for (var i = 0; i < markerArr.length; i++) {         
-             poly.getPath().push(markerArr[i].position);
-             markerArr[i].setMap(map);
-             
-         }       
-         poly.setMap(map);
-     }   
-     
-	function clearMap(){
-		
-		for(var i = 0; i <mapExistMarkers.length; i++  ){
-			mapExistMarkers[i].setMap(null);
-			
-		}
-		
-		if(poly){
-			
-			//console.log("-------------------------------------");
-			
-			poly.setMap(null);
-   		 
-   	 	}
-		mapExistMarkers = [];
-		
+		var str = "";
+		$(".course-sort")
+				.each(function(idx, obj) {
+							var targetJsons = courseObject['day' + [ idx ]]['jsons'];
+							var str = "<ul id='day0' class='sortable dropthelist'>";
+
+							for (var i = 0; i < targetJsons.length; i++) {
+								str += "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"
+										+ targetJsons[i].title
+										+ "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
+							}
+							str += "</ul>";
+
+							obj.innerHTML = str;
+
+						})
+
+		$(".course.box")
+				.each(
+						function(idx, obj) {
+
+							var targetJsons = courseObject['day' + [ idx ]]['jsons'];
+
+							var str = "<div class='date_detail'><h1>12월 21일 금요일</h1></div><ul id='day0' class='sortable droptrue'>";
+
+							for (var i = 0; i < targetJsons.length; i++) {
+
+								str += "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"
+										+ targetJsons[i].title
+										+ "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
+							}
+
+							str += "</ul>";
+
+							obj.innerHTML = str;
+							sortDayList();
+
+						})
+
 	}
-    
+
+	$('.toggle-nav').on('click', function() {
+		toggleNavigation($(this), $('.nav-pane'));
+	});
+
+	function toggleNavigation(btn, nav) {
+		btn.toggleClass('open');
+		nav.toggleClass('open');
+	}
+
+	function sortDayList() {
+	       
+	       var originUL;
+	       var targetLi;
+	       var targetUL;
+	       var originListUL;
+	       var targetListLi;
+	       var targetListUL;
+	       
+	       $("ul.dropthelist").sortable({
+	           start: function(event, ui){
+	               originListUL = $("#" + event.target.id);
+	               targetListLi = ui.item;
+	            
+	           },
+	           update: function(event, ui){
+	                
+	                targetListUL = $(event.target);
+	                console.log(targetListUL);
+	                //console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
+	            
+	                console.dir(originListUL[0].innerHTML);
+	                console.log("this : " + event.target.innerHTML);
+	                
+	                originListUL[0].innerHTML = event.target.innerHTML;
+	                refreshCourseObject(targetListUL, originListUL, targetListLi, targetListUL.attr("id") == originListUL.attr("id") );
+	                    //drawSidebarList();
+	                updateCourse(fixedkey, title);
+	                    
+	           }
+	               
+	       })
+		$("ul.droptrue")
+				.sortable(
+						{
+							connectWith : "ul",
+
+							start : function(event, ui) {
+								console.log("start");
+
+								originUL = $("#" + event.target.id);
+								targetLi = ui.item;
+
+							},
+							receive : function(event, ui) {
+								//console.log("receive");
+
+								targetUL = $("#" + event.target.id);
+
+								//console.log("target.......................")
+								//console.log(targetUL.html());
+								//console.log("orgin........................")
+								//console.log(originUL.html());
+
+								refreshCourseObject(targetUL, originUL,
+										targetLi);
+								drawSidebarList(targetTripDay);
+
+								targetLi.attr("data-day", targetUL.attr("id")
+										.substring(3));
+								$(".course-sort ul li").attr("data-day",
+										targetTripDay.substring(3));
+								updateCourse(fixedkey, title);
+							},
+							update : function(event, ui) {
+
+								//console.log("update............");
+
+								targetUL = $("#" + event.target.id);
+
+								//console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
+
+								if (targetUL.attr("id") == originUL.attr("id")) {
+
+									refreshCourseObject(targetUL, originUL,
+											targetLi,
+											targetUL.attr("id") == originUL
+													.attr("id"));
+									drawSidebarList(targetTripDay);
+
+									$(".course-sort ul li").attr("data-day",
+											targetTripDay.substring(3));
+								}
+								updateCourse(fixedkey, title);
+							}
+						});
+		$(".sortable").disableSelection();
+
+	}
+
+	function drawSidebarList() {
+		console.log("drawSidebar.................")
+		var str = "";
+		for (var i = 0; i < courseObject[targetTripDay].li.length; i++) {
+
+			str += courseObject[targetTripDay].li[i];
+		}
+
+		$(".course-sort ul").html(str);
+	}
+
+	function refreshCourseObject(targetUL, originUL, targetLi, same) {
+
+		function findULPositionIdx() {
+
+			var result = -1;
+
+			targetUL.find("li").each(function(i, obj) {
+
+				var idx = obj.getAttribute("data-idx");
+
+				//console.log('==============================' + i);
+				//console.log(idx +"::::::::::::::::::" + targetLi.attr("data-idx"));
+
+				if (targetLi.attr("data-idx") == idx) {
+					//console.log("if.................")
+					result = i;
+				}
+
+			});
+			return result;
+
+		}
+
+		var targetDay = courseObject[targetUL.attr("id")];
+		//console.log(targetDay);
+
+		var originDay = courseObject[originUL.attr("id")];
+		//console.log(originDay);
+
+		var targetPoint = courseObject.findPoint(targetLi.attr("data-day"),
+				targetLi.attr("data-idx"));
+
+		console
+				.log("----------------------------------------refreshcourse start ----------------------------------------");
+		console.log(targetPoint);
+
+		var targetToDataIndex = findULPositionIdx();
+		console.log("targetToDataIndex: " + targetToDataIndex);
+
+		//console.log("targetArrayIndex==============================");
+
+		var targetULId = targetUL.attr("id");
+
+		console.log("targetULId : " + targetULId);
+
+		/* if(!same){
+			courseObject.remove(targetLi.attr("data-day"), targetLi.attr("data-idx"), same);
+			courseObject[targetULId].jsons[targetToDataIndex] = targetPoint.json;
+			courseObject[targetULId].markers[targetToDataIndex] = targetPoint.marker;
+			courseObject[targetULId].li[targetToDataIndex] = targetPoint.li;        	
+		}else{ */
+		courseObject.remove(targetLi.attr("data-day"), targetLi
+				.attr("data-idx"), same);
+		courseObject[targetULId].jsons.splice(targetToDataIndex, 0,
+				targetPoint.json)
+		courseObject[targetULId].markers.splice(targetToDataIndex, 0,
+				targetPoint.marker)
+		courseObject[targetULId].li
+				.splice(targetToDataIndex, 0, targetPoint.li)
+		//}
+
+		console.dir(courseObject);
+		console.log("targetTripDay: " + targetTripDay);
+
+		console
+				.log("----------------------------------------refreshcourse end ----------------------------------------");
+
+		drawPath(courseObject[targetTripDay].markers)
+
+	}
+
+	$(".sortable").sortable({
+		update : function() {
+
+			console.log("sortable....");
+
+		}
+	});
+
+	$(".add-bar")
+			.on(
+					"click",
+					function(e) {
+
+						var idx = $(".course.box").length;
+
+						console.log("idx: " + idx);
+
+						var addHtml = "<div class=\"course box\" data-cno='" + idx + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>"
+								+ "</div><ul id='day" + idx + "' class=\"sortable droptrue\"></ul ></div>"
+
+						var btnHtml = "<button id='dayBtn" + (idx + 1)
+								+ "' data-day='day" + idx
+								+ "'  class=\"date_tab\">Day" + (idx + 1)
+								+ "</button>";
+
+						$(".date_tabs").append(btnHtml);
+						$(this).before(addHtml);
+
+						courseObject['day' + idx] = {};
+						courseObject['day' + idx]['jsons'] = [];
+						courseObject['day' + idx]['markers'] = [];
+						courseObject['day' + idx]['li'] = [];
+
+						sortDayList();
+						updateCourse(fixedkey, title);
+					});
+
+	var field = $('.field');
+
+	field.blur(function() {
+		var newTitle = $(this).val();
+		title = newTitle;
+		firebase.database().ref('/courses/' + fixedkey).set(title);
+		updateCourse(fixedkey, title);
+		field.css({
+			"background-color" : "#1C63A2",
+			"color" : "white"
+		});
+		field.toggleClass("blurred");
+		field.on("click", function(e) {
+			field.css({
+				"background-color" : "white",
+				"color" : "black"
+			});
+		});
+
+	});
+
+	var targetTripDay = "day0";
+
+	$(".date_tabs").on("click", "button", function(e) {
+
+		$(".date_tab").removeClass("active");
+		$(e.target).addClass("active");
+
+		targetTripDay = $(this).attr("data-day");
+		var currentDay = $(this)[0].innerText;
+		$("#tab1").html(currentDay);
+		//console.log("targetDay: " + targetDay);
+		$(".course-sort ul").attr("id", targetTripDay);
+
+		console.log($(".course-sort ul").attr("id"));
+		drawPath(courseObject[targetTripDay].markers);
+		drawSidebarList(targetTripDay);
+		$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
+	});
+
+	var poly = null;
+	var mapExistMarkers = [];
+
+	function drawPath(markerArr) {
+
+		clearMap();
+
+		poly = new google.maps.Polyline({ //선분 모양 설정
+			strokeColor : '#000000',
+			strokeOpacity : 1.0,
+			strokeWeight : 3
+		});
+
+		// console.log("drawPath:   " + mapExistMarkers.length);
+		mapExistMarkers = markerArr;
+
+		for (var i = 0; i < markerArr.length; i++) {
+			poly.getPath().push(markerArr[i].position);
+			markerArr[i].setMap(map);
+
+		}
+		poly.setMap(map);
+	}
+
+	function clearMap() {
+
+		for (var i = 0; i < mapExistMarkers.length; i++) {
+			mapExistMarkers[i].setMap(null);
+			console.log("clear marker");
+		}
+
+		if (poly) {
+
+			//console.log("-------------------------------------");
+
+			poly.setMap(null);
+
+		}
+		mapExistMarkers = [];
+
+	}
+
 	selectTab();
-	
+
 	function selectTab() {
-        $('.tab_content>div:not(":first-of-type")').hide();
+		$('.tab_content>div:not(":first-of-type")').hide();
 
-        $('.tabs div').each(function (i) {
-            $(this).attr('data-tab', 'tab' + i);
-        });
+		$('.tabs div').each(function(i) {
+			$(this).attr('data-tab', 'tab' + i);
+		});
 
-        $('.tab_content>div').each(function (i) {
-            $(this).attr('data-tab', 'tab' + i);
-        });
+		$('.tab_content>div').each(function(i) {
+			$(this).attr('data-tab', 'tab' + i);
+		});
 
-        $('.tabs div').on('click', function () {
-            var dataTab = $(this).data('tab');
-            var getWrapper = $(this).closest('.right-box');
-            /*
-                        getWrapper.find('.tabs div').removeClass('active');
-                        $(this).addClass('active');*/
-            /*
-                        getWrapper.find('.line').width(0);
-                        line.animate({'width':'100%'}, 'fast');*/
-            getWrapper.find('.tab_content>div').hide();
-            getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
-        });
+		$('.tabs div').on(
+				'click',
+				function() {
+					var dataTab = $(this).data('tab');
+					var getWrapper = $(this).closest('.right-box');
+					getWrapper.find('.tabs div').removeClass('active');
+					$(this).addClass('active');
 
+					/* getWrapper.find('.line').width(0);
+					line.animate({'width':'100%'}, 'fast'); */
 
-    }
+					getWrapper.find('.tab_content>div').hide();
+					getWrapper.find(
+							'.tab_content>div[data-tab=' + dataTab + ']')
+							.show();
+				});
+
+	}
+
+	deleteContents();
+
+	function deleteContents() {
+
+		$('.delete-btn').on(
+				'click',
+				function() {
+					var idx = $(".course.box").length - 1;
+					var deletedDiv = $('div[data-cno="' + idx + '"]');
+					var deletedLi = $('div[data-cno="' + idx + '"] ul li');
+					var deletedBtn = $('button[data-day="day' + idx + '"]');
+					var deletedIdx = [];
+					if ($('#dayBtn' + (idx + 1)).hasClass("active")) {
+						$('.date_tab').removeClass("active");
+						$('#dayBtn' + idx).addClass("active");
+						drawSidebarList("day" + (idx - 1));
+						$("#tab1").html('Day' + idx);
+					}
+					deletedDiv.remove();
+					deletedBtn.remove();
+
+					for (var i = 0; i < deletedLi.length; i++) {
+						courseObject.remove(idx, deletedLi[i]
+								.getAttribute("data-idx"));
+					}
+
+					updateCourse(fixedkey, title);
+				});
+
+		$(document)
+				.on(
+						"click",
+						".delete-bar",
+						function(e) {
+							var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
+							var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
+							var targetLi = $('.course #day' + targetDay
+									+ ' li[data-idx="' + targetIdx + '"]');
+							var targetListLi = $('.course-sort #day'
+									+ targetDay + ' li[data-idx="' + targetIdx
+									+ '"]');
+
+							for (var i = 0; i < courseObject['day' + targetDay].markers.length; i++) {
+								courseObject['day' + targetDay].markers[i]
+										.setMap(null);
+							}
+							courseObject.remove(targetDay, targetIdx);
+
+							targetLi.remove();
+							targetListLi.remove();
+
+							drawPath(courseObject['day' + targetDay].markers);
+							updateCourse(fixedkey, title);
+						});
+
+	}
+
+	var infoWin = $('.info-pane');
+	var currentMarker;
+
+	function toggleInfoWin(marker) {
+		marker
+				.addListener(
+						'click',
+						function(e) {
+							currentMarker == marker ? infoWin
+									.toggleClass("open") : infoWin
+									.addClass('open');
+							currentMarker = marker;
+							console.dir(marker.myPos.pno);
+							$(".info-pane .info-title")
+									.html(marker.myPos.title)
+							$(".info-pane .info-img")
+									.html(
+											"<img src='" + marker.myPos.img + "' width='300'>")
+							$
+									.ajax({
+										type : 'get',
+										url : '/pointboard/readBlog',
+										data : {
+											title : marker.myPos.title
+										},
+										success : function(obj) {
+
+											var str = "";
+											str += "<ul>";
+											for (var i = 0; i < 2; i++) {
+												str += "<a href='"+obj[i].link+"'class='blog_content' target='_blank'>"
+														+ "<div class='blog_title'>"
+														+ obj[i].title
+														+ "</div>"
+														+ obj[i].description
+														+ "<div class='blog_postdate'>"
+														+ obj[i].postdate
+														+ "</div>" + "</a>";
+											}
+											;
+											str += "</ul>";
+											$(".blog_list").html(str);
+
+										}
+									});
+						});
+	}
+
+	function updateCourse(key, title, callback) {
+		var newCourse = [];
+		/* firebase.database().ref('courses/' + key).set(title); */
+		for (var i = 0; i < $(".course.box").length; i++) {
+			newCourse = courseObject['day' + i].jsons;
+			firebase.database()
+					.ref('courses/' + key + '/' + title + '/day' + i).set(
+							newCourse);
+			console.log("====================================================")
+			console.log('path : courses/' + key + '/' + title + '/day' + i);
+			console.log(newCourse);
+			console.log("====================================================")
+		}
+	}
+
+	$("#map").on(
+			"mousedown",
+			function(e) {
+				infoWin.hasClass("open") ? infoWin.removeClass("open") : e
+						.preventDefault();
+				console.log("middle-box mousedown")
+			});
+
+	$(".courses").on(
+			"click",
+			function(e) {
+				var length = $(".course.box").length;
+				e.clientX > 100 + (255 * length) && e.clientY > 170 ? $(
+						".nav-pane").removeClass("open") : e.preventDefault();
+				console.log(e.clientY)
+				console.log(130 + 255 * length)
+			});
+
+	toggleSearchWin();
+
+	function toggleSearchWin() {
+		$('.search-button').on('click', function() {
+			$(this).parent().toggleClass('open');
+		});
+	}
+
+	function display(data) {
+		$("#tags").autocomplete({
+			source : data,
+			focus : function(event, ui) {
+				return false;
+			},
+			select : function(event, ui) {
+				console.log(ui.item);
+				$("#tags").val(ui.item.value);
+			}
+		/* _renderItem: function( ul, item ) {
+			return $( "<li>" )
+		    .attr( "data-value", item.value )
+		    .append( item.label )
+		    .appendTo( ul );
+		} */
+
+		});
+	}
+
+	searchService.autoComplete(function(result) {
+		display(result);
+	});
 	
-deletePoints();
-    
-    function deletePoints(){
-        $(document).on("click", ".delete-bar", function(e){
-           var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
-           var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
-           var targetLi = $('.course #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
-           var targetListLi = $('.course-sort #day' + targetDay + ' li[data-idx="' + targetIdx + '"]');
-           
-           for(var i = 0; i < courseObject['day' + targetDay].markers.length; i++){
-               courseObject['day' + targetDay].markers[i].setMap(null);
-           }
-           courseObject.remove(targetDay, targetIdx);
-           
-           targetLi.remove();
-           targetListLi.remove();
-           
-           drawPath(courseObject['day' + targetDay].markers);
-       });
-
-    }
 	
+	function addMarkerEvent(marker){
+	       
+	       google.maps.event.addListener(marker, "click", function() {
+	           
+	                    var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
+	                    courseObject[targetTripDay]['markers'].push(marker);
+	                    courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
+	                    courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
+	           
+	                   drawPath(courseObject[targetTripDay].markers);
+	                    drawSidebarList();
+	                    console.log("recommendObject marker clicked....")
+	                    var str = "";
+	                    for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
+	                        
+	                        str += courseObject[targetTripDay].li[i];
+	                    }
+	                    
+	                    $("ul.droptrue").html(str);
 
+	               }
+	       );
+	   }
+	
+	function checkDupl(courseObject) {
+        
+        var markers = courseObject['day0'].markers;
+        var reMarkers = recommendObject['day0'].markers;
+        var result = reMarkers.filter(m => {
+            
+            var check = true;
+            
+            for(var i = 0; i < markers.length; i++){
+                
+                if( parseInt(markers[i].myPos.pno) == parseInt(m.myPos.pno)){
+                    
+                    
+                    var clickedIdx = reMarkers.findIndex(x => x === m);
+                    
+                    if (clickedIdx != -1) {
+                        recommendObject['day0']['li'].splice(clickedIdx, 1);
+                        recommendObject['day0']['jsons'].splice(clickedIdx, 1);
+                        //console.log(recommendObject['day0']['li']);
+                    }
+                    check = false;
+                }
+            }
+            //console.log(reMarkers.indexOf(rePno[0]))
+            return check;
+        })    
+        
+        recommendObject['day0'].markers = result;
+        
+     }
+	
+	
+	
+	
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
 </body>

@@ -68,6 +68,15 @@
 		limit 0, 30 
 	</select>
 	
+		<select id="getList2" resultType="org.honeyrock.domain.PointVO">
+		select
+		*
+		from
+		tbl_point
+		order by pno desc 
+		limit 0, 20 
+	</select>
+	
 	<sql id="category">
 		<if test="category != null">
 			<if test="category == 'S'.toString()">

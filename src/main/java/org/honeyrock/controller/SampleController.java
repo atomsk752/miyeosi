@@ -57,6 +57,8 @@ public class SampleController {
 	@GetMapping("/simple")
 	public void simple(Model model) {
 		model.addAttribute("List", searchService.getList());
+		
+		model.addAttribute("List2", searchService.getList2());
 	}
 	
 	@GetMapping("/login")
