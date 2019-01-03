@@ -11,4 +11,7 @@
 		<!-- insert into tbl_Course (coursekey, usermail) values(#{coursekey}, #{usermail}) 유저메일 적용하면 바꿈 -->
 	</insert>
 	
+	<insert id="starInsert" parameterType="org.honeyrock.domain.CourseRatingVO">
+		insert into tbl_course_rating (coursekey, usermail, userrating) values (#{coursekey}, #{usermail}, #{userrating});
+	</insert>
 </mapper>

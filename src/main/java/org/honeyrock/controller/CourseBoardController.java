@@ -32,7 +32,6 @@ public class CourseBoardController {
 
 	}
 
-
 	@PostMapping("/modify")
 	public String modifyPOST(CourseBoardVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		

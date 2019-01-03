@@ -17,7 +17,19 @@
 	<!-- <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script> -->
 
 </th:block>
-
+<!-- facebook share -->
+	<meta property="og:url"
+		content="https://www.your-domain.com/your-page.html" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Your Website Title" />
+	<meta property="og:description" content="Your description" />
+	<meta property="og:image"
+		content="https://www.your-domain.com/path/image.jpg" />
+<!-- naver share -->
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+	
 <div layout:fragment="content">
 
     <!-- Home -->
@@ -133,7 +145,26 @@
                                 <div class="col-lg-11">
                                     <div class="offers_content">
                                         <div class="offers_price" th:text="${detail.coursetitle}"><span th:text="${#dates.format(detail.regdate, 'yyyy-MM-dd HH:mm')}"></span></div>
-
+                                        		
+                                        		<!-- rating -->
+                                        		<div class="starDiv">
+												<span class="star-input">
+												  <span class="input">
+												    <input type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
+												    <input type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
+												    <input type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
+												    <input type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
+												    <input type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
+												    <input type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
+												    <input type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>
+												    <input type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
+												    <input type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>
+												    <input type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
+												  </span>
+												  <output for="star-input"><b>0</b>점</output>
+												</span>
+												</div>
+												<!-- rating end -->
 
                                         <div class="read_descs">
 
@@ -165,6 +196,22 @@
 															<div class="date">2015.08.01 (토)</div>
 															<div class="day_title">뭐넣지</div>
 														</div>
+														
+														<!-- share button -->
+														<div class="shareBtn">
+															<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+															
+															<div class="fb-share-button" data-href="http://10.10.10.91:8080/courseboard/read?coursebno=10"
+																data-layout="button" data-size="large" data-mobile-iframe="true">
+																<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8080%2Fcourseboard%2Fread%3Fpage%3D1%26display%3D10%26type%26keyword%26coursebno%3D10&amp;src=sdkpreparse"
+																class="fb-xfbml-parse-ignore">공유하기</a></div>
+															
+															<a href="javascript:;" id="kakao-link-btn">
+																<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" />
+															</a>
+														</div>
+														<!-- share button end -->
+														
 														<div class="day_info_right" style="display: none;"></div>
 														<div class="clear"></div>
 													</div>
@@ -173,8 +220,7 @@
 												<div id="pointList">
 													
 												</div>
-												
-												
+
 	<!-- 											<div class="day_sch_box" data-id="1-1">
 														<div class="day_sch_num">
 															<div class="sch_num">1</div>
@@ -292,10 +338,6 @@
 	<form id="tabForm">
 	</form>
 </div>
-   	
-    
-
-
 
 <th:block layout:fragment="script">
 
@@ -308,12 +350,118 @@
     <script src="../plugins/scrollmagic/ScrollMagic.min.js"></script>
     <script src="../plugins/greensock/animation.gsap.min.js"></script>
     <script src="../plugins/greensock/ScrollToPlugin.min.js"></script>
-    <!-- <script src="../plu gins/OwlCarousel2-2.2.1/owl.carousel.js"></script> -->
+    <!-- <script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script> -->
     <script type="text/javascript" src="https://www.earthtory.com/res/js/js/jquery-latest.min.js"></script>
     <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script>
     <script src="../js/read_custom.js"></script>
     
     <script src="../js/fb.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	
+	<!-- facebook shared -->
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+		 	if (d.getElementById(id)) return;
+	 		js = d.createElement(s); js.id = id;
+		 	js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.2';
+		 	fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	
+	<!-- kakao shared -->
+	<script type="text/javascript">
+  //<![CDATA[
+    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('4bd54a12e70b615cf1c7e6066275d6f6');
+    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+    Kakao.Link.createDefaultButton({
+      container: '#kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: document.title,
+        description: '여행코스 공유',
+        imageUrl: document.images[0].src,
+        link: {
+          webUrl: document.location.href,
+          mobileWebUrl: document.location.href
+        }
+      },
+      /* social: {
+        likeCount: 286,
+        commentCount: 45,
+        sharedCount: 845
+      }, */
+      buttons: [
+        {
+          title: '링크 열기',
+          link: {
+            mobileWebUrl: document.location.href,
+            webUrl: document.location.href
+          }
+        }  
+      ]
+    });
+  //]]>
+</script>
+
+<!-- twitter shared -->
+<script>
+function share_tw(){
+	  var content = "트윗트윗\r\n\r\n";
+	  var link = "http://10.10.10.91:8080/courseboard/read?coursebno="+coursebno;
+	  var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";
+	  var wp = window.open("http://twitter.com/share?url=" + encodeURIComponent(link) + "&text=" + encodeURIComponent(content), 'twitter', popOption);
+	  if ( wp ) {
+	    wp.focus();
+	  }    
+	}
+</script>
+	
+	<script th:inline="javascript">
+	
+	// star rating
+	var starRating = function(){
+	  var star = $(".star-input"),
+	      result = star.find("output>b");
+	  $(document)
+	    .on("focusin", ".star-input>.input", function(){
+	    $(this).addClass("focus");
+	  })
+	    .on("focusout", ".star-input>.input", function(){
+	    setTimeout(function(){
+	      if($(this).find(":focus").length === 0){
+	    	  $(this).removeClass("focus");
+	      }
+	    }, 100);
+	  })
+	    .on("change", ".star-input :radio", function(){
+	    result.text($(this).next().text());
+	  })
+	    .on("mouseover", ".star-input label", function(){
+	    result.text($(this).text());
+	  })
+	    .on("mouseleave", ".star-input>.input", function(){
+	    var checked = star.find(":checked");
+	    if(checked.length === 0){
+	      result.text("0");
+	    } else {
+	      result.text(checked.next().text());
+	    }
+	  });
+	  
+	  $(".input label").on("click", function(){
+		  var rating = result[0].innerText;
+		  /* console.log(result); */
+		  console.log(rating);
+	  });
+	  
+	};
+	starRating();
+	
+	</script>
 
     <script th:inline="javascript">
     

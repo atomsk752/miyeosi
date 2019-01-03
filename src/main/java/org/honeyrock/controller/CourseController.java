@@ -1,10 +1,14 @@
 package org.honeyrock.controller;
 
+import java.util.List;
+
+import org.honeyrock.domain.CourseRatingVO;
 import org.honeyrock.domain.CourseVO;
 import org.honeyrock.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,8 +34,24 @@ public class CourseController {
 		return insertCount == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-				
-		
 	}
-
+	
+	/*@PostMapping("/{coursekey}")
+	public ResponseEntity<List<CourseRatingVO>> addRating(
+			@PathVariable("coursekey")String coursekey,
+			@PathVariable("usermail")String usermail,
+			@RequestBody CourseRatingVO rating){
+		
+		log.info("addRating......");
+		log.info("coursekey: "+ coursekey);
+		log.info("usermail: "+ usermail);
+		log.info("rating: "+ rating);
+		
+		CourseVO course = new CourseVO();
+		course.setCoursekey(coursekey);
+		course.setUsermail(usermail);
+		
+		return null;
+		
+	}*/
 }
