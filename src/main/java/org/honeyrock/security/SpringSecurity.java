@@ -42,7 +42,7 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	{
 		log.info("security");
 		http.authorizeRequests()
-				.antMatchers("/index","/**/list","/**/read").permitAll() // 권한없이 들어갈 페이지
+				.antMatchers("/index","/**/list","/**/read","/map").permitAll() // 권한없이 들어갈 페이지
 				.antMatchers("/**/register","/**/modify","/**/delete").hasRole("MEMBER") //권한이 필요한 페이지 추가
 				.and()
 			.formLogin()
