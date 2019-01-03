@@ -47,7 +47,7 @@ public class SearchController {
 		
 	}
 	
-	@PostMapping("/autocomplete")
+	@GetMapping("/autocomplete")
 	@ResponseBody
 	public ResponseEntity<String[]> autoComplete() {
 		log.info("autocomplete");
@@ -65,5 +65,7 @@ public class SearchController {
 		
 		return new ResponseEntity<>(service.searchPoint(keyword),HttpStatus.OK);
 	}
+	
+	
 
 }

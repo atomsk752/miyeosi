@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>MIYEOSI</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="Travelix Project">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
+<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../styles/login_style.css">
+<script type="text/javascript" src="../js/component.js"></script>
+<style>
+form .inputGroup {
+  margin: 0 0 1.2em;
+  padding: 0;
+  position: relative;
+}
+form input[type="username"],
+form input[type="text"],
+form input[type="password"] {
+  display: block;
+  margin: 0;
+  padding: 0 1em 0;
+  background-color: #f3fafd;
+  border: solid 2px #217093;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 45px;
+  font-size: 1.1em;
+  color: #353538;
+  font-weight: 600;
+  font-family: inherit;
+  transition: box-shadow 0.2s linear, border-color 0.25s ease-out;
+}
+form input[type="username"],
+form input[type="text"] {
+  /* padding: 14px 1em 0px; */
+}
+.radio_box{height:30px;}
+form label[for="Age"],
+form label[for="Sex"]{
+    display: inline-block;
+}
+.custom-select {
+    margin-left: 25px;
+    background-color: #f3fafd;
+    border: solid 2px #217093;
+  	border-radius: 4px;
+  	box-sizing: border-box;
+  	/* overflow: scroll; */
+}
+.half{
+	width: 50%;
+	float: left;
+}
+form .inputGroup5{
+	margin-bottom: 4.5em;
+}
+</style>
+<body>
+
+	<form action="/login/signup" method="post" id="login_form" name="login_form">
+		<div class="inputGroup inputGroup1">
+			<label for="Name">Name</label>
+			<input type="text" id="username" class="username" maxlength="256"/>
+		</div>
+		<div class="inputGroup inputGroup2">
+			<label for="Email">Email</label>
+			<input type="text" id="usermail" class="usermail" maxlength="256" th:value="${vo.usermail}" onKeyUp="check_mail();"/>
+		</div>
+		<div class="inputGroup inputGroup3">
+			<label for="Password">Password</label>
+			<input type="password" id="userpw" class="userpw" placeholder="(6자 ~ 20자)" onKeyUp="check_pw();"/>
+		</div>
+		<div class="inputGroup inputGroup4">
+			<label for="Nickname">Nickname</label>
+			<input type="text" id="usernick" class="usernick" maxlength="256" th:value="${vo.usernick}"/>
+		</div>
+		<div class="inputGroup inputGroup5">
+			<div class="half">
+				<label for="Age">Age</label>
+				<!-- <input type="text" class="userage" maxlength="256"/> -->
+				<select class="custom-select" id="userage">
+				    <th:block th:each="num: ${#numbers.sequence(10,40)}">
+			        	<option th:value="${num}">[[${num}]]</option>
+			    	</th:block>
+				</select>
+			</div>
+			<div class="half">
+				<label for="Age">Sex</label>
+				<!-- <input type="text" class="userage" maxlength="256"/> -->
+				<select class="custom-select" id="gender">
+		        	<option th:value="male">남</option>
+		        	<option th:value="female">여</option>
+				</select>
+			</div>
+		</div>
+		<div class="inputGroup inputGroup3">
+			<button id="signup">sign up</button>
+		</div>	
+		<div class="inputGroup inputGroup3">
+			<a href="/login/customLogin"><label>Login now!</label></a>
+		</div>	
+	</form>
+	
+	<form id="actionForm" style="display: none;">
+		<input type ="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+	</form>
+		
+<script
+	src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+<script>
+	
+	function na_login(){
+		location.href='https://nid.naver.com/oauth2.0/authorize?client_id=LDp9BYkvyaslYqUOz1h5&response_type=code&redirect_uri=http://localhost:8080/naverlogin';
+	}
+	
+	function kk_login(){
+		location.href='https://kauth.kakao.com/oauth/authorize?client_id=56be861a71206f778fd48e53ee4c4623&redirect_uri=http://localhost:8080/kakaologin&response_type=code&scope=account_email,age_range,birthday,gender';
+	}
+	
+	function gg_login(){
+		location.href=('https://accounts.google.com/o/oauth2/auth?client_id=392762300432-eq62skbdmkuve2p72cmf661mt7daho73.apps.googleusercontent.com&redirect_uri=http://localhost:8080/googlelogin&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/plus.me');
+	}
+	
+	function fb_login(){
+		location.href=('https://www.facebook.com/v3.2/dialog/oauth?client_id=470771946780386&redirect_uri=http://localhost:8080/facebooklogin&response_type=code&scope=public_profile,user_age_range,user_gender,user_birthday');
+	}
+	
+	// 이메일 형식 체크
+	function check_mail(){
+		var bol = true;
+		var exptext = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+		if (exptext.test($('#usermail').val())!=true){
+			$('#usermail').addClass('check');
+			$('#usermail').attr('data-check','1');
+		}else{
+			$('#usermail').removeClass('check');
+			$('#usermail').attr('data-check','0');
+		}
+		return bol;     // bol 값을 반환 . 이메일 형식이 아니면 false
+	}
+
+	// 비밀번호 6자리이상 체크
+	function check_pw(){
+		var pw = $('#userpw').val();
+		if(pw.length < 6){
+			$('#userpw').addClass('check');
+			$('#userpw').attr('data-check','1');
+		}else{
+			$('#userpw').removeClass('check');
+			$('#userpw').attr('data-check','0');
+		}
+	}
+	
+	// 바꾼다
+	$(document).ready(function() {
+				
+		var actionForm = $("#actionForm");
+		var signupBtn = $("#signup");
+		var username = $("#username");
+		var usermail = $("#usermail");
+		var userpw = $("#userpw");
+		var usernick = $("#usernick");
+		var userage = $("#userage");
+		var usersex = $("#gender");
+		
+		
+		$('.radio').click(function(){
+			var _this = $(this).attr('data-val');
+			$('#gender').val(_this);
+		});
+		
+		signupBtn.on("click", function(e){
+			e.preventDefault();
+			
+			if($('#username').val() == ''){
+				alert('이름은 필수입력사항입니다.');//"이름"은 필수 정보입니다.');
+				$('#username').focus();
+			}else if($('#usermail').val() == ''){
+				alert('이메일주소는 필수입니다.');//"이메일"은 필수 정보입니다.');
+				$('#usermail').focus();
+			}else if($('#usermail').attr('data-check') == '1'){
+				alert('잘못된 이메일 형식입니다.');//잘못된 이메일 형식입니다.');
+				$('#usermail').focus();
+			}else if($('#userpw').val() == ''){
+				alert('비밀번호는 필수정보입니다.');//"비밀번호"는 필수 정보입니다.');
+				$('#userpw').focus();
+			}else if($('#userpw').attr('data-check') == '1'){
+				alert('비밀번호는 6자 이상이어야 합니다.');//비밀번호는 6자 이상이어야 합니다.');
+				$('#userpw').focus();
+			}else if($('#r_gender').val() == ''){
+				alert('성별을 선택하세요.');
+			}else{
+				var str = "";
+				
+				console.log($('#usermail'));
+				str += "<input type='hidden' name='username' value='" + username.val() +"'>";
+				str += "<input type='hidden' name='userpw' value='" + userpw.val() +"'>";
+				str += "<input type='hidden' name='usermail' value='" + usermail.val() +"'>";
+				str += "<input type='hidden' name='usernick' value='" + usernick.val() +"'>";
+				str += "<input type='hidden' name='userage' value='" + userage.val() +"'>";
+				str += "<input type='hidden' name='usersex' value='" + usersex.val() +"'>";
+				
+				actionForm.append(str);
+				actionForm.attr("method", "post").attr("action", "/login/signup").submit();
+			}
+			
+		});
+		
+		
+	});
+	
+</script>
+
+</body>
+
+</html>

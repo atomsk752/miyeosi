@@ -4,7 +4,7 @@ var searchService = (function(){
 		console.log("autoComplete...........");
 		
 		$.ajax({
-            type: 'post',
+            type: 'get',
             url: "/autocomplete",
             dataType: "json",
             success: function(result,status,xhr){

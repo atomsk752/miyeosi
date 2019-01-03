@@ -25,7 +25,6 @@ $(document).ready(function()
 
     */
 
-    consol();
     var menu = $('.menu');
     var menuActive = false;
     var header = $('.header');
@@ -50,11 +49,6 @@ $(document).ready(function()
     initMoreOptions();
     initSearchForm();
 	initDate()
-
-	function consol(){
-
-        console.log("milestone");
-    }
 
     /*
 

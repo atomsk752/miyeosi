@@ -1,13 +1,36 @@
 package org.honeyrock.domain;
 
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
-import lombok.Data;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
-@Data
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "tbl_point")
+@EqualsAndHashCode(of = "pno")
+@ToString(exclude = "replies")
 public class PointVO {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer pno;
 	private double lat;
 	private double lng;
@@ -20,12 +43,17 @@ public class PointVO {
 	private Integer good;
 	private Integer bad;
 	private String img;
-	private Date regdate;
-	private Date updatedate;
 	private String addpoint;
 	private String thumb;
 	private Integer del;
 	private String writer;
+	@CreationTimestamp
+	private Timestamp regdate;
+	@UpdateTimestamp
+	private Timestamp updatedate;
+	
+	@OneToMany(mappedBy = "point", cascade=CascadeType.ALL)
+	private List<PointReplyVO> replies;
 	
 	private ArrayList<ImageVO> imgList;
 	

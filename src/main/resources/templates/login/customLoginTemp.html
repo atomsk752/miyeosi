@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+
+<form id="actionForm">
+	<input type ="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/> 
+	<input type ="hidden" th:name="username" th:value="${username}" />
+	<input type ="hidden" th:name="password" th:value="${password}" />
+</form>
+
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(document).ready(function(){
+	
+	var actionForm = $("#actionForm");
+	var username = $("input[name='username']").attr("value");
+	console.log(username);
+	console.log("111111111");
+	actionForm.attr("method", "post").attr("action", "/login/customLogin").submit();
+	
+});
+</script>
+</body>
+</html>

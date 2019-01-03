@@ -145,7 +145,7 @@
 										<div class="offers_image_background"
 											style="background-image: url('/images/offer_1.jpg')"></div>
 										<div class="offer_name">
-											<a th:href="@{/courseboard/read(coursebno=${arr.coursebno})}" class="detail">[[${arr.coursetitle}]]</a>
+											<a th:href="${arr.coursebno}" class="detail">[[${arr.coursetitle}]]</a>
 										</div>
 									</div>
 								</div>
@@ -379,7 +379,7 @@
 					
 					setTimeout(function() {
 						actionForm.find("input[name='page']").val(curLink);
-						actionForm.attr("action","/pointboard/list").attr("method","get").submit();
+						actionForm.attr("action","/courseboard/list").attr("method","get").submit();
 					}, 1500);
 					
 			}
@@ -398,10 +398,15 @@
 				actionForm.submit(); 
 			})  */
 			
-			// 게시판 이동
-			$(".search_tab").on("click",function(e){
-				e.target.submit();
-			})
+			// read 페이지 이동
+			$(".detail").on("click",function(e){
+				e.preventDefault();
+				var coursebno = $(this).attr("href");
+ 				console.log(coursebno);
+ 				actionForm.append("<input type='hidden' name='coursebno' value='"+coursebno+"'>");
+				actionForm.attr("action","/courseboard/read")
+				.attr("method", "get").submit();
+			});
 			
 			// 탭 이동
 			$('.tablinks').on('click',function(evt) {

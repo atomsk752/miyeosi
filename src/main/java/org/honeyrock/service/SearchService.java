@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.honeyrock.domain.ImageVO;
 import org.honeyrock.domain.PointVO;
+import org.json.simple.JSONArray;
 
 public interface SearchService {
 	
