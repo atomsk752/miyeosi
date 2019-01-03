@@ -1,0 +1,189 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+<th:block layout:fragment="style">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  -webkit-text-size-adjust: 100%;
+}
+/* ----- BUTTONS ----- */
+.product-view {
+  margin-bottom: 10px;
+  padding: 5px;
+  text-align: left;
+}
+.product-view i {
+  display: inline-block;
+  font-size: 1.5em;
+  padding: 10px;
+  background: #ddd;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+.product-view i.active {
+  background: #bbb;
+}
+
+/* ----- GALLERY VIEW ----- */
+.products.gallery {
+  -webkit-column-width: 300px;
+          column-width: 300px;
+  -webkit-column-gap: 5px;
+          column-gap: 5px;
+  padding: 0 5px;
+  font-size: 0;
+}
+.products.gallery figure {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 5px 0;
+}
+.products.gallery figure::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: background 300ms;
+}
+.products.gallery figure img {
+  width: 345px;
+  height: 200px;
+}
+.products.gallery figure figcaption {
+	box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  z-index: 2;
+  width: 100%;
+  max-height: 100%;
+  padding: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ddd;
+  text-shadow: 0 0 1px #000;
+  opacity: 0;
+  overflow: auto;
+  transition: opacity 300ms;
+  -webkit-overflow-scrolling: touch;
+}
+.products.gallery figure figcaption::-webkit-scrollbar {
+  width: 4px;
+}
+.products.gallery figure figcaption::-webkit-scrollbar-track {
+  background: transparent;
+}
+.products.gallery figure figcaption::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+.products.gallery figure figcaption::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+.products.gallery figure:hover::after {
+  background: rgba(0, 0, 0, 0.8);
+}
+.products.gallery figure:hover figcaption {
+  opacity: 1;
+}
+
+/* ----- LIST VIEW ----- */
+.products.list {
+  padding: 0 5%;
+}
+.products.list figure {
+  width: 100%;
+  height: auto;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  background: #eee;
+  border: 1px solid #ddd;
+}
+.products.list figure img {
+  width: 100%;
+  height: auto;
+}
+.products.list figure figcaption {
+  padding: 20px;
+  line-height: 1.4;
+}
+.offers{
+	background-image: url("/images/bg_bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+	text-align: center;
+}
+.opacity{
+	background-color: rgba( 0, 0, 0, 0.5);
+}
+.my_container{
+	margin-top: 170px;
+    margin-bottom: 23px;
+	display: inline-block;
+    width: 74%;
+}
+
+</style>
+</th:block>
+
+<div layout:fragment="content">
+	
+	
+	<div class="offers">
+		<div class="opacity">
+			<div class="my_container">
+							
+				<section class="products gallery">
+				  <figure th:each="arr : ${list}">
+				    <img th:src="${arr.img}" />
+				    <figcaption>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus omnis facere earum eveniet dolore numquam velit ipsum repellat! Accusamus doloribus quidem quisquam, laboriosam ea porro earum dolor, illum? Quas, voluptatibus.</figcaption>
+				  </figure>
+				</section>
+			</div>
+		</div>
+	</div>	   
+</div>
+
+
+<th:block layout:fragment="script">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
+
+	<script th:inline="javascript">
+	
+	$('.btn-gallery').on('click', function() {
+		  $('.products').removeClass('list').addClass('gallery');
+		  $('.btn-list').removeClass('active');
+		  $(this).addClass('active');
+		});
+	
+		$('.btn-list').on('click', function() {
+		  $('.products').removeClass('gallery').addClass('list');
+		  $('.btn-gallery').removeClass('active');
+		  $(this).addClass('active');
+		});
+		
+	</script>
+
+</th:block>

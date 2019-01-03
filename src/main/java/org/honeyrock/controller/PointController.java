@@ -5,6 +5,7 @@ import org.honeyrock.domain.PointVO;
 import org.honeyrock.service.PointService;
 import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +37,7 @@ public class PointController {
 
 	}
 
-
+	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/modify")
 	public String modifyPOST(PointVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
@@ -47,6 +48,7 @@ public class PointController {
 		return pageParam.getLink("redirect:/pointboard/list");
 	}
 	
+	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/delete")
 	public String deletePOST(@ModelAttribute("point") PointVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		

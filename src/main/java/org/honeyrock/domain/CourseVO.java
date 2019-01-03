@@ -18,5 +18,6 @@ public class CourseVO {
 	private Integer cost;
 	private Integer days;
 	private Integer del;
+	private Integer coursebno;
 	
 }

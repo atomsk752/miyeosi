@@ -1,0 +1,908 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/layout/layout1}">
+	
+<th:block layout:fragment="style">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
+	<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
+	<script type="text/javascript" src="../js/component.js"></script>
+	<!-- csrf -->
+	<meta name="_csrf_token" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<style>
+#content{
+}
+
+.plan_inner{
+	width:1116px;
+	margin:0 auto;
+	padding-top:15px;
+}
+
+.box{
+	display:block;
+	width:348px;
+	height:276px;
+	border:1px solid #dfdfdf;
+	position:relative;
+	float:left;
+	margin-right:24px;
+	margin-bottom:30px;
+}
+
+.box:hover{
+	border:1px solid #1a7ad9;
+}
+
+.plan_img_box{
+	width:346px;
+	height:200px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:0;
+	overflow:hidden;
+}
+
+.plan_img{
+	width:100%;
+	height:200px;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:0;
+	transition: all 5.6s;
+	-webkit-transition: all 5.6s;
+}
+
+.box:hover .plan_img{
+	-webkit-transform:scale(1.2);transform:scale(1.2)
+}
+
+.plan_bg{
+	width:100%;
+	height:100px;
+	background:linear-gradient( to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#000000',GradientType=0 ); /* IE6-9 */
+	position:absolute;
+	z-index:1;
+	left:0px;
+	top:100px;
+}
+
+.plan_bg_inner{
+	padding:15px;
+	margin-top:55px;
+	font-size:16px;
+	color:white;
+	line-height:20px;
+	font-weight:bold;
+}
+
+.plan_bg_inner2{
+	width:100%;
+	padding:15px;
+	position:absolute;
+	top:200px;
+	font-size:14px;
+	color:#6f6f6f;
+	line-height:20px;
+}
+
+.pn_list_copy_icon{background:url('https://www.earthtory.com/res/img/city/spot_rate_icon.png') no-repeat 0px 2px;padding-left:25px;}
+
+.pn_list_city{
+	margin-top:4px;
+	background:url('/res/img/mypage/plan/plan_flag.gif') no-repeat;
+	background-position:left center;
+	padding-left:15px;
+}
+.pn_list_user{margin-top:4px;padding-left:25px;background:url('https://www.earthtory.com/res/img/mypage/plan/pn_list_user_icon.png') no-repeat 0px 2px;}
+
+.plan_bg_inner2 span{
+	color:#1a7ad9;
+}
+
+.plan_bg_inner span{
+	color:#1a7ad9;
+}
+
+.no_complete{
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:1;
+}
+
+.plan_hidden_btn{
+	position:absolute;
+	width:140px;
+	height:42px;
+	border:1px solid #f7870f;
+	color:white;
+	font-size:15px;
+	line-height:42px;
+	background:#ff9320;
+	cursor:pointer;
+	z-index:1;
+	left:50%;
+	top:50%;
+	text-align:center;
+	margin-left:-65px;
+	margin-top:-21px;
+	display:none;
+	z-index:2;
+}
+
+.box:hover .plan_hidden_btn{
+	display:block;
+}
+
+.box:hover .btn_del{
+	display:block;
+}
+
+.btn_del{
+	position:absolute;
+	right:-13px;
+	top:-13px;
+	z-index:3;
+	display:none;
+	cursor:pointer;
+}
+
+
+.edit_btn{
+	display:block;
+	float:right;
+	color:#49b2e9;
+	cursor:pointer;
+	font-size:12px;
+}
+
+.edit_line{
+	float:right;
+	width:1px;
+	height:10px;
+	background:#a9a9a9;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:5px;
+}
+
+.lock_img{
+	position:absolute;
+	right:10px;
+	top:10px;
+	z-index:11;
+}
+
+
+/* ====================================================== topcss */
+#my_top{
+	float:left;
+	width:100%;
+	min-width:1098px;
+}
+
+.my_top_cover{
+	width:100%;
+	height:217px;
+	position:relative;
+	background:black;
+}
+
+.my_top_cover_shadow{
+	width:100%;
+	height:4px;
+	background:url('/res/img/mypage/common/my_cover_shadow.png') repeat-x;
+	left:0px;
+	top:0px;
+	z-index:10;
+	position:absolute;
+}
+
+.my_img{
+	margin:0 auto;
+	width:40px;
+	height:40px;
+	overflow:hidden;
+	border-radius:20px;
+	border:2px solid white;
+	z-index:2;
+	float:left;
+}
+
+.level_ico{
+	position:relative;
+	z-index:2;
+	display:block;
+	margin:0 auto;
+	margin-top:6px;
+	display:none;
+}
+
+.my_name{
+	float:left;
+	height:40px;
+	line-height:40px;
+	display:inline-block;
+	font-size:22px;
+	color:white;
+	z-index:2;
+	margin-left:10px;
+}
+
+.my_top_cover .cover_img{
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0px;
+	top:0px;
+	z-index:1;
+	opacity:0.9;
+}
+
+.my_top_menu_box{
+	width:100%;
+	height:42px;
+	margin-top:-2px;
+	position:relative;
+}
+
+.my_top_menu_bg{
+	width:100%;
+	height:40px;
+	background:#223b68;
+	position:absolute;
+	bottom:0px;
+	left:0px;
+	z-index:1;
+}
+
+.my_top_menu{
+	width:1092px;
+	height:40px;
+	margin:0 auto;
+	position:relative;
+	z-index:2;
+}
+
+.my_menu{
+	height:40px;
+	text-align:center;
+	color:white;
+	font-size:16px;
+	padding-left:25px;
+	padding-right:25px;
+	float:left;
+	line-height:40px;
+	bottom:0px;
+	display:block;
+	border-right:1px solid #1c3156;
+	margin-top:2px;
+}
+
+.my_menu:hover{
+	background:#1a7ad9;
+}
+
+.my_menu:nth-child(1){
+	border-left:1px solid #1c3156;
+}
+
+.my_menu.on{
+	height:42px;
+	border-left:1px solid #223b68;
+	border-right:1px solid #223b68;
+	border-top:1px solid #223b68;
+	background:white;
+	color:#1a7ad9;
+	margin-top:0px;
+	line-height:42px;
+}
+
+.my_menu.no_line{
+	border-right:none;
+}
+
+.clipboard_menu{
+	width:100%;
+	background:white;
+	border-bottom:1px solid #223b68;
+}
+
+.clipboard_menu_inner{
+	width:1098px;
+	margin:0 auto;
+	border-bottom:1px solid #e5e5e6;
+	height:40px;
+	line-height:40px;
+	font-size:13px;
+	overflow:hidden;
+	display:none;
+}
+
+.clipboard_menu_inner:nth-child(1), .clipboard_menu_inner:nth-child(2){
+	display:block;
+}
+
+.clipboard_menu a{
+	display:block;
+	width:20%;
+	height:40px;
+	line-height:40px;
+	color:#808080;
+	text-align:left;
+	padding-left:20px;
+	float:left;
+}
+
+.clipboard_menu a:hover{
+	display:block;
+	height:40px;
+	line-height:40px;
+	color:#1a7ad9;
+}
+
+.clipboard_menu a.on{
+	display:block;
+	height:40px;
+	line-height:40px;
+	color:#555555;
+	background:#f8f8fa;
+	text-decoration:underline;
+}
+
+.clipboard_menu_more{
+	min-width:1098px;
+	width:100%;
+	font-size:13px;
+	color:#555555;
+	text-align:center;
+	cursor:pointer;
+	height:40px;
+	line-height:40px;
+}
+
+.clipboard_menu_inner .clip_m_del{
+	float:right;
+	cursor:pointer;
+	display:none;
+}
+
+/*.clipboard_menu a.on .clip_m_del{
+	display:block;
+}*/
+
+.clip_m_del:after{
+	clear:both;
+}
+
+.clipboard_menu_more img{
+	margin-left:5px;
+}
+
+.content{
+	min-width:1098px;
+	width:1098px;
+	margin:0 auto;
+}
+
+.info_menu{
+	height:40px;
+	text-align:center;
+	float:right;
+	color:white;
+	font-size:16px;
+	padding-left:10px;
+	padding-right:10px;
+	line-height:40px;
+	bottom:0px;
+	display:block;
+	margin-top:2px;
+}
+
+.info_menu.orange{
+	color:#ff6234;
+	text-decoration:underline;
+}
+
+.info_line{
+	float:right;
+	width:1px;
+	background:#1c3156;
+	height:20px;
+	margin-top:12px;
+}
+
+#loading_box{width:100%;min-height:800px;}
+
+#no_result_box{text-align:center;padding-top:50px;display:none;}
+.no_result_text{color:#808080;font-size:13px;padding-top:20px;}
+
+.cover_innter{
+	width:1096px;
+	height:217px;
+	margin:0 auto;
+	position:relative;
+	padding-top:10px;
+}
+
+.cover_change_btn{
+	position:absolute;
+	right:0px;
+	top:10px;
+	color:white;
+	font-size:13px;
+	background:#898989;
+	border:1px solid #666666;
+	cursor:pointer;
+	text-align:center;
+	width:84px;
+	height:26px;
+	line-height:26px;
+	display:none;
+}
+
+.my_top_cover:hover .cover_change_btn{
+	display:block;
+}
+
+.my_img_change{
+	position:absolute;
+	top:12px;
+	left:2px;
+	z-index:5;
+	width:40px;
+	height:40px;
+	cursor:pointer;
+	display:none;
+}
+
+.my_top_cover:hover .my_img_change{
+	display:block;	
+}
+
+.m_top{
+	height:75px;
+	width:1116px;
+	margin:0 auto;
+}
+
+.m_tab{
+	float:left;
+	color:#555555;
+	font-size:14px;
+	font-weight:bold;
+	cursor:pointer;
+	line-height:42px;
+}
+
+.m_tab.on{
+	color:#3099dd;
+}
+
+.m_tab span{
+	font-size:12px;
+	font-weight:normal;
+}
+
+.mtab_line{
+	width:1px;
+	height:10px;
+	background:#cfcfcf;
+	float:left;
+	margin-left:15px;
+	margin-right:15px;
+	margin-top:15px;
+}
+
+.mtop_btn{
+	height:42px;
+	line-height:42px;
+	min-width:166px;
+	padding-left:20px;
+	padding-right:20px;
+	cursor:pointer;
+	color:white;
+	font-size:15px;
+	font-weight:bold;
+	background:#ff9320;
+	float:right;
+	border:1px solid #f7870f;
+	text-align:center;
+}
+
+.btn_full_more{
+	width:100%;
+	height:42px;
+	line-height:42px;
+	background:white;
+	border:1px solid #c6c6c6;
+	text-align:center;
+	font-weight:bold;
+	color:#555555;
+	font-size:15px;
+	cursor:pointer;
+}
+
+.setting{
+	float:right;
+	padding-left:50px;
+	font-size:16px;
+	color:white;
+	text-align:right;
+	font-weight:bold;
+	height:40px;
+	line-height:40px;
+	margin-top:2px;
+	background:url('/res/img/mypage/setting_ico.png') no-repeat;
+	background-position:left center;
+}
+
+.my_top_title{
+	width:100%;
+	text-align:center;
+	color:white;
+	font-size:50px;
+	text-shadow:0px 0px 7px rgba(0,0,0,0.4);
+	padding-top:35px;
+}
+.tag_item{
+    margin-right: 24px;
+}
+.my_container{
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.tab {
+	left: 0px; 
+}
+.tabcontent {
+	padding: 0px;
+}
+
+/* ====================my info=================== */
+.config_area{
+	width:706px;
+	background:white;
+	border:1px solid #bbbbbd;
+	margin:0 auto;
+	margin-top:40px;
+	margin-bottom:40px;
+}
+
+.config_title{
+	width:100%;
+	height:60px;
+	line-height:60px;
+	font-size:20px;
+	color:#363636;
+	border-bottom:1px solid #bbbbbd;
+	padding-left:22px;
+}
+
+.config_table{
+	margin:20px 0px 20px 0px;
+}
+
+.config_table th{
+	font-weight:bold;
+	color:#363636;
+	font-size:13px;
+	line-height:31px;
+	height:31px;
+	text-align:left;
+	padding-left:60px;
+}
+
+.config_table .t_input{
+	height:29px;
+	line-height:29px;
+	border:1px solid #c8c8ca;
+	width:421px;
+	padding-left:15px;
+}
+
+.config_table .t_input_s{
+	height:29px;
+	line-height:29px;
+	border:1px solid #c8c8ca;
+	width:305px;
+
+}
+
+.config_table td{
+	font-size:13px;
+	line-height:31px;
+	color:#808080;
+}
+
+.config_table td.space{
+	height:20px;
+	line-height:0px;
+	font-size:0px;
+}
+
+.config_foot{
+	width:100%;
+	border-top:1px solid #bbbbbd;
+	font-size:14px;
+	color:#555555;
+	padding-left:22px;
+	padding-right:22px;
+	line-height:82px;
+	height:82px;
+}
+
+.leavelink{
+	font-size:14px;
+	color:#555555;
+}
+
+.btn_submit{
+	font-size:15px;
+	font-weight:bold;
+	color:white;
+	display:block;
+	width:121px;
+	height:40px;
+	line-height:40px;
+	border:1px solid #3099dd;
+	background:#49b2e9;
+	text-align:center;
+	float:right;
+	margin-top:21px;
+}
+
+.et-radio_txt{
+	font-size:13px;
+	color:#363636;
+}
+
+.pw_reset{
+	height:29px;
+	line-height:29px;
+	text-align:center;
+	font-size:13px;
+	color:white;
+	font-weight:bold;
+	background:#ff9320;
+	border:1px solid #f7870f;
+	display:block;
+	width:150px;
+}
+
+.dup_url{
+	font-weight:bold;
+	font-family:'dotum';
+	font-size:12px;
+	height:25px;
+	line-height:18px;
+	width:100%;
+	text-align:right;
+	padding-right:60px;
+	color:red;
+}
+.radio_box{
+	height:30px;
+}
+</style>
+</th:block>
+
+
+<div layout:fragment="content">
+	
+	<!-- Home -->
+	<div class="home">
+		<div class="home_background parallax-window" data-parallax="scroll"
+			data-image-src="../images/about_background.jpg"></div>
+		<div class="home_content">
+			<div class="home_title">My Page</div>
+		</div>
+	</div>
+	
+	<div class="offers">
+		<div class="my_container">
+			
+			<div class="m_top">
+				<div class="tab">
+						<button class="tablinks active">My Course</button>
+						<button class="tablinks">My Info</button>	
+						<div class="clear"></div>			
+				</div>
+			</div>
+			<div class="plan_inner tabcontent" id="My Course" style="display: block;">
+				<form class="tag_item" action="/simple">
+					<button>여행일정 만들기</button>
+				</form>
+				<div class="box" th:each="arr : ${list}">
+					<div class="btn_del" onclick="del_plan(273627)">
+						<img src="/res/img/mypage/common/btn_delete.png" alt="">
+					</div>
+					<div class="plan_hidden_btn" th:data="${arr.coursebno}">상세코스 보기</div>
+					<div class="plan_bg">
+						<div class="plan_bg_inner">
+							<span>[[${arr.days}]] days</span>
+						</div>
+					</div>
+					<div class="plan_img_box">
+						<img src="http://img.earthtory.com/img/city_images/312/jeju_1425527708.jpg"	alt="" class="plan_img">
+					</div>
+					<div class="plan_bg_inner2">
+						<span>[[${arr.coursename}]]</span>
+						<div class="pn_list_copy_icon float_right">[[${arr.good}]] / [[${arr.bad}]]</div>
+						<div class="pn_list_user">
+							[[${arr.usermail}]]
+							<div class="edit_btn del" th:data="${arr.coursekey}" data-op="del">삭제</div>
+							<div class="edit_line"></div>
+							<div class="edit_btn edit" data-op="edit" th:data="${arr.coursekey}">수정</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>				
+				<div class="clear"></div>
+				<div class="clear"></div>
+			</div>	<!-- end plan_inner -->
+			
+			<div id="My Info" class="tabcontent">
+				<div class="wrap">
+					<div class="config_area">
+						<div class="config_title">
+							<!--계정설정-->
+							계정설정
+						</div>
+						<table class="config_table" width=100%>
+							<colgroup>
+								<col width=250 />
+								<col width=* />
+							</colgroup>
+							<tr>
+								<th>이메일 주소</th>
+								<td><input type="text" name="email_address" class="t_input" value="dlswo4456@naver.com" disabled /></td>
+							</tr>
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+							<tr>
+								<th>이름</th>
+								<td><input type="text" name="name" class="t_input" value="황인재" /></td>
+							</tr>
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+				
+							<tr>
+								<th>성별</th>
+								<td><span type="radio" class="radio" data-val="female" data-on="" data-name="gender" > 여성 &nbsp;&nbsp;&nbsp;&nbsp;</span>
+									<span type="radio" class="radio" data-val="male" data-on="on" data-name="gender" > 남성 </span>
+									<input type="hidden" name="gender" class="gender" value="male" /></td>
+							</tr>
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+				
+							<tr>
+								<th>비밀번호</th>
+								<td><a href="javascript:et_modal('365', '295', '', '0', '/ko/member/change_pw', '0', '1', '0','0');" class="pw_reset">
+										비밀번호 재설정 </a></td>
+							</tr>
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+				
+							<tr>
+								<td class="space">&nbsp;</td>
+							</tr>
+						</table>
+				
+						<div class="config_foot">
+							<a href="javascript:et_modal('465', '383', '', '0', '/ko/member/leave', '0', '1', '0','0');" class="leavelink">
+								회원탈퇴 </a> <a href="#" class="btn_submit">
+								변경사항 저장 </a>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- end my_container -->
+	
+	</div>
+	
+</div>
+
+
+<th:block layout:fragment="script">
+
+	<script th:inline="javascript">
+		
+		$(document).ready(function() {
+			
+			// csrf
+			var token = $("meta[name='_csrf_token']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			// 상세코스보기 클릭
+			$(".plan_hidden_btn").on("click", function(e){
+				console.log("click...");
+				var coursebno = e.target.getAttribute("data");
+				self.location = "/courseboard/read?coursebno=" + coursebno;
+			});
+			
+			//수정 클릭
+			$(".edit").on("click", function(e){
+				console.log("modify");
+				var coursekey = e.target.getAttribute("data");
+				console.log(coursekey);
+				self.location = "/courseboard/map?coursekey=" + coursekey; 
+			});
+			
+			//삭제 클릭
+			$(".del").on("click", function(e){
+				console.log("delete");
+				var coursekey = e.target.getAttribute("data");
+				
+				$.ajax({
+					type:'delete',
+					url: '/course/' + coursekey,
+					data: coursekey,
+					dataType: 'json',
+					beforeSend: function(xhr){
+						xhr.setRequestHeader(header, token);
+					},
+					contentType: "application/json",
+					success: function(data){
+						console.log(data);
+						location.reload();
+					}
+				});
+				/* location.reload(); */
+			});
+			
+			// 탭 클릭
+			// 탭 이동
+			$('.tablinks').on('click',function(evt) {
+/* 				console.log(evt.target.id);
+				var tab_id = evt.target.id;
+				var tabForm = $("#tabForm")
+				tabForm.attr("action","/"+tab_id+"/list").attr("method","get").submit(); */
+				
+  				console.log(this.innerHTML)
+				// Declare all variables
+				var i, tabcontent, tablinks;
+				var cityName = this.innerHTML;
+				// Get all elements with class="tabcontent" and hide them
+				tabcontent = document
+						.getElementsByClassName("tabcontent");
+	
+				for (i = 0; i < tabcontent.length; i++) {
+					tabcontent[i].style.display = "none";
+				}
+	
+				// Get all elements with class="tablinks" and remove the class "active"
+				tablinks = document
+						.getElementsByClassName("tablinks");
+				console.log(tablinks)
+				for (i = 0; i < tablinks.length; i++) {
+					tablinks[i].className = tablinks[i].className
+							.replace(" active", "");
+				}
+	
+				// Show the current tab, and add an "active" class to the button that opened the tab
+				document.getElementById(cityName).style.display = "block";
+				evt.currentTarget.className += " active";
+			});
+			
+			
+		});
+	
+	</script>
+
+</th:block>

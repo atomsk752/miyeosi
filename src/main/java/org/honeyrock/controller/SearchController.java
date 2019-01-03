@@ -25,7 +25,7 @@ public class SearchController {
 	@Setter(onMethod_ = @Autowired)
 	private SearchService service;
 	
-	@PostMapping("/autocomplete")
+	@GetMapping("/autocomplete")
 	@ResponseBody
 	public ResponseEntity<String[]> autoComplete() {
 		log.info("autocomplete");

@@ -10,6 +10,7 @@ import org.honeyrock.persistence.PointReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class PointReplyController {
 	@Autowired
 	private PointReplyRepository replyRepo;
 	
+	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/{point_pno}")
 	public ResponseEntity<List<PointReplyVO>> addReply(
 			@PathVariable("point_pno")Integer pno,
@@ -51,6 +53,7 @@ public class PointReplyController {
 		return replyRepo.getRepliesOfPoint(point);
 	}
 	
+	@Secured(value="ROLE_MEMBER")
 	@Transactional
 	@DeleteMapping("/{point_pno}/{rno}")
 	public ResponseEntity<List<PointReplyVO>> remove(
@@ -67,6 +70,7 @@ public class PointReplyController {
 		return new ResponseEntity<>(getListByPoint(point), HttpStatus.OK);
 	}
 	
+	@Secured(value="ROLE_MEMBER")
 	@Transactional
 	@PutMapping("/{point_pno}")
 	public ResponseEntity<List<PointReplyVO>> modify(
