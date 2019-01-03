@@ -282,6 +282,7 @@
             }
             
             marker.setMap(map);
+            toggleInfoWin(marker);
             courseObject['day0']['markers'].push(marker);
             
             var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
@@ -289,6 +290,7 @@
             
             
             marker.addListener('click', function(){
+            	toggleInfoWin(marker);
                 console.log("courseObject marker clicked....")
             })
         
@@ -320,7 +322,7 @@
                 recommendObject['day0']['li'].push(str);
                 checkDupl(courseObject);
                 addMarkerEvent(marker);
-                                      
+                toggleInfoWin(marker);                      
             };
             
             
@@ -781,22 +783,15 @@
 	var currentMarker;
 
 	function toggleInfoWin(marker) {
-		marker
-				.addListener(
-						'click',
-						function(e) {
+		marker.addListener('click', function(e) {
 							currentMarker == marker ? infoWin
 									.toggleClass("open") : infoWin
 									.addClass('open');
 							currentMarker = marker;
 							console.dir(marker.myPos.pno);
-							$(".info-pane .info-title")
-									.html(marker.myPos.title)
-							$(".info-pane .info-img")
-									.html(
-											"<img src='" + marker.myPos.img + "' width='300'>")
-							$
-									.ajax({
+							$(".info-pane .info-title").html(marker.myPos.title)
+							$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300'>")
+							$.ajax({
 										type : 'get',
 										url : '/pointboard/readBlog',
 										data : {
@@ -894,7 +889,7 @@
 	function addMarkerEvent(marker){
 	       
 	       google.maps.event.addListener(marker, "click", function() {
-	           
+	    	   
 	                    var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
 	                    courseObject[targetTripDay]['markers'].push(marker);
 	                    courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
@@ -902,6 +897,7 @@
 	           
 	                   drawPath(courseObject[targetTripDay].markers);
 	                    drawSidebarList();
+	                    
 	                    console.log("recommendObject marker clicked....")
 	                    var str = "";
 	                    for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
@@ -946,8 +942,7 @@
         
      }
 	
-	
-	
+
 	
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
