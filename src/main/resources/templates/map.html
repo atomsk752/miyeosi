@@ -278,7 +278,22 @@
                 });
             
             if( i === 0 ){
-                map = new google.maps.Map(document.getElementById('map'),{center :{lat:data[i].lat,  lng:data[i].lng} , zoom: 11, minZoom: 10});
+                map = new google.maps.Map(document.getElementById('map'),
+                		{
+                	center :{lat:data[i].lat,  lng:data[i].lng} ,
+                	zoom: 11,
+                	minZoom: 10,
+                	mapTypeControl: false,
+                	fullscreenControl: false,
+                	zoomControl: true,
+                	zoomControlOptions: {
+                	   position: google.maps.ControlPosition.TOP_RIGHT
+                	},
+                	streetViewControl: true,
+                	streetViewControlOptions: {
+                	   position: google.maps.ControlPosition.TOP_RIGHT
+                	}
+                });
             }
             
             marker.setMap(map);
@@ -703,9 +718,7 @@
 			$(this).attr('data-tab', 'tab' + i);
 		});
 
-		$('.tabs div').on(
-				'click',
-				function() {
+		$('.tabs div').on('click', function() {
 					var dataTab = $(this).data('tab');
 					var getWrapper = $(this).closest('.right-box');
 					getWrapper.find('.tabs div').removeClass('active');
@@ -715,9 +728,7 @@
 					line.animate({'width':'100%'}, 'fast'); */
 
 					getWrapper.find('.tab_content>div').hide();
-					getWrapper.find(
-							'.tab_content>div[data-tab=' + dataTab + ']')
-							.show();
+					getWrapper.find('.tab_content>div[data-tab=' + dataTab + ']').show();
 				});
 
 	}
@@ -725,10 +736,7 @@
 	deleteContents();
 
 	function deleteContents() {
-
-		$('.delete-btn').on(
-				'click',
-				function() {
+		$('.delete-btn').on('click', function() {
 					var idx = $(".course.box").length - 1;
 					var deletedDiv = $('div[data-cno="' + idx + '"]');
 					var deletedLi = $('div[data-cno="' + idx + '"] ul li');
@@ -751,31 +759,27 @@
 					updateCourse(fixedkey, title);
 				});
 
-		$(document)
-				.on(
-						"click",
-						".delete-bar",
-						function(e) {
-							var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
-							var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
-							var targetLi = $('.course #day' + targetDay
-									+ ' li[data-idx="' + targetIdx + '"]');
-							var targetListLi = $('.course-sort #day'
-									+ targetDay + ' li[data-idx="' + targetIdx
-									+ '"]');
+		$(document).on("click", ".delete-bar",function(e) {
+			var targetDay = $(this)[0].parentElement.parentElement.dataset.day;
+			var targetIdx = $(this)[0].parentElement.parentElement.dataset.idx;
+			var targetLi = $('.course #day' + targetDay
+					+ ' li[data-idx="' + targetIdx + '"]');
+			var targetListLi = $('.course-sort #day'
+					+ targetDay + ' li[data-idx="' + targetIdx
+					+ '"]');
 
-							for (var i = 0; i < courseObject['day' + targetDay].markers.length; i++) {
-								courseObject['day' + targetDay].markers[i]
-										.setMap(null);
-							}
-							courseObject.remove(targetDay, targetIdx);
+			for (var i = 0; i < courseObject['day' + targetDay].markers.length; i++) {
+				courseObject['day' + targetDay].markers[i]
+						.setMap(null);
+			}
+			courseObject.remove(targetDay, targetIdx);
 
-							targetLi.remove();
-							targetListLi.remove();
+			targetLi.remove();
+			targetListLi.remove();
 
-							drawPath(courseObject['day' + targetDay].markers);
-							updateCourse(fixedkey, title);
-						});
+			drawPath(courseObject['day' + targetDay].markers);
+			updateCourse(fixedkey, title);
+		});
 
 	}
 
