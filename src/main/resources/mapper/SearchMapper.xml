@@ -56,7 +56,7 @@
 		title
 		from
 		tbl_point
-		order by pno desc limit 1, 10
+		order by pno desc limit 1, 20
 	</select>
 	
 	<select id="getList" resultType="org.honeyrock.domain.PointVO">
@@ -66,6 +66,15 @@
 		tbl_point
 		order by good desc 
 		limit 0, 30 
+	</select>
+	
+		<select id="getList2" resultType="org.honeyrock.domain.PointVO">
+		select
+		*
+		from
+		tbl_point
+		order by pno desc 
+		limit 0, 20 
 	</select>
 	
 	<sql id="category">

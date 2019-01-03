@@ -20,14 +20,14 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("/map/*")
 @Log
 public class DataController {
-    
-    @Setter(onMethod_ = @Autowired)
-    private SearchMapper mapper;
-    
-    @GetMapping(value = "/recommendData", produces= {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public ResponseEntity<List<PointVO>> getData(){
-        log.info("data........");
-        return new ResponseEntity<>(mapper.getRecommendList(), HttpStatus.OK);
-    }
+	
+	@Setter(onMethod_ = @Autowired)
+	private SearchMapper mapper;
+	
+	@GetMapping(value = "/recommendData", produces= {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<List<PointVO>> getData(){
+		log.info("data........");
+		return new ResponseEntity<>(mapper.getRecommendList(), HttpStatus.OK);
+	}
 
 }

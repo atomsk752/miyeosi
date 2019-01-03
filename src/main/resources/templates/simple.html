@@ -6,8 +6,8 @@
 		<meta charset="UTF-8" />
 		<link rel="shortcut icon" href="../favicon.ico"> 
 		<link rel="stylesheet" type="text/css" href="styles/simple_styles2.css">
-		<link rel="stylesheet" type="text/css" href="css/default.css" />
-		<link rel="stylesheet" type="text/css" href="css/component.css" />
+		<link rel="stylesheet" type="text/css" href="css/simple_default.css" />
+		<link rel="stylesheet" type="text/css" href="css/simple_component.css" />
 		<link rel="stylesheet" href="plugins/fontawesome-5.6.1/css/all.css">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
 		<link  rel="stylesheet" type="text/css" href="libs/menucool/js-image-slider.css"/>
@@ -37,10 +37,28 @@ border: 5px solid green;
 
 }
 
+.row-container1 {
+  
+  padding-top: 150px;
+
+}
+.container{
+ overflow: scroll;
+}
+
+.row-container2 {
+
+}
+
+.expander {
+  
+}
+
 </style>
 	
 	<div class="container">	
-		<h1>THEME1</h1>		
+		<div class="row-container1">	
+		<h1>가장 많은 사랑을 받은 여행지</h1>		
 			<div class="row">
 			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
 			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
@@ -68,8 +86,45 @@ border: 5px solid green;
 					</ul>
  				</div>
 			</div>
-				
-	            <div id="sliderFrame" class="expander">
+		</div>	
+				<div id="sliderFrame" class="expander">
+	             	<div id="checkBoxContainer"></div>
+			        <div id="slider"></div>
+			        <div id="infoContainer">
+			        
+			        </div>
+			    </div>
+		
+		<div class="row-container2">	
+			<h1>나홀로 여행자가 선택한 그 장소</h1>	
+			<div class="row">
+			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
+			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
+			    <div class="row__inner">    	
+			    	<ul id="og-grid" >
+						<li  class="tile" th:each="List2, iterState : ${List2}" th:id="thumb + ${List2.pno}" th:data-pno="${List2.pno}"
+						th:data-lat="${List2.lat}" th:data-lng="${List2.lng}" th:data-keyword="${List2.keyword}" th:data-img="${List2.img}"
+						th:data-List="${List2}" th:data-title="${List2.title}" th:data-descs="${List2.descs}">
+
+							<div class="tile__media">
+					          <img class="tile__img" th:src="${List2.img}"/>
+					        </div>
+					        <div class="tile__details toggle" th:data-pno="${List2.pno}"
+						th:data-lat="${List2.lat}" th:data-lng="${List2.lng}" th:data-keyword="${List2.keyword}" th:data-img="${List2.img}"
+						th:data-List="${List2}" th:data-title="${List2.title}" th:data-descs="${List2.descs}">
+					        	<input type="hidden" name="pno" th:value="${List2.pno}">
+					            <input type="hidden" name="lat" th:value="${List2.lat}">
+					            <input type="hidden" name="lng" th:value="${List2.lng}">
+					            <input type="hidden" name="keyword" th:value="${List2.keyword}">
+					            <input type="hidden" name="img" th:value="${List2.img}">
+					            <input type="hidden" name="list" th:value="${List2}">					            
+					            <div class="tile__title" th:text="${List2.title}"></div>
+					     	</div>
+						</li>
+					</ul>
+ 				</div>
+			</div>	
+				<div id="sliderFrame" class="expander">
 	             	<div id="checkBoxContainer"></div>
 			        <div id="slider">
 			       
@@ -92,6 +147,8 @@ border: 5px solid green;
 			</div>
 					            	
 		</div>
+	</div>
+
 		<!-- /container -->
 
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -119,15 +176,16 @@ border: 5px solid green;
 		var current = -1;
 		
 		$(document).ready(function() {
+			
 	        CourseInit(testList, function(newKey){
-	            console.log(newKey);
+	           // console.log(newKey);
 	            testList = [];
 	        });
 	        courseService.add(
 	        		{coursekey:newKey}
 	        		,
 	        		function(result){
-	        			console.log(result);
+	        			//console.log(result);
 	        		}
 	        	);
 		}); 
@@ -172,13 +230,16 @@ border: 5px solid green;
 		
 		$('.toggle').click(function (e) {
 			
+			console.log("---------------------------------------------");
+			
 			e.preventDefault();
 			
 			var id = "#" + $(this)[0].firstElementChild.defaultValue;
 			var pno =  $(this)[0].firstElementChild.defaultValue;
-			
+			var title = $(this)[0].dataset.title;
 			currentPno = pno;
 
+			console.log(title);
 			$.getJSON('/searchTest?pno='+pno,function(data){
 				images = [];
 				var html = "";
@@ -214,20 +275,10 @@ border: 5px solid green;
 			sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
 			$("#checkBoxContainer").html(sliderCheck);
 			
-			console.log("--------------")
-			console.log(currentPno);
-			console.log(checkPnoList);
-			var dataIndex = checkPnoList.indexOf(currentPno);
-			console.log(dataIndex);
-			
-			
-/* 			if(checkPnoList.indexOf(currentPno)!=-1){
-				
-				$(".checkbox").addClass('is-checked');
-				return;
-				} */
-			
 
+			var dataIndex = checkPnoList.indexOf(currentPno);
+
+			
 		
 			if(current != currentPno){
 				$(".expander").hide();
@@ -240,9 +291,11 @@ border: 5px solid green;
 				current = -1;
 			}
 			
-			
-			
+
 		});
+		
+		
+		
 		
 		$("#slider").on("click", "div", function(e){
 
@@ -260,7 +313,7 @@ border: 5px solid green;
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
-			updateCourse("-LUjJ-spjC4O86R1uwfw", testList);			
+			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
 			
 			for (var i = 1; i < testList.length; i++) {
 				
@@ -268,7 +321,7 @@ border: 5px solid green;
 				
 			}
 			
-			console.log(testList)
+			//console.log(testList)
 			
 		});
 
@@ -316,6 +369,9 @@ border: 5px solid green;
 	     	}
 	     	
 		 }
+	    
+	    
+	    
 		     
 	    function updateCourse(key, newCourse, callback){
 	    	
@@ -336,9 +392,9 @@ border: 5px solid green;
 			  });
 		});
 		
-	    function CourseInit(day1, callback){
+	    function CourseInit(day0, callback){
 	        
-	        newKey = firebase.database().ref('courses').push({"untitled":{day1}}).key;
+	        newKey = firebase.database().ref('courses').push({"untitled":{day0}}).key;
 	       
 	        
 	        callback(newKey);

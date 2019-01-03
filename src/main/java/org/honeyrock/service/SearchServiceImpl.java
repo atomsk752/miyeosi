@@ -61,4 +61,9 @@ public class SearchServiceImpl implements SearchService {
 		return mapper.getPoint(pno);
 	}
 
+	@Override
+	public List<PointVO> getList2() {
+		return mapper.getList2();
+	}
+
 }

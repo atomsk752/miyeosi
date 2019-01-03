@@ -1,6 +1,13 @@
 .fadein { position:relative; width:500px; height:332px; }
 .fadein img { position:absolute; left:0; top:0; }
 
+/* .row-container1 {
+	position: absolute;
+	top : 50px;
+	
+	
+} */
+
 .checkbox {
 	right: 320px;
 	z-index: 10;

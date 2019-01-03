@@ -989,7 +989,7 @@ label {
 	transform: translateX(-1580px);
 	top: 0;
 	height: 100vh;
-	width: 1578px;
+	width: 1600px;
 	/*background: #2848ff;
 	border-right: 2px solid #223cd6;*/
     background: transparent;
@@ -1075,7 +1075,7 @@ label {
 	float: left;
 	background-color: rgba(255,255, 255, 0.31);
 	height: 100vh;
-	width: 225px;
+	width: 217px;
 	/* border-right: rgba(255, 255, 255, 0.16) 5px solid; */
 }
 
@@ -1115,9 +1115,9 @@ label {
     border-bottom-right-radius: 10px;
     float: left;
     right: 60px;
-    width: 3.8%;
+    width: 50px;
     background: #e50f29;
-    height: 59px;
+    height: 50px;
 }
 
 
@@ -1153,9 +1153,9 @@ label {
 	cursor: pointer;
 	top: 0;
 	right: 0;
-	width: 3.8%;
+	width: 50px;
 	background: #0f7ae5;
-	height: 59px;
+	height: 50px;
 }
 
 #plus1 {

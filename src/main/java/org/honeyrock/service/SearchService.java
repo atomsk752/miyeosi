@@ -14,6 +14,8 @@ public interface SearchService {
 	
 	public List<PointVO> getList();
 	
+	public List<PointVO> getList2();
+	
 
 	public PointVO getPoint(Integer pno);
 }
