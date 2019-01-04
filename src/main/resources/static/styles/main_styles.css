@@ -1908,9 +1908,10 @@ section
 .footer
 {
 	width: 100%;
-	padding-top: 113px;
+	padding-top: 33px;
 	padding-bottom: 104px;
-	background: #31124b;
+	background: #0B4981;
+	height: 310px;
 
 }
 .footer_title

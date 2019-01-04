@@ -5,13 +5,19 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.honeyrock.domain.MemberVO;
+import org.honeyrock.domain.PageParam;
+import org.honeyrock.security.domain.CustomMember;
+import org.honeyrock.service.CourseService;
 import org.honeyrock.service.LoginService;
+import org.honeyrock.service.PointService;
 import org.honeyrock.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -31,6 +37,12 @@ public class SampleController {
 	private LoginService loginService;
 	
 	@Setter(onMethod_ = @Autowired)
+	private CourseService courseService;
+	
+	@Setter(onMethod_ = @Autowired)
+	private PointService pointService;
+	
+	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwEncoder;
 	
 	@GetMapping("/index")
@@ -45,14 +57,30 @@ public class SampleController {
 	
 	@GetMapping("/simple")
 	public void simple(Model model) {
-		model.addAttribute("List", searchService.getList());
+		model.addAttribute("list", searchService.getList());
+	}
+	
+	@GetMapping("/mypage")
+	public void mypage(Model model, @AuthenticationPrincipal CustomMember customMember) {
+		model.addAttribute("list", courseService.getList(customMember.getUsername()));
+	}
+	
+	@GetMapping("/gallery")
+	public void share(Model model,@ModelAttribute("pageObj") PageParam pageParam) {
+		pageParam.setTotal(pointService.getTotal(pageParam));
+		model.addAttribute("list", pointService.getList(pageParam));
 	}
 	
 	@GetMapping({"/login/customLogin","/login/customLogout"})
 	public void login(HttpServletRequest request) {
 		// 이전페이지로 이동 하지만 회원가입페이지는 막음.
 		String referrer = request.getHeader("Referer");
-		if(referrer.indexOf("http://localhost:8080/login/signup")<0) {
+		
+		log.info("referer: " + referrer);
+		
+		
+		
+		if(referrer != null &&   referrer.indexOf("http://localhost:8080/login/signup")<0) {
 			request.getSession().setAttribute("prevPage", referrer);
 		}
 	}

@@ -506,6 +506,16 @@ section
 	padding-bottom: 10px;
 	padding-top: 10px;
 }
+.login a
+{
+	font-family: 'Open Sans', sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	color: #fa9e1b;
+	text-transform: uppercase;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
 .main_nav_item::after
 {
 	display: block;
@@ -1541,12 +1551,12 @@ section
 10. Footer
 *********************************/
 
-.footer
-{
+.footer{
 	width: 100%;
-	padding-top: 90px;
+	padding-top: 33px;
 	padding-bottom: 85px;
 	background: #0B4981;
+	height: 310px;
 }
 .footer_title
 {
@@ -2002,7 +2012,6 @@ section
 11. earthtory
 *********************************/
 .page_left, .page_left_cmt {
-    float: left;
     width: 100%;
     min-height: 500px;
 }
@@ -2116,6 +2125,8 @@ section
 .spot_name{
 	font-size:17px;
 	color:#555555;
+	margin-top:0px;
+	margin-left:10px;
 	font-weight:bold;
 }
 .btn_memo{

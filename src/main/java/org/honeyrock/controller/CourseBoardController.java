@@ -1,9 +1,12 @@
 package org.honeyrock.controller;
 
+import javax.annotation.security.PermitAll;
+
 import org.honeyrock.domain.CourseBoardVO;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.CourseBoardVO;
 import org.honeyrock.service.CourseBoardService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +35,8 @@ public class CourseBoardController {
 
 	}
 
+
+	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/modify")
 	public String modifyPOST(CourseBoardVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
@@ -42,6 +47,7 @@ public class CourseBoardController {
 		return pageParam.getLink("redirect:/courseboard/list");
 	}
 	
+	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/delete")
 	public String deletePOST(@ModelAttribute("CourseBoard") CourseBoardVO vo, RedirectAttributes rttr, @ModelAttribute("pageObj") PageParam pageParam) {
 		
@@ -49,6 +55,7 @@ public class CourseBoardController {
 		
 		return pageParam.getLink("redirect:/courseboard/list");
 	}
+	
 	
 	@GetMapping({"/read", "/modify"})
 	public void readGET(CourseBoardVO vo, Model model, @ModelAttribute("pageObj") PageParam pageParam) {
@@ -62,7 +69,6 @@ public class CourseBoardController {
 	}
 	
 	@PostMapping("/register")
-	@PreAuthorize("permitAll")
 	public String registerPOST(CourseBoardVO vo, RedirectAttributes rttr) {
 		
 		service.register(vo);

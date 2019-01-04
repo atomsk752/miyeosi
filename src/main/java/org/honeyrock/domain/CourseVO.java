@@ -19,5 +19,6 @@ public class CourseVO {
 	private Integer days;
 	private Integer del;
 	private Integer rating;
+	private Integer coursebno;
 	
 }
