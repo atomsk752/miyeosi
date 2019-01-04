@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="dist/css/slider-pro.css" media="screen"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+   	<!-- csrf -->
+	<meta name="_csrf_token" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <script type="text/javascript" src="libs/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="dist/js/jquery.sliderPro.min.js"></script>
     <script type="text/javascript">
@@ -50,7 +53,7 @@
                     </div>
                     <div id="example3" class="slider-pro">
                         <div class="sp-slides">
-                            <div class="sp-slide" th:each="List, iterState : ${List}">
+                            <div class="sp-slide" th:each="List, iterState : ${list}">
                                 <img class="sp-image" th:src="${List.img}"/>
 
                                 <div class="sp-slide-content">
@@ -72,7 +75,7 @@
                         </div>
 
                         <div class="sp-thumbnails">
-                        	<th:block th:each="List, iterState : ${List}">
+                        	<th:block th:each="List, iterState : ${list}">
                             	<img class="sp-thumbnail" th:src="${List.img}"/>
                             </th:block>
                         </div>
@@ -130,7 +133,7 @@
         });
         
         courseService.add(
-        		{coursekey:newKey}
+        		{coursekey:newKey,token:token, header:header}
         		,
         		function(result){
         			console.log(result);
@@ -138,6 +141,10 @@
         	);
         
 	});
+	
+	// csrf
+	var token = $("meta[name='_csrf_token']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
 	
 	var courseService = (function(){
 		
@@ -149,6 +156,9 @@
 				url : '/course/new',
 				data : JSON.stringify(course),
 				contentType : "application/json; charset=utf-8",
+				beforeSend: function(xhr){
+					xhr.setRequestHeader(course.header, course.token);
+				},
 				success : function(result, status, xhr){
 					if (callback){
 						callback(result);

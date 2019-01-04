@@ -1,189 +1,350 @@
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{/layout/layout1}">
-<th:block layout:fragment="style">
-	<link rel="stylesheet" type="text/css" href="../styles/offers_styles.css">
-	<link rel="stylesheet" type="text/css" href="../styles/offers_responsive.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-<style>
-* {
-  box-sizing: border-box;
-  font-family: Roboto, sans-serif;
-}
-
-body {
-  margin: 0;
-  -webkit-text-size-adjust: 100%;
-}
-/* ----- BUTTONS ----- */
-.product-view {
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: left;
-}
-.product-view i {
-  display: inline-block;
-  font-size: 1.5em;
-  padding: 10px;
-  background: #ddd;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-}
-.product-view i.active {
-  background: #bbb;
-}
-
-/* ----- GALLERY VIEW ----- */
-.products.gallery {
-  -webkit-column-width: 300px;
-          column-width: 300px;
-  -webkit-column-gap: 5px;
-          column-gap: 5px;
-  padding: 0 5px;
-  font-size: 0;
-}
-.products.gallery figure {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-  height: auto;
-  margin: 0 0 5px 0;
-}
-.products.gallery figure::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: background 300ms;
-}
-.products.gallery figure img {
-  width: 345px;
-  height: 200px;
-}
-.products.gallery figure figcaption {
-	box-sizing: border-box;
-  font-family: Roboto, sans-serif;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
-  z-index: 2;
-  width: 100%;
-  max-height: 100%;
-  padding: 20px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #ddd;
-  text-shadow: 0 0 1px #000;
-  opacity: 0;
-  overflow: auto;
-  transition: opacity 300ms;
-  -webkit-overflow-scrolling: touch;
-}
-.products.gallery figure figcaption::-webkit-scrollbar {
-  width: 4px;
-}
-.products.gallery figure figcaption::-webkit-scrollbar-track {
-  background: transparent;
-}
-.products.gallery figure figcaption::-webkit-scrollbar-thumb {
-  background: #bbb;
-}
-.products.gallery figure figcaption::-webkit-scrollbar-thumb:hover {
-  background: #999;
-}
-.products.gallery figure:hover::after {
-  background: rgba(0, 0, 0, 0.8);
-}
-.products.gallery figure:hover figcaption {
-  opacity: 1;
-}
-
-/* ----- LIST VIEW ----- */
-.products.list {
-  padding: 0 5%;
-}
-.products.list figure {
-  width: 100%;
-  height: auto;
-  max-width: 600px;
-  margin: 0 auto 40px;
-  background: #eee;
-  border: 1px solid #ddd;
-}
-.products.list figure img {
-  width: 100%;
-  height: auto;
-}
-.products.list figure figcaption {
-  padding: 20px;
-  line-height: 1.4;
-}
-.offers{
-	background-image: url("/images/bg_bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-	text-align: center;
-}
-.opacity{
-	background-color: rgba( 0, 0, 0, 0.5);
-}
-.my_container{
-	margin-top: 170px;
-    margin-bottom: 23px;
-	display: inline-block;
-    width: 74%;
-}
-
-</style>
-</th:block>
-
-<div layout:fragment="content">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>three.js css3d - periodic table</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
+	<style>
+	html, body {
+		height: 100%;
+	}
+	body {
+		background-image: url("../images/bgbg.jpg");
+		background-size: cover;
+		background-position: center;
+		margin: 0;
+		font-family: Helvetica, sans-serif;;
+		overflow: hidden;
+	}
+	#container {
+		background: rgba(0,0,0,0.7);
+	}
+	a {
+		color: #ffffff;
+	}
+	#info {
+		position: absolute;
+		width: 100%;
+		color: #ffffff;
+		padding: 5px;
+		font-family: Monospace;
+		font-size: 13px;
+		font-weight: bold;
+		text-align: center;
+		z-index: 1;
+	}
+	#menu {
+		position: absolute;
+		bottom: 20px;
+		width: 100%;
+		text-align: center;
+	}
+	.element {
+		width: 120px;
+		height: 130px;
+		box-shadow: 0px 0px 12px rgba(0,255,255,0.5);
+		border: 1px solid rgba(127,255,255,0.25);
+		text-align: center;
+		cursor: default;
+	}
+	.element:hover {
+		box-shadow: 0px 0px 12px rgba(0,255,255,0.75);
+		border: 1px solid rgba(127,255,255,0.75);
+	}
+		.element .number {
+			position: absolute;
+			top: 20px;
+			right: 20px;
+			font-size: 12px;
+			color: rgba(127,255,255,0.75);
+		}
+		.element .symbol {
+			position: absolute;
+			top: 27px;
+			left: 0px;
+			right: 0px;
+			font-size: 60px;
+			font-weight: bold;
+			color: rgba(255,255,255,0.75);
+			text-shadow: 0 0 10px rgba(0,255,255,0.95);
+		}
+		.element .details {
+			position: absolute;
+			bottom: 15px;
+			left: 0px;
+			right: 0px;
+			font-size: 12px;
+			color: rgba(127,255,255,0.75);
+		}
+	button {
+		color: rgba(127,255,255,0.75);
+		background: transparent;
+		outline: 1px solid rgba(127,255,255,0.75);
+		border: 0px;
+		padding: 5px 10px;
+		cursor: pointer;
+	}
+	button:hover {
+		background-color: rgba(0,255,255,0.5);
+	}
+	button:active {
+		color: #000000;
+		background-color: rgba(0,255,255,0.75);
+	}
+	.symbol img {
+		margin-top: -25px;
+		width: 100%;
+		height: 100px;
+	}
+	.bigPictureWrapper {
+		position: absolute;
+		display: none;
+		justify-content: center;
+		align-items: center;
+	    /* flex-direction: column; */
+		top: 0%;
+		width: 100%;
+		height: 100%;
+		background-color: gray;
+		z-index: 100;
+		background: rgba(0,0,0,0.5);
+	}
+	.bigPicture{
+		width: 600px;
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		background: rgba(255,255,255,1);
+	}
+	.bigPicture img{
+		width: 600px;
+		
+	}
+	.bigPicture img:hover{
+		zoom: 1;
+		filter: alpha(opacity=50);
+		opacity: 0.8;
+	}
+	.title{
+		
+	}
+	.keyword{
+		
+	}
+	</style>
+</head>
+<body>
+	<script src="../js/three.js"></script>
+	<script src="../js/tween.min.js"></script>
+	<script src="../js/TrackballControls.js"></script>
+	<script src="../js/CSS3DRenderer.js"></script>
+	<script src="../js/jquery-3.2.1.min.js"></script>
+	<script src="../styles/bootstrap4/popper.js"></script>
+	<script src="../styles/bootstrap4/bootstrap.min.js"></script>
 	
-	
-	<div class="offers">
-		<div class="opacity">
-			<div class="my_container">
-							
-				<section class="products gallery">
-				  <figure th:each="arr : ${list}">
-				    <img th:src="${arr.img}" />
-				    <figcaption>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus omnis facere earum eveniet dolore numquam velit ipsum repellat! Accusamus doloribus quidem quisquam, laboriosam ea porro earum dolor, illum? Quas, voluptatibus.</figcaption>
-				  </figure>
-				</section>
-			</div>
+	<div class="bigPictureWrapper">
+		
+		<div class="bigPicture">
+			
+			<div class='title'>HIHIHIHI</div>
+			<div class='keyword'>desc</div>
+
 		</div>
-	</div>	   
-</div>
 
+	</div>
 
-<th:block layout:fragment="script">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/0.10.0/lodash.min.js"></script>
-
-	<script th:inline="javascript">
+	<div id="container"></div>
+	<div id="menu">
+		<button id="sphere">SPHERE</button>
+		<button id="table">TABLE</button>
+		<button id="helix">HELIX</button>
+		<button id="grid">GRID</button>
+	</div>
 	
-	$('.btn-gallery').on('click', function() {
-		  $('.products').removeClass('list').addClass('gallery');
-		  $('.btn-list').removeClass('active');
-		  $(this).addClass('active');
-		});
-	
-		$('.btn-list').on('click', function() {
-		  $('.products').removeClass('gallery').addClass('list');
-		  $('.btn-gallery').removeClass('active');
-		  $(this).addClass('active');
+	<script>
+		var pointArr ;
+		function getImgList(pointArr, callback){
+			$.ajax({
+				type: "get",
+				url: "/replies/imglist",
+				dataType: 'json',
+				async: false,
+				success: callback
+			});
+		}
+		getImgList(pointArr, function(data){
+			pointArr = data;
 		});
 		
-	</script>
+		var table = [];
+		var index = 0;
+		for (var i = 0 ; i < (pointArr.length/10); i++){
+			for(var j = 0 ; j < 10; j++){
+				table.push(pointArr[index].img,pointArr[index].title,pointArr[index].keyword, j+5, i);
+				index++;
+				if(index == pointArr.length){
+					break;
+				}
+			}
+		}			
+		
+		var camera, scene, renderer;
+		var controls;
+		var objects = [];
+		var targets = { table: [], sphere: [], helix: [], grid: [] };
+		init();
+		animate();
+		function init() {
+			
+			camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+			camera.position.z = 3000;
+			scene = new THREE.Scene();
+			// table
+			for ( var i = 0; i < table.length; i += 5 ) {
+				var element = document.createElement( 'div' );
+				element.className = 'element';
+				
 
-</th:block>
+				
+				var symbol = document.createElement( 'div' );
+				symbol.className = 'symbol';
+				//symbol.textContent = table[ i ];
+				symbol.innerHTML ="<img src="+table[i]+"><input type='hidden' id='title' value="+table[i+1]+"><input type='hidden' id='keyword' value="+table[i+2]+">";
+				element.appendChild( symbol );
+				
+				var object = new THREE.CSS3DObject( element );
+				object.position.x = Math.random() * 4000 - 2000;
+				object.position.y = Math.random() * 4000 - 2000;
+				object.position.z = Math.random() * 4000 - 2000;
+				scene.add( object );
+				objects.push( object );
+				//
+				var object = new THREE.Object3D();
+				object.position.x = ( table[ i + 3 ] * 140 ) - 1330;
+				object.position.y = - ( table[ i + 4 ] * 180 ) + 990;
+				targets.table.push( object );
+			}
+			// sphere
+			var vector = new THREE.Vector3();
+			for ( var i = 0, l = objects.length; i < l; i ++ ) {
+				var phi = Math.acos( - 1 + ( 2 * i ) / l );
+				var theta = Math.sqrt( l * Math.PI ) * phi;
+				var object = new THREE.Object3D();
+				object.position.setFromSphericalCoords( 800, phi, theta );
+				vector.copy( object.position ).multiplyScalar( 2 );
+				object.lookAt( vector );
+				targets.sphere.push( object );
+			}
+			// helix
+			var vector = new THREE.Vector3();
+			for ( var i = 0, l = objects.length; i < l; i ++ ) {
+				var theta = i * 0.175 + Math.PI;
+				var y = - ( i * 8 ) + 450;
+				var object = new THREE.Object3D();
+				object.position.setFromCylindricalCoords( 900, theta, y );
+				vector.x = object.position.x * 2;
+				vector.y = object.position.y;
+				vector.z = object.position.z * 2;
+				object.lookAt( vector );
+				targets.helix.push( object );
+			}
+			// grid
+			for ( var i = 0; i < objects.length; i ++ ) {
+				var object = new THREE.Object3D();
+				object.position.x = ( ( i % 5 ) * 400 ) - 800;
+				object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+				object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+				targets.grid.push( object );
+			}
+			//
+			renderer = new THREE.CSS3DRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.getElementById( 'container' ).appendChild( renderer.domElement );
+			//
+			controls = new THREE.TrackballControls( camera, renderer.domElement );
+			controls.rotateSpeed = 0.5;
+			controls.minDistance = 500;
+			controls.maxDistance = 6000;
+			controls.addEventListener( 'change', render );
+			var button = document.getElementById( 'table' );
+			button.addEventListener( 'click', function () {
+				transform( targets.table, 2000 );
+			}, false );
+			var button = document.getElementById( 'sphere' );
+			button.addEventListener( 'click', function () {
+				transform( targets.sphere, 2000 );
+			}, false );
+			var button = document.getElementById( 'helix' );
+			button.addEventListener( 'click', function () {
+				transform( targets.helix, 2000 );
+			}, false );
+			var button = document.getElementById( 'grid' );
+			button.addEventListener( 'click', function () {
+				transform( targets.grid, 2000 );
+			}, false );
+			transform( targets.sphere, 2000 );
+			//
+			window.addEventListener( 'resize', onWindowResize, false );
+		}
+		function transform( targets, duration ) {
+			TWEEN.removeAll();
+			for ( var i = 0; i < objects.length; i ++ ) {
+				var object = objects[ i ];
+				var target = targets[ i ];
+				new TWEEN.Tween( object.position )
+					.to( { x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+					.easing( TWEEN.Easing.Exponential.InOut )
+					.start();
+				new TWEEN.Tween( object.rotation )
+					.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+					.easing( TWEEN.Easing.Exponential.InOut )
+					.start();
+			}
+			new TWEEN.Tween( this )
+				.to( {}, duration * 2 )
+				.onUpdate( render )
+				.start();
+		}
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			render();
+		}
+		function animate() {
+			requestAnimationFrame( animate );
+			TWEEN.update();
+			controls.update();
+		}
+		function render() {
+			renderer.render( scene, camera );
+		}
+		// 클릭하면 이미지 띄우기
+		$(".element").on("click", function(e){
+			
+			$(".bigPictureWrapper").css("display", "flex").show();
+			var img = $(this).find("img")[0].src;
+			var title = $(this).find("input[id='title']").val();
+			var keyword = $(this).find("input[id='keyword']").val();
+			
+
+			$(".bigPicture").html("<img src='"+img+"'><div class='title'>HIHIHIHI</div><div class='keyword'>desc</div>").animate({width:'600px'}, 300);
+			$(".title").html(title);
+			$(".keyword").html(keyword);
+		});
+		
+		// 이미지 클릭하면 화면에서 지우기
+		$(".bigPictureWrapper").on("click", function(e){
+			
+			$(".bigPicture").animate({width:'600px'}, 300);
+			setTimeout(function(){
+				$(".bigPictureWrapper").hide();
+			}, 300);
+			
+		});
+	</script>
+</body>
+</html>
