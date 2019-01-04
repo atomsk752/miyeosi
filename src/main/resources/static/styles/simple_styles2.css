@@ -8,8 +8,11 @@
 	
 } */
 
+.rec_title{
+	padding-left : 35px;
+}
+
 .checkbox {
-	right: 320px;
 	z-index: 10;
 	position: absolute;
 	float: left;
