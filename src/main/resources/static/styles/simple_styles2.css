@@ -8,6 +8,12 @@
 	
 } */
 
+.logo img{
+	height: 55px;
+	margin-top: 38px;
+	margin-left: 25px;
+}
+
 .rec_title{
 	padding-left : 35px;
 }
@@ -85,7 +91,7 @@
   background-color: #61aa39;
 }
 
-button{
+/* button{
 	margin-top: 110px;
 	position: absolute;
 	cursor: pointer;
@@ -95,7 +101,7 @@ button{
 	border: 0;
 	opacity: .5;
 	
-}
+} */
 
 button::before, button::after {
   box-sizing: inherit;
@@ -109,12 +115,26 @@ button:hover{
 	opacity: 1;
 }
 
-#prevBtn{
+.prevBtn{
 	left: 0;
 }
 
-#nextBtn{
+.nextBtn{
 	right: 0;
+}
+
+
+.row1 button, .row2 button{
+	margin-top: 89px;
+	position: absolute;
+	cursor: pointer;
+	background-color: transparent;
+	color: white;
+	z-index: 5;
+	border: 0;
+	opacity: .5;
+	
+}
 }
 
 

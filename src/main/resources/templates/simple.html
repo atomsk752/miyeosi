@@ -14,6 +14,9 @@
 		<link rel="stylesheet" type="text/css" href="/styles/simple_spot_info.css">
 	</head>
 	<body>
+	<a class="logo" href="/index">
+		<img src="/images/myjourney.png">
+	</a>
 	
 	<a class="glitch-btn" href="/boards/list" target="_self">
 		  <div class="text">NEXT</div>
@@ -23,11 +26,8 @@
 	 </a>
 
 <style>
-.tile {
- padding: 3px;
-}
 
-.tile img {
+.tile__img {
 border: 1px solid green;
 border-radius: 10px;
 }
@@ -45,7 +45,7 @@ border-radius: 10px;
 
 .row-container1 {
   
-padding-top: 150px;
+padding-top: 110px;
 
 }
 .container{
@@ -88,9 +88,9 @@ padding-left : 30px;
 			<div class="rec_title">		
 				<h1>가장 많은 사랑을 받은 여행지</h1>
 			</div>		
-			<div class="row">
-			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
-			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
+			<div class="row row1">
+			<button class="prevBtn" data-row="1"><i class="fas fa-angle-left fa-5x"></i></button>
+			<button class="nextBtn" data-row="1"><i class="fas fa-angle-right fa-5x"></i></button>
 			    <div class="row__inner">    	
 			    	<ul id="og-grid" >
 						<li  class="tile" th:each="List, iterState : ${List}" th:id="thumb + ${List.pno}" th:data-pno="${List.pno}"
@@ -124,7 +124,7 @@ padding-left : 30px;
 		    </div>
 
 		</div>
-		<div id="right_box_container" class="right_box">
+		<div id="right_box_container" class="right_box expander">
 			<div id="infoContainer" class="infoMenu"></div>
 			<div class="spot_info_box blog">
 				<div class="blog_list"></div>
@@ -135,11 +135,11 @@ padding-left : 30px;
 		
 		<div class="row-container2">
 			<div class="rec_title">	
-				<h1>나홀로 여행자가 선택한 그 장소</h1>
+				<h1>나홀로 여행자가 선택한 그 장소 </h1><h2>(#20대, #솔로)</h2>
 			</div>	
-			<div class="row">
-			<button id="prevBtn"><i class="fas fa-angle-left fa-5x"></i></button>
-			<button id="nextBtn"><i class="fas fa-angle-right fa-5x"></i></button>
+			<div class="row row2">
+			<button class="prevBtn" data-row="2"><i class="fas fa-angle-left fa-5x"></i></button>
+			<button class="nextBtn" data-row="2"><i class="fas fa-angle-right fa-5x"></i></button>
 			    <div class="row__inner">    	
 			    	<ul id="og-grid" >
 						<li  class="tile" th:each="List2, iterState : ${List2}" th:id="thumb + ${List2.pno}" th:data-pno="${List2.pno}"
@@ -164,12 +164,7 @@ padding-left : 30px;
 					</ul>
  				</div>
 			</div>	
-				<div id="sliderFrame" class="expander">
-	             	<div id="checkBoxContainer"></div>
-			        <div id="slider">
-			       
-			        </div>
-			    </div>
+				
 			
 			<style>
 			.testDiv  {
@@ -263,6 +258,7 @@ padding-left : 30px;
 		var images = [];
 
 		$("#sliderFrame").hide();
+		$("#right_box_container").hide();
 		
 		var checkPnoList = [];
 		var currentPno = null;
@@ -304,20 +300,9 @@ padding-left : 30px;
 
 				imageSlider.reload();
 			}); 
-			//var targetCheck = $("div[data-index='"+currentPno+"']");
-			
-			//$(".checkbox").attr("data-index")
-			
-
 
 			var sliderCheck = "";
-		/* 	if(targetCheck){
-				sliderCheck += "<div class="+"'checkbox check is-checked'"+"data-index='"+currentPno+"'></div>";
-				$("#checkBoxContainer").html(sliderCheck);
-			}else{
-				sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
-				$("#checkBoxContainer").html(sliderCheck);
-			} */
+
 			sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
 			$("#checkBoxContainer").html(sliderCheck);
 			
@@ -345,8 +330,8 @@ padding-left : 30px;
 				$(".blog_list").html(str);
 				}
 			});
-		
-		
+
+			
 			if(current != currentPno){
 				$(".expander").hide();
 				
@@ -355,6 +340,7 @@ padding-left : 30px;
 				return;
 			}else{
 				$(".expander").slideUp();
+				
 				current = -1;
 			}
 			
@@ -365,16 +351,22 @@ padding-left : 30px;
 		$("#sliderFrame").on("click", "div", function(e){
 
 			var targetLi = $("li[data-pno='"+currentPno+"']");
+			var targetImg = $("li[data-pno='"+currentPno+"'] tile__media img");
 			var targetCheck = $("div[data-index='"+currentPno+"']");
 			var point = new Object() ;
-			
+
 		    point.pno = targetLi.data("pno");
 		    point.lat = targetLi.data("lat");
 		    point.lng = targetLi.data("lng");
 		    point.title = targetLi.data("title");
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
-			targetLi.toggleClass("selected");
+		    if(targetImg.hasClass("selected")){
+		    	targetImg.removeClass("selected");
+		    }else{
+		    	targetImg.addClass("selected");
+		    }
+		    
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
@@ -385,15 +377,14 @@ padding-left : 30px;
 				checkPnoList.push(testList[i].pno);
 				
 			}
-			
-			//console.log(testList)
-			
+
 		});
 		
 		
 		$("#slider").on("click", "div", function(e){
 
 			var targetLi = $("li[data-pno='"+currentPno+"']");
+			var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
 			var targetCheck = $("div[data-index='"+currentPno+"']");
 			var point = new Object() ;
 			
@@ -403,7 +394,11 @@ padding-left : 30px;
 		    point.title = targetLi.data("title");
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
-			targetLi.toggleClass("selected");
+		    if(targetImg.hasClass("selected")){
+		    	targetImg.removeClass("selected");
+		    }else{
+		    	targetImg.addClass("selected");
+		    }
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
@@ -414,9 +409,7 @@ padding-left : 30px;
 				checkPnoList.push(testList[i].pno);
 				
 			}
-			
-			//console.log(testList)
-			
+
 		});
 
 		
@@ -432,8 +425,6 @@ padding-left : 30px;
 
 			checkSelected(currentPno);
 			
-			//$(this).toggleClass('is-checked');
-
 			var pno = $(this).data("pno");
 			var html = $("#thumb" + pno).html();
 
@@ -464,24 +455,24 @@ padding-left : 30px;
 	     	
 		 }
 	    
-	    
-	    
-		     
+	      
 	    function updateCourse(key, newCourse, callback){
 	    	
 	        firebase.database().ref('courses/' + key + '/untitled/day0').set(newCourse);
 	        
 	    }
 		
-		$("#prevBtn").click(function(){
+		$(".prevBtn").click(function(event){
+			var row = event.target.getAttribute("data-row");
 			event.preventDefault();
-			  $('.row').animate({
+			  $('.row'+row).animate({
 			    scrollLeft: "-=1000px"
 			  });
 		});
-		$("#nextBtn").click(function(){
+		$(".nextBtn").click(function(event){
+			var row = event.target.getAttribute("data-row");
 			event.preventDefault();
-			  $('.row').animate({
+			  $('.row'+row).animate({
 			    scrollLeft: "+=1000px"
 			  });
 		});
@@ -494,6 +485,18 @@ padding-left : 30px;
 	        callback(newKey);
 	        
 	    }
+	    
+	    $("li").on("click", function(){
+	    	var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
+	    	
+	    	if(targetImg.hasClass("selected")){
+		    	$(".checkbox").addClass("is-checked");
+		    }else{
+		    	$(".checkbox").removeClass("is-checked");
+		    }
+	    })
+	   
+	    
 	    
 		</script>		
 
