@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col d-flex flex-row">
                         <div class="phone">
-                            <a href="/index"><img class="phone" src="/images/logo2.jpg"></a>
+                            <a href="/index"><img class="phone" src="/images/myjourney.png"></a>
                         </div>
 
                         <fieldset class="field-container">
@@ -54,7 +54,14 @@
                                 </div>
                             </div>
                         </fieldset>
-
+                        
+                        <div class="category-btn">
+                        <input type="checkbox" id="site" name="site" checked="checked"><label for="site"><img src="/images/site.png"></label>
+                        <input type="checkbox" id="restaurant" name="restaurant" checked="checked"><label for="restaurant"><img src="/images/restaurant.png"></label>
+                        <input type="checkbox" id="hotel" name="hotel" checked="checked"><label for="hotel"><img src="/images/hotel.png"></label>	
+                        	<button id="refresh"><img src="/images/refresh.svg"></button>
+                        </div>
+                        
                         <div class="user_box ml-auto">
                             <a class="glitch-btn" href="/courseboard/list" target="_self">
                                 <div class="text">NEXT</div>
@@ -154,6 +161,7 @@
                        </div>
                    </div>
                 </div>
+                <button class="poly-btn" id="poly-btn">폴리</button>
             </div>
         </div>
     </div>
@@ -186,7 +194,7 @@
 	};
 	firebase.initializeApp(config);
 	
-	var fixedkey= "-LUjJ-spjC4O86R1uwfw";
+	var fixedkey= "-LUj9dwD2-Gy6G-PxXHX";
 	var title = "untitled";
 	
 	var courseObject = {};
@@ -269,11 +277,19 @@
             
             courseObject.day0['jsons'].push(data[i]);
             
+            var icon = {
+            		url: '../images/marker.svg',
+            		scaledSize : new google.maps.Size(45,47),
+            		origin: new google.maps.Point(0,0),
+            	    anchor: new google.maps.Point(22,46) 
+            };
+            
             var marker = new google.maps.Marker({
                     position : data[i],
                     title : data[i].title,
                     descs : data[i].descs,
-                    myPos : data[i]
+                    myPos : data[i],
+                    icon : icon
                     
                 });
             
@@ -317,12 +333,20 @@
 
                 recommendObject.day0['jsons'].push(data[i]);
                 
+                var icon = {
+                		url: '../images/catMarker.png',
+                		scaledSize : new google.maps.Size(35,30),
+                		origin: new google.maps.Point(0,0),
+                	    anchor: new google.maps.Point(25, 25) 
+                };
+                
+                
                 var marker = new google.maps.Marker({
                     position : data[i],
                     title : data[i].title,
                     descs : data[i].descs,
                     myPos : data[i],
-                    icon : 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                    icon : icon
                     
                 });
                 
@@ -625,9 +649,9 @@
 		clearMap();
 
 		poly = new google.maps.Polyline({ //선분 모양 설정
-			strokeColor : '#000000',
+			strokeColor : '#1952AF',
 			strokeOpacity : 1.0,
-			strokeWeight : 3
+			strokeWeight : 2
 		});
 
 		mapExistMarkers = markerArr;
@@ -826,25 +850,35 @@
 	
 	function addMarkerEvent(marker){
 	       
-       google.maps.event.addListener(marker, "click", function() {
-    	   
-            var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
-            courseObject[targetTripDay]['markers'].push(marker);
-            courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
-            courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
-   
-           drawPath(courseObject[targetTripDay].markers);
-            drawSidebarList();
-            
-            console.log("recommendObject marker clicked....")
-            var str = "";
-            for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
-                
-                str += courseObject[targetTripDay].li[i];
+       google.maps.event.addListener(marker, "click", function(e) {
+    	   var dupl = false;
+    	   var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
+           
+    	   for(var i = 0; i < courseObject[targetTripDay].markers.length; i++){
+            	if(courseObject[targetTripDay].markers[i] == marker){
+            		dupl = true;
+            		return;
+            	}
+           }
+           if(!dupl){
+        	   courseObject[targetTripDay]['markers'].push(marker);
+               courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
+               courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
+      
+               drawPath(courseObject[targetTripDay].markers);
+               drawSidebarList();
+               
+               console.log("recommendObject marker clicked....")
+               var str = "";
+               for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
+                   
+                   str += courseObject[targetTripDay].li[i];
+               }
+               
+               $("ul.droptrue").html(str);
+            }else{
+            	e.preventDefault();
             }
-            
-            $("ul.droptrue").html(str);
-
        });
 	}
 	
@@ -878,6 +912,13 @@
         recommendObject['day0'].markers = result;
         
      }
+	
+	var polyBtn = $("#poly-btn");
+	
+	polyBtn.on("click", function(e){
+		polyBtn.toggleClass("path");
+		polyBtn.hasClass("path") ? polyBtn.html("경로") : polyBtn.html("폴리") ;
+	});
 	
 	
 	
