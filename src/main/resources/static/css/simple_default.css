@@ -45,8 +45,8 @@ a {
 
 .container {
 	width: 100%;
-	/* position: relative;
-	overflow: scroll;  */
+	position: relative;
+	overflow: scroll; 
 		
 }
 
