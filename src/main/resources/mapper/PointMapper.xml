@@ -33,6 +33,10 @@
 		select * from tbl_point where pno = #{pno}
 	</select>
 	
+	<select id="imgread" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point_img where pno = #{pno} order by ino desc
+	</select>
+	
 	<insert id="register" parameterType="org.honeyrock.domain.PointVO">
 		insert into tbl_point (title, lat, lng, keyword, category, img) values(#{title}, #{lat}, #{lng}, #{keyword}, #{category}, #{img})
 	</insert>

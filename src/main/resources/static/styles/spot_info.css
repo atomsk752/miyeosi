@@ -219,7 +219,8 @@ input,textarea{
 }
 
 .spot_info_box{
-	width:100%;
+	float : left;
+	width:78%;
 	background:white;
 	border:1px solid #d8d8d8;
 }

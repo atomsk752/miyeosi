@@ -192,11 +192,15 @@
 }
 
 /************
-3. 1280px (1540px)
+3. 1280px
 ************/
 
-@media only screen and (max-width: 1540px)
+@media only screen and (max-width: 1280px)
 {
+
+	
+}
+
 	.search
 	{
 		position: relative;

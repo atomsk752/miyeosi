@@ -1,11 +1,12 @@
 package org.honeyrock.domain;
 
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,4 +55,7 @@ public class PointVO {
 	@OneToMany(mappedBy = "point", cascade=CascadeType.ALL)
 	private List<PointReplyVO> replies;
 	
+	private ArrayList<ImageVO> imgList;
+	
 }
+
