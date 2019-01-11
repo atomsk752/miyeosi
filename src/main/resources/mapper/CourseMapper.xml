@@ -7,8 +7,25 @@
 <mapper namespace="org.honeyrock.mapper.CourseMapper">
 
 	<insert id="insert" parameterType="org.honeyrock.domain.CourseVO">
-		insert into tbl_course (coursekey, usermail) values(#{coursekey}, 'admin@test.com')
+		insert into tbl_course (coursekey, usermail) values(#{coursekey}, 'dlswo4456@naver.com')
 		<!-- insert into tbl_Course (coursekey, usermail) values(#{coursekey}, #{usermail}) 유저메일 적용하면 바꿈 -->
 	</insert>
+	
+	<insert id="starInsert" parameterType="org.honeyrock.domain.CourseRatingVO">
+		insert into tbl_course_rating (coursekey, usermail, userrating) values (#{coursekey}, #{usermail}, #{userrating});
+	</insert>
+
+	<select id="getList" resultType="org.honeyrock.domain.CourseVO">
+		select course.coursekey, course.usermail, course.coursename, course.good, course.bad, course.regdate, course.updatedate, course.days, course.cost, course.keyword, course.rating, course.del, board.coursebno
+		from tbl_course course left outer join tbl_course_board board
+		on course.coursekey = board.coursekey
+		where course.usermail = #{usermail}
+		and course.del = 0 
+		order by course.regdate desc
+	</select>
+	
+	 <delete id="delete">
+  		update tbl_course set del=1 where coursekey=#{coursekey}
+  	</delete>
 	
 </mapper>

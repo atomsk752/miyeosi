@@ -26,4 +26,6 @@ public interface PointService {
 
 	public JSONArray getBlog(String keyword);
 	
+	public List<PointVO> getImg();
+	
 }

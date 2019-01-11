@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{/layout/layout1}">
 
 <th:block layout:fragment="style">
@@ -8,16 +9,33 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../plugins/jqcloud2/dist/jqcloud.min.js"></script>
     <link rel="stylesheet" href="../plugins/jqcloud2/dist/jqcloud.min.css">
+    <link rel="stylesheet" type="text/css" href="../styles/spot_info.css">
     <link rel="stylesheet" type="text/css" href="../styles/read_styles.css">
     <link rel="stylesheet" type="text/css" href="../styles/read_responsive.css">
+    
     
     <!-- earthtory -->
 	<!-- <link rel="stylesheet" href="https://www.earthtory.com/res/css/mypage/plan/plan_sub.css" /> -->
 	<link rel="stylesheet" href="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.css" />
 	<!-- <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script> -->
+	<!-- csrf -->
+	<meta name="_csrf_token" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
 </th:block>
-
+<!-- facebook share -->
+	<meta property="og:url"
+		content="https://www.your-domain.com/your-page.html" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Your Website Title" />
+	<meta property="og:description" content="Your description" />
+	<meta property="og:image"
+		content="https://www.your-domain.com/path/image.jpg" />
+<!-- naver share -->
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width"/>
+	
 <div layout:fragment="content">
 
     <!-- Home -->
@@ -133,7 +151,26 @@
                                 <div class="col-lg-11">
                                     <div class="offers_content">
                                         <div class="offers_price" th:text="${detail.coursetitle}"><span th:text="${#dates.format(detail.regdate, 'yyyy-MM-dd HH:mm')}"></span></div>
-
+                                        		
+                                        		<!-- rating -->
+                                        		<div class="starDiv">
+												<span class="star-input">
+												  <span class="input">
+												    <input type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
+												    <input type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
+												    <input type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
+												    <input type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
+												    <input type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
+												    <input type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
+												    <input type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>
+												    <input type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
+												    <input type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>
+												    <input type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
+												  </span>
+												  <output for="star-input"><b>0</b>점</output>
+												</span>
+												</div>
+												<!-- rating end -->
 
                                         <div class="read_descs">
 
@@ -165,6 +202,22 @@
 															<div class="date">2015.08.01 (토)</div>
 															<div class="day_title">뭐넣지</div>
 														</div>
+														
+														<!-- share button -->
+														<div class="shareBtn">
+															<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
+															
+															<div class="fb-share-button" data-href="http://10.10.10.91:8080/courseboard/read?coursebno=10"
+																data-layout="button" data-size="large" data-mobile-iframe="true">
+																<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A8080%2Fcourseboard%2Fread%3Fpage%3D1%26display%3D10%26type%26keyword%26coursebno%3D10&amp;src=sdkpreparse"
+																class="fb-xfbml-parse-ignore">공유하기</a></div>
+															
+															<a href="javascript:;" id="kakao-link-btn">
+																<img src="//developers.kakao.com/assets/img/about/logos/kakaolink/kakaolink_btn_small.png" />
+															</a>
+														</div>
+														<!-- share button end -->
+														
 														<div class="day_info_right" style="display: none;"></div>
 														<div class="clear"></div>
 													</div>
@@ -173,8 +226,7 @@
 												<div id="pointList">
 													
 												</div>
-												
-												
+
 	<!-- 											<div class="day_sch_box" data-id="1-1">
 														<div class="day_sch_num">
 															<div class="sch_num">1</div>
@@ -209,6 +261,54 @@
 										</div>
 
 										<!-- end earthtory -->
+										
+										<div class="spot_info_box community">
+											<div class="clear"></div>
+											<div class="write_area">
+												<div class="write_review">
+													<div class="write_title r">댓글쓰기
+														<!-- <input type="text" id="pointreplyer" class="check_in search_input" placeholder="작성자를 입력하세요."> -->
+													</div>
+													<div class="review_box">
+														<div class="write_left">
+														</div>
+														<div class="write_center">
+															<input id="reply" class="review_area" placeholder="댓글을 작성하세요.">
+														</div>
+														<div class="write_right">
+															<div class="btn_review_write" id="si_review_form_submit"
+																data="new">등록</div>
+														</div>
+														<div class="clear"></div>
+													</div>
+												</div>
+											</div>
+
+											<div class="cmmt_tab_content review">
+<!-- 													<div class="cmmt_content_box" >
+														<div class="cmmt_c_user">
+															<div class="cmmt_c_user_txt">
+																<div class="cmmt_c_user_name" > 작성자
+																 <span> &nbsp;&nbsp;등록시간 </span>
+																</div>
+																<div class="cmmt_c_user_level">
+
+																	<div class="rv_cnt">좋아요 싫어요</div>
+																	<div class="clear"></div>
+																</div>
+															</div>
+															<div class="clear"></div>
+														</div>
+														<div class="cmmt_content">방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 방콕 투어 중
+															가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요방콕 투어 중 가장 잼있게 놀았어요 방콕 투어
+															중 가장 잼있게 투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀았어요 방콕 투투어 중 가장
+															잼있게 놀았어요 방콕 투어 중 가장 잼있게 놀투어 중 가장 잼있게 놀았어요 방콕 투어 중 가장 잼있게
+															놀았어요.</div>
+													</div> -->
+												
+											</div>
+										</div> <!-- end comunity -->
 									</div>
 								</div>
 							</div>
@@ -281,7 +381,7 @@
 		</div>
 	</div>
 	<form id="actionForm">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<input sec:authorize="hasRole('ROLE_MEMBER')" type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" name='page' th:value="${pageObj.page}">
 		<input type="hidden" name='display' th:value="${pageObj.display}">
 		<input type="hidden" name='category' th:value="${pageObj.category}">
@@ -292,10 +392,6 @@
 	<form id="tabForm">
 	</form>
 </div>
-   	
-    
-
-
 
 <th:block layout:fragment="script">
 
@@ -308,12 +404,119 @@
     <script src="../plugins/scrollmagic/ScrollMagic.min.js"></script>
     <script src="../plugins/greensock/animation.gsap.min.js"></script>
     <script src="../plugins/greensock/ScrollToPlugin.min.js"></script>
-    <!-- <script src="../plu gins/OwlCarousel2-2.2.1/owl.carousel.js"></script> -->
+    <!-- <script src="../plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script> -->
     <script type="text/javascript" src="https://www.earthtory.com/res/js/js/jquery-latest.min.js"></script>
     <script type="text/javascript" src="https://www.earthtory.com/res/js/mobile/owl_carousel/owl.carousel2.js"></script>
     <script src="../js/read_custom.js"></script>
+    <script src="../js/courseboardreply.js"></script>
     
     <script src="../js/fb.js"></script>
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+	
+	<!-- facebook shared -->
+	<div id="fb-root"></div>
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+		 	if (d.getElementById(id)) return;
+	 		js = d.createElement(s); js.id = id;
+		 	js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.2';
+		 	fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	
+	<!-- kakao shared -->
+	<script type="text/javascript">
+  //<![CDATA[
+    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+    Kakao.init('4bd54a12e70b615cf1c7e6066275d6f6');
+    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+    Kakao.Link.createDefaultButton({
+      container: '#kakao-link-btn',
+      objectType: 'feed',
+      content: {
+        title: document.title,
+        description: '여행코스 공유',
+        imageUrl: document.images[0].src,
+        link: {
+          webUrl: document.location.href,
+          mobileWebUrl: document.location.href
+        }
+      },
+      /* social: {
+        likeCount: 286,
+        commentCount: 45,
+        sharedCount: 845
+      }, */
+      buttons: [
+        {
+          title: '링크 열기',
+          link: {
+            mobileWebUrl: document.location.href,
+            webUrl: document.location.href
+          }
+        }  
+      ]
+    });
+  //]]>
+</script>
+
+<!-- twitter shared -->
+<script>
+function share_tw(){
+	  var content = "트윗트윗\r\n\r\n";
+	  var link = "http://10.10.10.91:8080/courseboard/read?coursebno="+coursebno;
+	  var popOption = "width=370, height=360, resizable=no, scrollbars=no, status=no;";
+	  var wp = window.open("http://twitter.com/share?url=" + encodeURIComponent(link) + "&text=" + encodeURIComponent(content), 'twitter', popOption);
+	  if ( wp ) {
+	    wp.focus();
+	  }    
+	}
+</script>
+	
+	<script th:inline="javascript">
+	
+	// star rating
+	var starRating = function(){
+	  var star = $(".star-input"),
+	      result = star.find("output>b");
+	  $(document)
+	    .on("focusin", ".star-input>.input", function(){
+	    $(this).addClass("focus");
+	  })
+	    .on("focusout", ".star-input>.input", function(){
+	    setTimeout(function(){
+	      if($(this).find(":focus").length === 0){
+	    	  $(this).removeClass("focus");
+	      }
+	    }, 100);
+	  })
+	    .on("change", ".star-input :radio", function(){
+	    result.text($(this).next().text());
+	  })
+	    .on("mouseover", ".star-input label", function(){
+	    result.text($(this).text());
+	  })
+	    .on("mouseleave", ".star-input>.input", function(){
+	    var checked = star.find(":checked");
+	    if(checked.length === 0){
+	      result.text("0");
+	    } else {
+	      result.text(checked.next().text());
+	    }
+	  });
+	  
+	  $(".input label").on("click", function(){
+		  var rating = result[0].innerText;
+		  /* console.log(result); */
+		  console.log(rating);
+	  });
+	  
+	};
+	starRating();
+	
+	</script>
 
     <script th:inline="javascript">
     
@@ -535,6 +738,133 @@
         	
         	var actionForm = $("#actionForm");     
         	var coursebno = [[${detail.coursebno}]];
+        	var coursekey = [[${detail.coursekey}]];
+        	var courserno;
+        	
+        	// 댓글 불러오기
+        	(function(){
+				replyManager.getAll(coursebno, printList);
+			})();
+        	
+        	// 댓글 불러와서 화면에 출력 
+			function printList(list){
+				var str = "";
+				var replyObj;
+				for(var i=0;i<list.length;i++){
+					replyObj = list[i];
+					
+					str += "<div class='cmmt_content_box' >"+
+					 "<div class='cmmt_c_user'>"+
+					"<div class='cmmt_c_user_txt'>"+
+					"<div class='cmmt_c_user_name'>"+replyObj.usermail+
+					"</div><span class='regdateSpan'>"+formatDate(replyObj.regdate)+"</span>"+
+					"<div class='cmmt_c_user_level'>"+
+					/* "<div class='rv_cnt'>좋아요: "+replyObj.good+" 싫어요: "+replyObj.bad+"</div>"+ */
+					"<div class='clear'></div>"+
+					"</div>"+
+					"</div>"+
+					"<div class='clear'></div>"+
+					"</div>"+
+					"<div class='review_opbtn'>";            
+					if (usermail ==replyObj.usermail){
+						str += "<div class='rv_op_btn rop_delete' data-srl='"+replyObj.courserno+"'>삭제</div>"+
+						"<div class='rv_op_btn line rop_edit' data-srl='"+replyObj.courserno+"'>수정</div>";
+					}
+					str +="</div>"+
+					"<div class='cmmt_content'>"+replyObj.reply+"</div>"+
+					"</div>";
+	
+			/* 		str += "<tr>"+
+					"<th>"+ replyObj.rno+" </th>"+
+					"<th>"+ replyObj.pointreply+" </th>"+
+					"<th>"+ replyObj.pointreplyer+" </th>"+
+					"<th>"+ formatDate(replyObj.regdate)+" </th>"+
+					"</tr>"; */
+				}
+				$(".review").html(str);
+			}
+        	
+        	// 날짜 변환
+			function formatDate(timeValue){
+				var date = new Date(timeValue);
+				return date.getFullYear()
+					+ "-" + (date.getMonth()+1 >= 10?date.getMonth()+1:'0'+(date.getMonth()+1))
+					+ "-" + date.getDate()
+			}
+        	
+			var mode = 'ADD';
+			
+			var replyObj = $("#reply");
+			
+			// security로 사용자 로그인한지 확인 안했으면 Guest 했으면 usermail
+			var usermail = [[${#authentication.principal} eq 'anonymousUser' ? 'Guest' : ${#authentication.principal.vo.usermail}]];
+			
+			var token = $("meta[name='_csrf_token']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			$(".btn_review_write").click(function(e){
+				e.preventDefault();
+				
+				if(usermail == 'Guest'){
+					self.location = [[@{/login/customLogin}]];
+					return;
+				}
+				reply = replyObj.val();
+				
+			 	if(mode == 'ADD'){
+					var obj = {reply:reply, usermail:usermail, coursebno:coursebno, token:token, header:header, coursekey:coursekey};
+					console.log(obj);
+					replyManager.add(obj, function(list){
+						printList(list);
+						alert("댓글이 추가되었습니다.");
+						replyObj.val("");
+					});
+				 
+				}else if(mode =='MOD'){
+					var obj = {reply:reply, usermail:usermail, coursebno:coursebno, courserno:courserno, token:token, header:header, coursekey:coursekey};
+					console.log(obj);
+					replyManager.update(obj, function(list){
+						printList(list);
+						console.log(list);
+	
+						alert("댓글이 수정되었습니다.");
+						replyObj.val("");
+						mode = 'ADD';
+						$("#si_review_form_submit").html("등록");
+					});
+				}
+			});
+			$(".review").on("click",".rop_delete", function(e){
+				e.preventDefault();
+				reply = replyObj.val();
+				
+				courserno = e.target.getAttribute("data-srl");
+				var obj = {coursebno:coursebno, courserno:courserno, token:token, header:header};
+				
+				replyManager.remove(obj, function(list){
+					printList(list);
+					alert("댓글삭제가 완료되었습니다.");
+					replyObj.val("");
+				});
+				
+			});
+			var rno;
+			$(".review").on("click", ".rop_edit", function(e){
+				e.preventDefault();
+				/*	pointreply = pointreplyObj.val();
+				pointreplyer = pointreplyerObj.val();
+				 */
+				courserno = e.target.getAttribute("data-srl");
+				mode = 'MOD';
+				$("#si_review_form_submit").html("수정");
+				
+				replyValue = $(this).closest(".cmmt_content_box").find(".cmmt_content").html();
+				
+				replyObj.val(replyValue);
+				console.log($("#reply").offset().top);
+				$('html,body').animate({scrollTop : $(".community").offset().top-100});
+			});
+        	
         	
 /*         	// 포인트 이동
         	$('.spot_list_box').owlCarousel({

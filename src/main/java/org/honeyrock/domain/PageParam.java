@@ -16,7 +16,7 @@ public class PageParam {
 	
 	public PageParam() {
 		this.page = 1;
-		this.display = 10;
+		this.display = 12;
 		this.category = "S";
 	}
 	
