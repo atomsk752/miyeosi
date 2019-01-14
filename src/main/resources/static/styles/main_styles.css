@@ -46,6 +46,7 @@
 	font-family: 'Beyond';
 	src: url('../fonts/beyond_the_mountains.otf')  format('truetype'),
 		 url('../fonts/beyond_the_mountains.ttf')  format('opentype');
+
 }
 
 /*********************************
@@ -132,6 +133,7 @@ p a:hover::after
 p::selection
 {
 	
+
 }
 h1{font-size: 48px;}
 h2{font-size: 36px;}
@@ -145,6 +147,7 @@ h1, h2, h3, h4, h5, h6
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
+
 h1::selection, 
 h2::selection, 
 h3::selection, 
@@ -318,7 +321,9 @@ section
 }
 .header.scrolled
 {
+
 	background: rgba(54, 19, 84, 0.85);
+
 }
 
 /*********************************
@@ -765,6 +770,7 @@ section
 	height: 100%;
 	z-index: 10;
 	background: #31124b;
+
 }
 .home_slider
 {
@@ -997,6 +1003,7 @@ section
 	-ms-filter: brightness(200%) grayscale(100%);
 	-o-filter: brightness(200%) grayscale(100%);
   	filter: brightness(200%) grayscale(100%);
+
 }
 .search_tab:hover
 {
@@ -1018,6 +1025,7 @@ section
 	height: 100%;
 	-webkit-animation: fadeEffect 1s;
     animation: fadeEffect 1s;
+
 }
 .search_panel.active
 {
@@ -1040,6 +1048,7 @@ section
 }
 .search_input
 {
+
 	width: 100%;
 	height: 46px;
 	border: none;
@@ -1050,6 +1059,7 @@ section
 	font-weight: 600;
 	color: #929191;
 }
+
 .search_item:first-child
 {
 	width: 30.453%;
@@ -1099,7 +1109,9 @@ section
 }
 .dropdown_item_select::-ms-expand
 {
+
     display: none;
+
 }
 .dropdown_item_select:hover
 {
@@ -1411,6 +1423,7 @@ section
 	padding-top: 105px;
 	padding-bottom: 43px;
 	background: #f3f6f9;
+
 }
 .offers_items
 {
@@ -1548,6 +1561,7 @@ section
 	width: 100%;
 	height: 2px;
 	background: linear-gradient(to right, #fa9e1b, #8d4fff);
+
 }
 
 /*********************************
@@ -1594,6 +1608,7 @@ section
 	width: 100%;
 	height: 44.1%;
 	background: rgba(49, 18, 75, 0.8);
+
 }
 .test_content
 {
@@ -1873,6 +1888,7 @@ section
 .input_field:-ms-input-placeholder,
 .text_field:-ms-input-placeholder
 { 
+
 	font-size: 12px !important;
 	font-weight: 400 !important;
 	color: #FFFFFF !important;
@@ -1892,9 +1908,11 @@ section
 .footer
 {
 	width: 100%;
-	padding-top: 113px;
+	padding-top: 33px;
 	padding-bottom: 104px;
-	background: #31124b;
+	background: #0B4981;
+	height: 310px;
+
 }
 .footer_title
 {
@@ -1974,7 +1992,9 @@ section
 }
 .footer_social_item:hover a i
 {
+
 	color: #31124b;
+
 }
 
 /*********************************
@@ -2119,6 +2139,7 @@ section
 	font-size: 12px;
 	font-weight: 600;
 	color: #685677;
+
 }
 .footer_nav_container
 {
@@ -2126,7 +2147,7 @@ section
 }
 .footer_nav
 {
-	
+
 }
 .footer_nav_list
 {
@@ -2153,4 +2174,5 @@ section
 .footer_nav_item a:hover
 {
 	color: #FFFFFF;
+
 }

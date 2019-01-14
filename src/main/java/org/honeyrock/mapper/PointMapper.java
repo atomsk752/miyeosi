@@ -21,4 +21,6 @@ public interface PointMapper {
 	public int delete(PointVO vo);
 	
 
+	public List<PointVO> getImg();
+
 }

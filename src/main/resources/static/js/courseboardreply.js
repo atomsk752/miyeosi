@@ -3,7 +3,7 @@ var replyManager = (function(){
 		var getAll = function(obj, callback){
 			console.log("get All....");
 			
-			$.getJSON('/replies/'+obj, callback);
+			$.getJSON('/courseboardreplies/'+obj, callback);
 		};
 		
 		var add = function(obj, callback){
@@ -11,7 +11,7 @@ var replyManager = (function(){
 			
 			$.ajax({
 				type:'post',
-				url: '/replies/'+obj.pno,
+				url: '/courseboardreplies/'+obj.coursebno,
 				data:JSON.stringify(obj),
 				dataType:'json',
 				beforeSend: function(xhr){
@@ -27,7 +27,7 @@ var replyManager = (function(){
 			
 			$.ajax({
 				type:'put',
-				url: '/replies/'+obj.pno,
+				url: '/courseboardreplies/'+obj.coursebno,
 				data:JSON.stringify(obj),
 				dataType:'json',
 				beforeSend: function(xhr){
@@ -43,7 +43,7 @@ var replyManager = (function(){
 			
 			$.ajax({
 				type:'delete',
-				url: '/replies/'+ obj.pno+"/" + obj.rno,
+				url: '/courseboardreplies/'+ obj.coursebno+"/" + obj.courserno,
 				dataType: 'json',
 				beforeSend: function(xhr){
 					xhr.setRequestHeader(obj.header, obj.token);

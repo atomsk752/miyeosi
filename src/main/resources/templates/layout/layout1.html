@@ -43,8 +43,9 @@
                                 <li class="main_nav_item"><a href="/courseboard/list">forum</a></li>
                                 <li class="main_nav_item"><a href="/course">course</a></li>
                                 <li class="main_nav_item"><a href="/gallery">gallery</a></li>
-                                <li sec:authorize="!hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/login/customLogin">login</a></li>
-                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/login/customLogout">logout</a></li>
+                                <li sec:authorize="!hasRole('ROLE_MEMBER')" class="main_nav_item login"><a href="/login/customLogin">login</a></li>
+                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/mypage">mypage</a></li>
+                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item login"><a href="/login/customLogout">logout</a></li>
                             </ul>
                         </div>
                         <div class="content_search ml-lg-0 ml-auto">
@@ -147,6 +148,7 @@
                                 <li class="footer_nav_item"><a href="/course">course</a></li>
                                 <li class="footer_nav_item"><a href="/gallery">gallery</a></li>
                                 <li sec:authorize="!hasRole('ROLE_MEMBER')" class="footer_nav_item"><a href="/login/customLogin">login</a></li>
+                                <li sec:authorize="hasRole('ROLE_MEMBER')" class="footer_nav_item"><a href="/mypage">mypage</a></li>
                                 <li sec:authorize="hasRole('ROLE_MEMBER')" class="footer_nav_item"><a href="/login/customLogout">logout</a></li>
                             </ul>
                         </div>
