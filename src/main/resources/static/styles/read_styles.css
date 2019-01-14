@@ -1919,7 +1919,7 @@ section
 {
 	position: relative;
 	z-index: 5;
-	right: 50px;
+	right: -50px;
 	width: 100%;
 }
 
