@@ -1468,9 +1468,9 @@ section
 {
 	font-size: 18px;
 	font-weight: 400;
-	color: #929191;
+	color: #717171;
 	margin-top: 10px;
-	margin-bottom: 145px;
+	margin-bottom: 100px;
 	letter-spacing: 1px;
 	line-height: 30px;
 }
@@ -2002,7 +2002,7 @@ section
 
 
 .read_descs{
-	padding-bottom: 10%;
+	
 }
 
 .read_blog{
