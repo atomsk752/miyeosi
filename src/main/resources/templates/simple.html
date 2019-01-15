@@ -1,266 +1,500 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Travelix</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Travelix Project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
-    <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-    <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-    <link rel="stylesheet" type="text/css" href="styles/simple_styles.css">
-    <link rel="stylesheet" type="text/css" href="styles/responsive.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="dist/css/slider-pro.css" media="screen"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
-    <script type="text/javascript" src="libs/jquery-1.11.0.min.js"></script>
-    <script type="text/javascript" src="dist/js/jquery.sliderPro.min.js"></script>
-    <script type="text/javascript">
-        $( document ).ready(function( $ ) {
-            $( '#example3' ).sliderPro({
-                width: 1200,
-                height: 600,
-                fade: true,
-                arrows: true,
-                buttons: false,
-                shuffle: true,
-                smallSize: 500,
-                mediumSize: 1000,
-                largeSize: 3000,
-                thumbnailArrows: true,
-                autoplay: false,
-                thumbnailWidth: 175,
-                thumbnailHeight: 100
-            });
-        });
-    </script>
-</head>
-<body>
-<div class="super_container">
-
-    <div class="home">
-        <div class="home_slider_container">
-            <div class="home_slider_content text-center">
-                <div class="home_content">
-                    <div class="logo_container">
-                        <div class="logo"><a href="#"><img src="images/logo.png" alt="">MIYEOSI</a></div>
-                    </div>
-                    <div id="example3" class="slider-pro">
-                        <div class="sp-slides">
-                            <div class="sp-slide" th:each="List, iterState : ${list}">
-                                <img class="sp-image" th:src="${List.img}"/>
-
-                                <div class="sp-slide-content">
-                                    <div class="content">
-                                    	<h3 class="title" th:text="${List.title}">image title</h3>
-                                        <span class="post" th:text="${List.descs}">image descs</span>
-                                       	<input type="hidden" name="pno" th:value="${List.pno}">
-                                       	<input type="hidden" name="lat" th:value="${List.lat}">
-                                       	<input type="hidden" name="lng" th:value="${List.lng}">
-                                       	<input type="hidden" name="keyword" th:value="${List.keyword}">
-                                       	<input type="hidden" name="img" th:value="${List.img}">
-                                       	<input type="hidden" name="list" th:value="${List}">
-                                    </div>
-                                    <ul class="icon">
-                                        <li><a href="#"><i class="fa fa-check"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sp-thumbnails">
-                        	<th:block th:each="List, iterState : ${list}">
-                            	<img class="sp-thumbnail" th:src="${List.img}"/>
-                            </th:block>
-                        </div>
-                    </div>
-                    <div class="button home_slider_button"><div class="button_bcg"></div><a href="#">NEXT<span></span><span></span><span></span></a></div>
-              			<form action="/boards/register" method="post" id="contact_form" class="contact_form text-center">
-							<input type="text" name="title" class="contact_form_name input_field" placeholder="Title" required="required" data-error="Name is required.">
-							<button type="submit" id="form_submit_button" class="form_submit_button button trans_200">등록하기<span></span><span></span><span></span></button>
-
-						</form>
-              
-                </div> <!-- end home_content !-->
-            </div>
-        </div>
-    </div>
-</div>
-
-<form id="actionForm">
-</form>
-
-
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<script src="styles/bootstrap4/popper.js"></script>
-<script src="styles/bootstrap4/bootstrap.min.js"></script>
-<script src="plugins/OwlCarousel2-2.2.1/owl.carousel.js"></script>
-<script src="plugins/easing/easing.js"></script>
-<script src="js/custom.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
-
-<script>
-  // Initialize Firebase
-  var config = {
-	    apiKey: "AIzaSyAJV5H9lCZjjecpQzLq_xJijFw5BZUZzz4",
-	    authDomain: "exex1-a7068.firebaseapp.com",
-	    databaseURL: "https://exex1-a7068.firebaseio.com",
-	    projectId: "exex1-a7068",
-	    storageBucket: "exex1-a7068.appspot.com",
-	    messagingSenderId: "961860192261"
-  };
-  firebase.initializeApp(config);
-</script>
-
-<script>
-
-	var pno,lat,lng,title,descs,keyword,img ;
-	var testList = [];
-	var newKey;
+<html>
+	<head>
 	
-	$(document).ready(function() {
-		
-        CourseInit(testList, function(newKey){
-            console.log(newKey);
-        });
-        
-        courseService.add(
-        		{coursekey:newKey}
-        		,
-        		function(result){
-        			console.log(result);
-        		}
-        	);
-        
-	});
+		<meta charset="UTF-8" />
+		<link rel="shortcut icon" href="../favicon.ico"> 
+		<link rel="stylesheet" type="text/css" href="styles/simple_styles2.css">
+		<link rel="stylesheet" type="text/css" href="css/simple_default.css" />
+		<link rel="stylesheet" type="text/css" href="css/simple_component.css" />
+		<link rel="stylesheet" href="plugins/fontawesome-5.6.1/css/all.css">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+		<link  rel="stylesheet" type="text/css" href="libs/menucool/js-image-slider.css"/>
+		<link rel="stylesheet" type="text/css" href="/styles/simple_spot_info.css">
+	</head>
+	<body>
+	<a class="logo" href="/index">
+		<img src="/images/myjourney.png">
+	</a>
 	
-	var courseService = (function(){
+	<a class="glitch-btn" href="/boards/list" target="_self">
+		  <div class="text">NEXT</div>
+		  <div class="mask">
+		    <span>NEXT</span>
+		  </div>
+	 </a>
+
+<style>
+
+.tile__img {
+border: 1px solid green;
+border-radius: 10px;
+}
+
+.selected  {
+
+border: 5px solid green;
+
+}
+
+.tile__details {
+
+border-radius: 10px;
+}
+
+.row-container1 {
+  
+padding-top: 110px;
+
+}
+.container{
+overflow: scroll;
+}
+
+.infoMenu {
+
+display : inline-block;
+width : 500px;
+padding-left : 15px;
+
+
+}
+.sliderContainer{
+
+display : inline-block;
+margin-left :  50px;
+margin-right : 40px;
+}
+
+
+#slider {
+
+display : block;
+  
+}
+
+.right_box{
+display : inline-grid;
+width : 500px;
+padding-left : 30px;
+}
+
+
+</style>
+	
+	<div class="container">	
+		<div class="row-container1">
+			<div class="rec_title">		
+				<h1>가장 많은 사랑을 받은 여행지</h1>
+			</div>		
+			<div class="row row1">
+			<button class="prevBtn" data-row="1"><i class="fas fa-angle-left fa-5x"></i></button>
+			<button class="nextBtn" data-row="1"><i class="fas fa-angle-right fa-5x"></i></button>
+			    <div class="row__inner">    	
+			    	<ul id="og-grid" >
+						<li  class="tile" th:each="List, iterState : ${List}" th:id="thumb + ${List.pno}" th:data-pno="${List.pno}"
+						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
+						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
+
+							<div class="tile__media">
+					          <img class="tile__img" th:src="${List.img}"/>
+					        </div>
+					        <div class="tile__details toggle" th:data-pno="${List.pno}"
+						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
+						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
+					        	<input type="hidden" name="pno" th:value="${List.pno}">
+					            <input type="hidden" name="lat" th:value="${List.lat}">
+					            <input type="hidden" name="lng" th:value="${List.lng}">
+					            <input type="hidden" name="keyword" th:value="${List.keyword}">
+					            <input type="hidden" name="img" th:value="${List.img}">
+					            <input type="hidden" name="list" th:value="${List}">					            
+					            <div class="tile__title" th:text="${List.title}"></div>
+					     	</div>
+						</li>
+					</ul>
+ 				</div>
+			</div>
+		</div>	
+		<div class="sliderContainer">
+			<div id="sliderFrame" class="expander">
+             	<div id="checkBoxContainer"></div>
+		        <div id="slider"></div>
+
+		    </div>
+
+		</div>
+		<div id="right_box_container" class="right_box expander">
+			<div id="infoContainer" class="infoMenu"></div>
+			<div class="spot_info_box blog">
+				<div class="blog_list"></div>
+			</div>  
+		</div>
 		
-		function add(course, callback, error){
-			console.log("add course key");
+		<div class="row-container2">
+			<div class="rec_title">	
+				<h1>나홀로 여행자가 선택한 그 장소 </h1><h2>(#20대, #솔로)</h2>
+			</div>	
+			<div class="row row2">
+			<button class="prevBtn" data-row="2"><i class="fas fa-angle-left fa-5x"></i></button>
+			<button class="nextBtn" data-row="2"><i class="fas fa-angle-right fa-5x"></i></button>
+			    <div class="row__inner">    	
+			    	<ul id="og-grid" >
+						<li  class="tile" th:each="List2, iterState : ${List2}" th:id="thumb + ${List2.pno}" th:data-pno="${List2.pno}"
+						th:data-lat="${List2.lat}" th:data-lng="${List2.lng}" th:data-keyword="${List2.keyword}" th:data-img="${List2.img}"
+						th:data-List="${List2}" th:data-title="${List2.title}" th:data-descs="${List2.descs}">
+
+							<div class="tile__media">
+					          <img class="tile__img" th:src="${List2.img}"/>
+					        </div>
+					        <div class="tile__details toggle" th:data-pno="${List2.pno}"
+						th:data-lat="${List2.lat}" th:data-lng="${List2.lng}" th:data-keyword="${List2.keyword}" th:data-img="${List2.img}"
+						th:data-List="${List2}" th:data-title="${List2.title}" th:data-descs="${List2.descs}">
+					        	<input type="hidden" name="pno" th:value="${List2.pno}">
+					            <input type="hidden" name="lat" th:value="${List2.lat}">
+					            <input type="hidden" name="lng" th:value="${List2.lng}">
+					            <input type="hidden" name="keyword" th:value="${List2.keyword}">
+					            <input type="hidden" name="img" th:value="${List2.img}">
+					            <input type="hidden" name="list" th:value="${List2}">					            
+					            <div class="tile__title" th:text="${List2.title}"></div>
+					     	</div>
+						</li>
+					</ul>
+ 				</div>
+			</div>	
+				
+			<style>
+			.testDiv  {
+			  width:100px;
+			  display:none;
+			}
 			
-			$.ajax({
-				type : 'post',
-				url : '/course/new',
-				data : JSON.stringify(course),
-				contentType : "application/json; charset=utf-8",
-				success : function(result, status, xhr){
-					if (callback){
-						callback(result);
-					}
-				},
-				error : function(xhr, status, er){
-					if(error){
-						error(er);
-					}
-				}
-			})
-		}
-		return{
-			add : add
+			.detail {
+			width:100px;
+			display:none;
+			}
+			
+			</style>
+			<div id='testDiv'>
+			</div>
+					            	
+		</div>
+	</div>
+
+		<!-- /container -->
+
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+		<script src="js/modernizr.custom.js"></script>
+		<script src="libs/menucool/js-image-slider.js" type="text/javascript"/>
+		<script src="js/grid.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+		<script>
+		// Initialize Firebase
+		var config = {
+		  apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+		  authDomain: "travel-simulator.firebaseapp.com",
+		  databaseURL: "https://travel-simulator.firebaseio.com",
+		  projectId: "travel-simulator",
+		  storageBucket: "travel-simulator.appspot.com",
+		  messagingSenderId: "105538800439"
 		};
-	})();
+		firebase.initializeApp(config);
+		</script>
+		
+		<script>
+		var lat,lng,title,descs,keyword,img;
+		var testList = [0];
+		var newKey;
+		var current = -1;
+		
+		$(document).ready(function() {
+			
+	        CourseInit(testList, function(newKey){
+	           // console.log(newKey);
+	            testList = [];
+	        });
+	        courseService.add(
+	        		{coursekey:newKey}
+	        		,
+	        		function(result){
+	        			//console.log(result);
+	        		}
+	        	);
+		}); 
+		
+		//unique ID 전송
+		var courseService = (function(){
+			
+			function add(course, callback, error){
+				console.log("add course key");
+				
+				$.ajax({
+					type : 'post',
+					url : '/course/new',
+					data : JSON.stringify(course),
+					contentType : "application/json; charset=utf-8",
+					success : function(result, status, xhr){
+						if (callback){
+							callback(result);
+						}
+					},
+					error : function(xhr, status, er){
+						if(error){
+							error(er);
+						}
+					}
+				})
+			}
+			return{
+				add : add
+			};
+		})();
+		
+		
+		var count = 0; 
+		var images = [];
+
+		$("#sliderFrame").hide();
+		$("#right_box_container").hide();
+		
+		var checkPnoList = [];
+		var currentPno = null;
+		var checkPno = 0;
+		
+		$('.toggle').click(function (e) {
+			
+			console.log("---------------------------------------------");
+			
+			e.preventDefault();
+			
+			var id = "#" + $(this)[0].firstElementChild.defaultValue;
+			var pno =  $(this)[0].firstElementChild.defaultValue;
+			var pointTitle = $(this)[0].dataset.title;
+			currentPno = pno;
+			console.log(title);
+			
+			var html = "";
+			html += "<h1>"+ pointTitle + "</h1>" ;
+			
+			$("#infoContainer").html(html)
+			
+			
+			$.getJSON('/searchTest?pno='+pno,function(data){
+				images = [];
+				var html = "";
+				var testHTML = "";
+				
+				$.each(data.imgList, function(index, value){
+					
+					images.push(decodeURI(value.iname));
 	
-	
-	
+					html += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
+					testHTML += "<img class=\'detail\' src=\"/img?name="+decodeURI(value.iname)+"\"/>";
+					
+				})//end each				
+				$("#slider").html(html);
+				$("#testDiv").html(testHTML);
 
+				imageSlider.reload();
+			}); 
 
+			var sliderCheck = "";
 
+			sliderCheck += "<div class="+"'checkbox check'"+"data-index='"+currentPno+"'></div>";
+			$("#checkBoxContainer").html(sliderCheck);
+			
 
-	//체크버튼 클릭시 테두리 추가 + selected 스타일 추가
-	$('.fa-check').on('click',function (e) {
-	    $(".sp-selected-thumbnail").toggleClass('selected');
-	    
-		var point = new Object() ;
-	    
-	    point.pno = $(this).closest(".sp-slide-content").find("input[name='pno']").val();
-	    point.lat = $(this).closest(".sp-slide-content").find("input[name='lat']").val();
-	    point.lng = $(this).closest(".sp-slide-content").find("input[name='lng']").val();
-	    point.title = $(this).closest(".sp-slide-content").find(".title").text();
-	    point.descs = $(this).closest(".sp-slide-content").find(".post").text();
-	    point.keyword = $(this).closest(".sp-slide-content").find("input[name='keyword']").val();
-	    point.img = $(this).closest(".sp-slide-content").find("input[name='img']").val();
-	    
-	    
-/* 	    var myRequest = new Request(point.img);
-	    
-	    fetch(myRequest).then(function(response) {
-	    	  console.log(response.status); // returns 200
-	    	  response.blob().then(function(myBlob) {
-	    	    var objectURL = URL.createObjectURL(myBlob);
-	    	    myImage.src = objectURL;
-	    	  });
-	    	}); */
-	   
+			var dataIndex = checkPnoList.indexOf(currentPno);
 
-        
+			
+			//블로그 데이터 받아오기
+			$.ajax({
+				type : 'get',
+				url : '/pointboard/readBlog',
+				data : {title : pointTitle},
+				success : function(obj) {
 
-        
-        checkDupl(point);
+				var str = "";
+				str += "<ul>";
+					for (var i = 0; i < 2; i++) {
+					str += "<a href='"+obj[i].link+"'class='blog_content' target='_blank'>"
+						+ "<div class='blog_title'>"
+						+ obj[i].title + "</div>"
+						+ obj[i].description + "<div class='blog_postdate'>"
+						+ obj[i].postdate + "</div>" + "</a>";
+					};
+				str += "</ul>";
+				$(".blog_list").html(str);
+				}
+			});
 
-        console.log("----------------------------------------------------")
-        console.log(testList);        
+			
+			if(current != currentPno){
+				$(".expander").hide();
+				
+				current != -1? $(".expander").show() : $(".expander").slideDown();
+				current = currentPno;
+				return;
+			}else{
+				$(".expander").slideUp();
+				
+				current = -1;
+			}
+			
 
-        updateCourse(newKey, testList);
+		});
+		
+		
+		$("#sliderFrame").on("click", "div", function(e){
 
-        
-	});
+			var targetLi = $("li[data-pno='"+currentPno+"']");
+			var targetImg = $("li[data-pno='"+currentPno+"'] tile__media img");
+			var targetCheck = $("div[data-index='"+currentPno+"']");
+			var point = new Object() ;
+
+		    point.pno = targetLi.data("pno");
+		    point.lat = targetLi.data("lat");
+		    point.lng = targetLi.data("lng");
+		    point.title = targetLi.data("title");
+		    point.keyword = targetLi.data("keyword");
+		    point.img = targetLi.data("img");
+		    if(targetImg.hasClass("selected")){
+		    	targetImg.removeClass("selected");
+		    }else{
+		    	targetImg.addClass("selected");
+		    }
+		    
+			targetCheck.toggleClass('is-checked');
+			
+			checkDupl(point);
+			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
+			
+			for (var i = 1; i < testList.length; i++) {
+				
+				checkPnoList.push(testList[i].pno);
+				
+			}
+
+		});
+		
+		
+		$("#slider").on("click", "div", function(e){
+
+			var targetLi = $("li[data-pno='"+currentPno+"']");
+			var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
+			var targetCheck = $("div[data-index='"+currentPno+"']");
+			var point = new Object() ;
+			
+		    point.pno = targetLi.data("pno");
+		    point.lat = targetLi.data("lat");
+		    point.lng = targetLi.data("lng");
+		    point.title = targetLi.data("title");
+		    point.keyword = targetLi.data("keyword");
+		    point.img = targetLi.data("img");
+		    if(targetImg.hasClass("selected")){
+		    	targetImg.removeClass("selected");
+		    }else{
+		    	targetImg.addClass("selected");
+		    }
+			targetCheck.toggleClass('is-checked');
+			
+			checkDupl(point);
+			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
+			
+			for (var i = 1; i < testList.length; i++) {
+				
+				checkPnoList.push(testList[i].pno);
+				
+			}
+
+		});
 
 		
-	
-    //check duplication & add, remove
-     function checkDupl(param) {
-    	
-    	var beforeSize = testList.length;
-    	
-    	var result  = testList.filter(x => parseInt(x.pno) != parseInt(param.pno)) ;
-    	    	
-    	var afterSize = result.length;
-    	
-    	console.log(beforeSize + ": " + afterSize);
-    	
-    	if (beforeSize == afterSize) {
-    		testList = result.concat(param)
-    	}else{
-    		testList = result;
-    	}
-    	
-    	
+		$('.checkbox').click(function(){
+		
+ 			var targetLi = $("li[data-pno='"+currentPno+"']");
+ 			
+ 			console.log(currentPno);
+ 			
+			targetLi.addClass("selected");
+			
+			checkPnoList.push(currentPno);
 
-    } 
-	
-	// next버튼 누를때 코스등록 + callback으로 키를 받아옴
-	$('.home_slider_button').on('click',function (e) {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log("btn click")
+			checkSelected(currentPno);
+			
+			var pno = $(this).data("pno");
+			var html = $("#thumb" + pno).html();
 
-	});
-	
-    
-    
-    function CourseInit(course, callback){
-        
-        newKey = firebase.database().ref().child('courses').push(course).key;
-        
-        callback(newKey);
-        
-    }
-     
-    
-    function updateCourse(key, newCourse, callback){
-    	
-        var updates = {};
-        updates['/courses/' + key] = newCourse;
-        firebase.database().ref("/courses/"+key).set(newCourse);
-        
-    }
-    
-</script>
+		    point.pno = $(this).data("pno");
+		    point.lat = $(this).data("lat");
+		    point.lng = $(this).data("lng");
+		    point.title = $(this).data("title");
+		    //point.descs = $(this).data("descs");
+		    point.keyword = $(this).data("keyword");
+		    point.img = $(this).data("img");
+		    
+		});
+		
+		
+	    function checkDupl(param) {
+		     	
+	     	var beforeSize = testList.length;
 
-</body>
+	     	var result  = testList.filter(x => parseInt(x.pno) != parseInt(param.pno)) ;
+	     	
+	     	var afterSize = result.length;
+	     	
+	     	if (beforeSize == afterSize) {
+	     		testList = result.concat(param)
+	     	}else{
+	     		testList = result;
+	     	}
+	     	
+		 }
+	    
+	      
+	    function updateCourse(key, newCourse, callback){
+	    	
+	        firebase.database().ref('courses/' + key + '/untitled/day0').set(newCourse);
+	        
+	    }
+		
+		$(".prevBtn").click(function(event){
+			var row = event.target.getAttribute("data-row");
+			event.preventDefault();
+			  $('.row'+row).animate({
+			    scrollLeft: "-=1000px"
+			  });
+		});
+		$(".nextBtn").click(function(event){
+			var row = event.target.getAttribute("data-row");
+			event.preventDefault();
+			  $('.row'+row).animate({
+			    scrollLeft: "+=1000px"
+			  });
+		});
+		
+	    function CourseInit(day0, callback){
+	        
+	        newKey = firebase.database().ref('courses').push({"untitled":{day0}}).key;
+	       
+	        
+	        callback(newKey);
+	        
+	    }
+	    
+	    $("li").on("click", function(){
+	    	var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
+	    	
+	    	if(targetImg.hasClass("selected")){
+		    	$(".checkbox").addClass("is-checked");
+		    }else{
+		    	$(".checkbox").removeClass("is-checked");
+		    }
+	    })
+	   
+	    
+	    
+		</script>		
+
+	</body>
+</html>

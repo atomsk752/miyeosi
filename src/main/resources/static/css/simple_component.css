@@ -32,7 +32,7 @@ html {
   transition: 450ms transform, 450ms -webkit-transform;
   font-size: 0;
   white-space: nowrap;
-  margin: 70.3125px 0;
+  margin: 50px 0;
   
 }
 .tile {
@@ -51,6 +51,8 @@ html {
 
 .tile li{
 	list-style: none;
+	
+	
 	
 }
 .tile__img {

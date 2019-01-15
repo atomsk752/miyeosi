@@ -6,7 +6,9 @@
 #sliderFrame 
 {
     width:600px;
+    height:430px;
     margin:0 auto; /*center-aligned*/
+    cursor: pointer;
 }
 
 #slider, #slider .sliderInner {
@@ -19,6 +21,7 @@
     position:relative;
     margin:0 auto; /*center-aligned*/
     transform: translate3d(0,0,0);
+    cursor: pointer;
 }
 
 /* the link style (if an image is wrapped by a link) */

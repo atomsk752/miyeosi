@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.honeyrock.domain.PointReplyVO;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.persistence.PointReplyRepository;
+import org.honeyrock.service.PointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +28,9 @@ public class PointReplyController {
 
 	@Autowired
 	private PointReplyRepository replyRepo;
+	
+	@Autowired
+	private PointService service;
 	
 	@Secured(value="ROLE_MEMBER")
 	@PostMapping("/{point_pno}")
@@ -99,6 +103,11 @@ public class PointReplyController {
 		point.setPno(pno);
 		return new ResponseEntity<>(getListByPoint(point), HttpStatus.OK);
 		
+	}
+	
+	@GetMapping("/imglist")
+	public ResponseEntity<List<PointVO>> getImgList(){
+		return new ResponseEntity<>(service.getImg(), HttpStatus.OK);
 	}
 	
 	

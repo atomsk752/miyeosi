@@ -1,6 +1,9 @@
 package org.honeyrock.controller;
 
+
+import java.util.List;
 import java.util.Map;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -8,11 +11,18 @@ import org.honeyrock.domain.MemberVO;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.security.domain.CustomMember;
 import org.honeyrock.service.CourseService;
+import org.honeyrock.domain.PointVO;
+import org.honeyrock.mapper.SearchMapper;
 import org.honeyrock.service.LoginService;
 import org.honeyrock.service.PointService;
 import org.honeyrock.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +46,7 @@ public class SampleController {
 	@Setter(onMethod_ = @Autowired)
 	private LoginService loginService;
 	
+
 	@Setter(onMethod_ = @Autowired)
 	private CourseService courseService;
 	
@@ -44,6 +55,7 @@ public class SampleController {
 	
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwEncoder;
+
 	
 	@GetMapping("/index")
 	public void index() {
@@ -55,9 +67,15 @@ public class SampleController {
 		
 	}
 	
+	@GetMapping("/map")
+	public void map() {
+		
+	}
+	
 	@GetMapping("/simple")
 	public void simple(Model model) {
 		model.addAttribute("list", searchService.getList());
+		model.addAttribute("List2", searchService.getList2());
 	}
 	
 	@GetMapping("/mypage")
@@ -131,5 +149,6 @@ public class SampleController {
 		return "redirect:/login/customLogin";
 		
 	}
+
 
 }

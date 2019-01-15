@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.catalina.mapper.Mapper;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.PointMapper;
@@ -133,7 +134,13 @@ public class PointServiceImpl implements PointService {
         }
 		return itemsArray;
 	}
-	
+
+
+	@Override
+	public List<PointVO> getImg() {
+		// TODO Auto-generated method stub
+		return pointMapper.getImg();
+	}
 
 
 }

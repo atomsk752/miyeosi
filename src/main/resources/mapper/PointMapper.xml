@@ -16,6 +16,10 @@
 		order by pno desc limit #{skip},#{display}
 	</select>
 	
+	<select id="getImg" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point order by pno desc
+	</select>
+	
 	<select id="count" resultType="int">
 		select count(*) from tbl_point
 		where 1=1
@@ -27,6 +31,10 @@
 	
 	<select id="read" resultType="org.honeyrock.domain.PointVO">
 		select * from tbl_point where pno = #{pno}
+	</select>
+	
+	<select id="imgread" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point_img where pno = #{pno} order by ino desc
 	</select>
 	
 	<insert id="register" parameterType="org.honeyrock.domain.PointVO">

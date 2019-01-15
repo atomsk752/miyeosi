@@ -25,6 +25,28 @@ public class SearchController {
 	@Setter(onMethod_ = @Autowired)
 	private SearchService service;
 	
+	
+	@GetMapping("/searchTest")
+	@ResponseBody
+	public PointVO getPoint(Integer pno) {
+		
+		log.info("---------------------------");
+		
+		log.info("pno: " + pno);
+		
+		log.info("---------------------------");
+		
+		PointVO point =  service.getPoint(pno);
+		
+		log.info(""+ point);
+		
+		log.info("" + point.getImgList());
+		
+		return point;
+		
+		
+	}
+	
 	@GetMapping("/autocomplete")
 	@ResponseBody
 	public ResponseEntity<String[]> autoComplete() {
