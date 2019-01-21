@@ -1277,15 +1277,20 @@ label {
 }
 
 .info-part {
-	margin-top: 20px;
-	margin-left: 10px;
-	width: 20%;
+	width: 22%;
 }
 
 .info-title {
-	
+	text-align:center;
 	color: black;
-	font-size: 1.5rem;
+	font-size: 2rem;
+	margin-top: 6px;
+}
+
+
+.info-img{
+	margin-top: 10px;
+	margin-left:10px;
 }
 
 

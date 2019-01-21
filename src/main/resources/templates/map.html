@@ -193,8 +193,17 @@
 	  messagingSenderId: "105538800439"
 	};
 	firebase.initializeApp(config);
+	var fixedkey;
 	
-	var fixedkey= "-LUj9dwD2-Gy6G-PxXHX";
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    return results[2];
+	}
+	
+	fixedkey = getParameterByName("key");
 	var title = "untitled";
 	
 	var courseObject = {};
@@ -214,7 +223,7 @@
 		
 		var arrayIndex = courseObject.findIndex(day, idx);
 		
-		console.log("day: " + day + " idx: " + idx + "   arryIndex: " + arrayIndex);
+		/* console.log("day: " + day + " idx: " + idx + "   arryIndex: " + arrayIndex); */
 		
 		return {
 			json: courseObject["day"+ day]['jsons'][arrayIndex], 
@@ -257,11 +266,13 @@
     }
 	
     function readCourse(key, title, callback){
-    	
+    	var dayLength = firebase.database().ref().child('courses/'+key +'/'+ title).once("value");
+    	console.log("==========dayLength============")
+    	console.log(dayLength);
     	firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
     		var result = data.val();
-    		console.log(result.length)
+    		console.log(data);
     		callback(result);
     	});
     	
@@ -368,8 +379,8 @@
             }
             
             
-            console.log(recommendObject['day0']['li']);
-            console.dir(recommendObject['day0']['markers']);
+           /*  console.log(recommendObject['day0']['li']);
+            console.dir(recommendObject['day0']['markers']); */
         });
         
         //console.log("1-------------------------------");
@@ -749,7 +760,13 @@
 			var targetListLi = $('.course-sort #day'
 					+ targetDay + ' li[data-idx="' + targetIdx
 					+ '"]');
-
+			
+			/* console.log("targetDay : " + targetDay)
+			console.log("targetIdx : " + targetIdx)
+			console.log(targetLi)
+			console.log(targetListLi) */
+			
+			
 			for (var i = 0; i < courseObject['day' + targetDay].markers.length; i++) {
 				courseObject['day' + targetDay].markers[i]
 						.setMap(null);
@@ -804,10 +821,10 @@
 			firebase.database()
 					.ref('courses/' + key + '/' + title + '/day' + i).set(
 							newCourse);
-			console.log("====================================================")
+			/* console.log("====================================================")
 			console.log('path : courses/' + key + '/' + title + '/day' + i);
 			console.log(newCourse);
-			console.log("====================================================")
+			console.log("====================================================") */
 		}
 	}
 
@@ -853,7 +870,8 @@
        google.maps.event.addListener(marker, "click", function(e) {
     	   var dupl = false;
     	   var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
-           
+          /*  console.log("clickedIdx : " + clickedIdx)
+           console.log("clickedIdx : " + targetTripDay) */
     	   for(var i = 0; i < courseObject[targetTripDay].markers.length; i++){
             	if(courseObject[targetTripDay].markers[i] == marker){
             		dupl = true;
@@ -861,8 +879,13 @@
             	}
            }
            if(!dupl){
+        	   /* console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
+        	   console.log("TargetTripDay : " + targetTripDay) */
+        	   originLi = recommendObject['day0']['li'][clickedIdx];
+        	   changedLi = originLi.replace("'0'", "'" + targetTripDay.substring(3) + "'")
+        	   
         	   courseObject[targetTripDay]['markers'].push(marker);
-               courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
+               courseObject[targetTripDay]['li'].push(changedLi);
                courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
       
                drawPath(courseObject[targetTripDay].markers);
@@ -875,7 +898,8 @@
                    str += courseObject[targetTripDay].li[i];
                }
                
-               $("ul.droptrue").html(str);
+               $("ul#" + targetTripDay).html(str);
+               updateCourse(fixedkey, title)
             }else{
             	e.preventDefault();
             }
@@ -919,6 +943,10 @@
 		polyBtn.toggleClass("path");
 		polyBtn.hasClass("path") ? polyBtn.html("경로") : polyBtn.html("폴리") ;
 	});
+	
+	
+	
+	
 	
 	
 	

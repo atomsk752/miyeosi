@@ -181,14 +181,18 @@ button:hover{
 }
 
 .glitch-btn {
-	z-index: 6;
-  display: inline-block;
-  position: absolute;
-  top: 8%;
-  right : 3%;
-  transform: translate(-50%, -50%);
-  font-size: 50px;
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+	background: transparent;
+    border: 0px;
+    color: #999999;
+    z-index: 6;
+    display: inline-block;
+    position: absolute;
+    top: 8%;
+    right: 3%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
 }
 
 .glitch-btn:hover {

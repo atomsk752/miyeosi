@@ -17,14 +17,15 @@
 	<a class="logo" href="/index">
 		<img src="/images/myjourney.png">
 	</a>
-	
-	<a class="glitch-btn" href="/boards/list" target="_self">
-		  <div class="text">NEXT</div>
-		  <div class="mask">
-		    <span>NEXT</span>
-		  </div>
-	 </a>
-
+	<form action="/map" id="form1">
+		<button class="glitch-btn">
+			  <div class="text">NEXT</div>
+			  <div class="mask">
+			    <span>NEXT</span>
+			  </div>
+		 </button>
+		 <input type="hidden" name="key" value="">
+	 </form>
 <style>
 
 .tile__img {
@@ -370,7 +371,8 @@ padding-left : 30px;
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
-			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
+			/* updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList); */
+			updateCourse(newKey, testList);
 			
 			for (var i = 1; i < testList.length; i++) {
 				
@@ -402,7 +404,8 @@ padding-left : 30px;
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
-			updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);			
+			/* updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);	 */
+			updateCourse(newKey, testList);	
 			
 			for (var i = 1; i < testList.length; i++) {
 				
@@ -496,6 +499,12 @@ padding-left : 30px;
 		    }
 	    })
 	   
+	   $("#form1 button").on("click", function(e){
+		   e.preventDefault();
+		   $("#form1 input")[0].value = newKey;
+		   console.log($("#form1 input")[0].value);
+		   $("#form1").submit();
+	   })
 	    
 	    
 		</script>		
