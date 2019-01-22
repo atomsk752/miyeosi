@@ -8,6 +8,12 @@
 	
 } */
 
+
+input:focus { 
+  outline: none; 
+} 
+
+
 .logo img{
 	height: 55px;
 	margin-top: 38px;
@@ -119,10 +125,17 @@ button:hover{
 	left: 0;
 }
 
+.prevBtn:focus{
+	outline: none;
+}
+
 .nextBtn{
 	right: 0;
 }
 
+.nextBtn:focus{
+	outline: none;
+}
 
 .row1 button, .row2 button{
 	margin-top: 89px;
@@ -193,7 +206,12 @@ button:hover{
     font-size: 50px;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
+
+
+.glitch-btn:focus {
+	outline: none;
 }
+
 
 .glitch-btn:hover {
   color: #61aa39;

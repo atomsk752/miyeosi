@@ -994,7 +994,13 @@ label {
 .middle-box {
 	flex: 9;
 	height: 100vh;
-	background-color: #efc008;
+	background-color: #ffffff;
+}
+
+.middle-box img{
+	margin-left: 500px;
+	margin-top: 200px;
+	width: 400px;
 }
 
 .right-box {

@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>Offers</title>
+    <title>MyJourney</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Travelix Project">
@@ -23,6 +23,8 @@
         overflow-x: hidden;
         overflow-y: hidden;
     } 
+    
+    
     
     </style>
     <title>maps</title>
@@ -99,7 +101,7 @@
             <!--map screen & schedules-->
 
             <div class="middle-box">
-                <div id="map"><h1>MAP PART</h1></div>
+                <div id="map"><img src="/images/loading.svg"></div>
                 <div class="toggle-nav">
                 <span class="e">
                     <span class="bar"></span>
@@ -194,6 +196,7 @@
 	};
 	firebase.initializeApp(config);
 	var fixedkey;
+	var lastDay;
 	
 	function getParameterByName(name, url) {
 	    if (!url) url = window.location.href;
@@ -204,6 +207,7 @@
 	}
 	
 	fixedkey = getParameterByName("key");
+	console.log(fixedkey);
 	var title = "untitled";
 	
 	var courseObject = {};
@@ -266,27 +270,101 @@
     }
 	
     function readCourse(key, title, callback){
-    	var dayLength = firebase.database().ref().child('courses/'+key +'/'+ title).once("value");
-    	console.log("==========dayLength============")
-    	console.log(dayLength);
-    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
+    	firebase.database().ref().child('courses/'+key +'/'+ title).once("value").then(function(data){
+    		lastDay = data.node_.children_.root_.key.substring(3) * 1;
+    		console.log(data.node_.children_.root_);
+    		for(var i = 0; i < lastDay + 1; i++){
+        		$(".add-bar").trigger("click")
+        	}
+    		
+    		console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+    		var result = data.val();
+    		console.log(result);
+    		
+    		callback(result)
+    	})
+    	
+    	/* firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
     		var result = data.val();
-    		console.log(data);
+    		 console.log(result.length)
     		callback(result);
-    	});
-    	
+    	}); */    	
     };
-    
+
     var map; 
-    
+    var sum = 0;
     var totalIndex = 0;
 
     readCourse(fixedkey, title, function(data) {
+    	
         console.log("callback.........................");
-        for (var i = 0; i < data.length; i++) {
+        console.log(data['day0'].length);
+        for(var i = 0; i < Object.keys(data).length; i++){
+        	for(var j = 0; j < data['day' + i].length; j++){
+        		 console.log("i : " + i + " j : " + j);
+        		 
+        		 courseObject['day' + i]['jsons'].push(data['day' + i][j]);
+        		
+        		var icon = {
+                		url: '../images/marker.svg',
+                		scaledSize : new google.maps.Size(45,47),
+                		origin: new google.maps.Point(0,0),
+                	    anchor: new google.maps.Point(22,46) 
+                };
+                
+                var marker = new google.maps.Marker({
+                        position : data['day' + i][j],
+                        title : data['day' + i][j].title,
+                        descs : data['day' + i][j].descs,
+                        myPos : data['day' + i][j],
+                        icon : icon
+                        
+                    });
+                
+                if( i === 0 && j === 0 ){
+                	map = new google.maps.Map(document.getElementById('map'),{
+                        center :{lat:data['day' + i][j].lat,  lng:data['day' + i][j].lng} ,
+                        zoom: 11,
+                        minZoom: 10,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        zoomControl: true,
+                        zoomControlOptions: {
+                           position: google.maps.ControlPosition.TOP_RIGHT
+                        },
+                        streetViewControl: true,
+                        streetViewControlOptions: {
+                           position: google.maps.ControlPosition.TOP_RIGHT
+                        }
+                    });
+                 }
+                
+                marker.setMap(map);
+                toggleInfoWin(marker);
+                courseObject['day' + i]['markers'].push(marker);
+                
+                var str = "<li data-idx ='" + j + "' data-day='" + i + "'><div class='ui-state-default'><div>"+ data['day' + i][j].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                courseObject['day' + i]['li'].push(str);
+                
+                
+                marker.addListener('click', function(){
+                	toggleInfoWin(marker);
+                    console.log("courseObject marker clicked....")
+                })
+        	}
+        	console.log("j : " + j)
+        	sum = sum + courseObject['day' + i]['jsons'].length;
+        	console.log("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        	console.dir(sum)
+        }
+        
+        
+        ////////////////////////////////////////////////////////////////////////////////
+        
+        /* for (var i = 0; i < data.length; i++) {
             
-            courseObject.day0['jsons'].push(data[i]);
+            courseObject['day0']['jsons'].push(data[i]);
             
             var icon = {
             		url: '../images/marker.svg',
@@ -335,9 +413,9 @@
                 console.log("courseObject marker clicked....")
             })
         
-        }
+        } */
         
-        totalIndex = data.length;
+        totalIndex = sum;
         var reTotalIndex = 0;
         $.getJSON("/map/recommendData", function(data) {
             for (var i = 0; i < data.length; i++) {
@@ -391,7 +469,9 @@
    });
 
 	function readyCourseDiv() {
-
+		
+		
+		
 		console.log("readyCourseDiv");
 
 		var str = "";
@@ -581,8 +661,8 @@
 		drawPath(courseObject[targetTripDay].markers)
 
 	}
-
-
+	
+	
 	$(".add-bar").on("click", function(e) {
 
 		var idx = $(".course.box").length;
@@ -606,7 +686,7 @@
 			courseObject['day' + idx]['li'] = [];
 		
 			sortDayList();
-			updateCourse(fixedkey, title);
+			/* updateCourse(fixedkey, title); */
 		}else{
 			e.preventDefault();
 		}
@@ -944,11 +1024,7 @@
 		polyBtn.hasClass("path") ? polyBtn.html("경로") : polyBtn.html("폴리") ;
 	});
 	
-	
-	
-	
-	
-	
+
 	
 	
 </script>
