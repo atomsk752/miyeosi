@@ -99,7 +99,7 @@ padding-left : 30px;
 						th:data-List="${List}" th:data-title="${List.title}" th:data-descs="${List.descs}">
 
 							<div class="tile__media">
-					          <img class="tile__img" th:src="${List.img}"/>
+					          <img class="tile__img" th:src="${List.img}" onerror="this.src='/images/errorImage.png'"/>
 					        </div>
 					        <div class="tile__details toggle" th:data-pno="${List.pno}"
 						th:data-lat="${List.lat}" th:data-lng="${List.lng}" th:data-keyword="${List.keyword}" th:data-img="${List.img}"
@@ -133,7 +133,6 @@ padding-left : 30px;
 		</div>
 
 
-		
 		<div class="row-container2">
 			<div class="rec_title">	
 				<h1>나홀로 여행자가 선택한 그 장소 </h1><h2>(#20대, #솔로)</h2>
@@ -148,7 +147,7 @@ padding-left : 30px;
 						th:data-List="${List2}" th:data-title="${List2.title}" th:data-descs="${List2.descs}">
 
 							<div class="tile__media">
-					          <img class="tile__img" th:src="${List2.img}"/>
+					          <img class="tile__img" th:src="${List2.img}"onerror="this.src='/images/errorImage.png'"/>
 					        </div>
 					        <div class="tile__details toggle" th:data-pno="${List2.pno}"
 						th:data-lat="${List2.lat}" th:data-lng="${List2.lng}" th:data-keyword="${List2.keyword}" th:data-img="${List2.img}"
@@ -349,7 +348,7 @@ padding-left : 30px;
 		});
 		
 		
-		$("#sliderFrame").on("click", "div", function(e){
+   		$("#sliderFrame").on("click", "div", function(e){
 
 			var targetLi = $("li[data-pno='"+currentPno+"']");
 			var targetImg = $("li[data-pno='"+currentPno+"'] tile__media img");
@@ -362,16 +361,16 @@ padding-left : 30px;
 		    point.title = targetLi.data("title");
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
-		    if(targetImg.hasClass("selected")){
+/*  		    if(targetImg.hasClass("selected")){
 		    	targetImg.removeClass("selected");
 		    }else{
 		    	targetImg.addClass("selected");
-		    }
+		    }  */
 		    
 			targetCheck.toggleClass('is-checked');
 			
 			checkDupl(point);
-			/* updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList); */
+			
 			updateCourse(newKey, testList);
 			
 			for (var i = 1; i < testList.length; i++) {
@@ -380,11 +379,11 @@ padding-left : 30px;
 				
 			}
 
-		});
+		});   
 		
 		
-		$("#slider").on("click", "div", function(e){
-
+ 		$("#slider").on("click", "div", function(e){
+ 			
 			var targetLi = $("li[data-pno='"+currentPno+"']");
 			var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
 			var targetCheck = $("div[data-index='"+currentPno+"']");
@@ -398,13 +397,15 @@ padding-left : 30px;
 		    point.img = targetLi.data("img");
 		    if(targetImg.hasClass("selected")){
 		    	targetImg.removeClass("selected");
+		    	console.log("뺐다!")
 		    }else{
 		    	targetImg.addClass("selected");
+		    	console.log("넣었다!")
 		    }
 			targetCheck.toggleClass('is-checked');
-			
+			console.log(targetImg);
 			checkDupl(point);
-			/* updateCourse("-LUj9dwD2-Gy6G-PxXHX", testList);	 */
+		
 			updateCourse(newKey, testList);	
 			
 			for (var i = 1; i < testList.length; i++) {
@@ -413,7 +414,7 @@ padding-left : 30px;
 				
 			}
 
-		});
+		}); 
 
 		
 		$('.checkbox').click(function(){
@@ -505,8 +506,21 @@ padding-left : 30px;
 		   console.log($("#form1 input")[0].value);
 		   $("#form1").submit();
 	   })
+	   
+ 	   $(".container").on("click", function(e){
+		   e.preventDefault();
+		  console.log(e.pageY)
+		   if(e.pageY < 284){
+			   
+			   $(".expander").slideUp();
+			   current = -1;
+			 
+		   }
+		   
+		   
+	   }) 
 	    
-	    
+
 		</script>		
 
 	</body>
