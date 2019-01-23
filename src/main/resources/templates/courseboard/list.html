@@ -143,21 +143,21 @@
 								<div class="col-lg-3 col-1680-4">
 									<div class="offers_image_container">
 										<div class="offers_image_background"
-											style="background-image: url('/images/offer_1.jpg')"></div>
-										<div class="offer_name">
+											th:style="'background-image: url(' +${arr.courseimg}+');'"></div>
+										<!-- <div class="offer_name">
 											<a th:href="${arr.coursebno}" class="detail">[[${arr.coursetitle}]]</a>
-										</div>
+										</div> -->
 									</div>
 								</div>
 								<div class="col-lg-8">
 									<div class="offers_content">
-										<div class="offers_price">
-											[[${arr.coursebno}]]
+										<div>
+											<a th:href="${arr.coursebno}" class="detail">[[${arr.coursetitle}]]</a>
 										</div>
-										<div class="rating_r rating_r_4 offers_rating"
+										<!-- <div class="rating_r rating_r_4 offers_rating"
 											data-rating="4">
 											<i></i> <i></i> <i></i> <i></i> <i></i>
-										</div>
+										</div> -->
 										<p class="offers_text">[[${arr.coursecontent}]]</p>
 	
 										<div class="offer_reviews">

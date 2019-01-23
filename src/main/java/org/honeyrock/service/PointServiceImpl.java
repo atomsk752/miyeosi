@@ -143,4 +143,18 @@ public class PointServiceImpl implements PointService {
 	}
 
 
+	@Override
+	public List<PointVO> getPList(PageParam pageParam) {
+
+		return pointMapper.getPList(pageParam);
+	}
+
+
+	@Override
+	public List<PointVO> getRPList(PageParam pageParam) {
+
+		return pointMapper.getRPList(pageParam);
+	}
+
+
 }

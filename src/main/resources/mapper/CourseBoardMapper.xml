@@ -56,4 +56,19 @@
 	  	</if>
 	</sql>
 	
+	<select id="getCList" resultType="org.honeyrock.domain.CourseBoardVO">
+		select coursetitle, coursecontent, courseimg, member.usernick,coursebno from tbl_course_board course
+		left join tbl_member member
+		on course.usermail = member.usermail
+		where course.del=0 order by coursebno desc
+		
+	</select>
+	
+	<select id="getRCList" resultType="org.honeyrock.domain.CourseBoardVO">
+		select * from tbl_course_board
+		where del = 0 
+		order by coursebno desc limit 0, 5
+	</select>
+
+	
 </mapper>

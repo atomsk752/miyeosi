@@ -8,6 +8,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.honeyrock.domain.ImageVO;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.SearchMapper;
 import org.json.simple.JSONArray;
@@ -53,5 +54,16 @@ public class SearchServiceImpl implements SearchService {
 		return mapper.getList();
 	}
 	
+
+
+	@Override
+	public PointVO getPoint(Integer pno) {
+		return mapper.getPoint(pno);
+	}
+
+	@Override
+	public List<PointVO> getList2() {
+		return mapper.getList2();
+	}
 
 }
