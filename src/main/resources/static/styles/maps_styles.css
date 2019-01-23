@@ -997,10 +997,15 @@ label {
 	background-color: #ffffff;
 }
 
-.middle-box img{
+.middle-box>#map>img{
 	margin-left: 500px;
 	margin-top: 200px;
 	width: 400px;
+}
+
+.info-pane img{
+	width: 400px;
+	height: 200px;
 }
 
 .right-box {
@@ -1296,7 +1301,7 @@ label {
 
 .info-img{
 	margin-top: 10px;
-	margin-left:10px;
+	height:200px;
 }
 
 
