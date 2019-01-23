@@ -46,7 +46,6 @@
 	font-family: 'Beyond';
 	src: url('../fonts/beyond_the_mountains.otf')  format('truetype'),
 		 url('../fonts/beyond_the_mountains.ttf')  format('opentype');
-
 }
 
 /*********************************
@@ -98,7 +97,7 @@ p a
 	display: inline;
 	position: relative;
 	color: inherit;
-	border-bottom: solid 1px #ffa07f;
+/* 	border-bottom: solid 1px #ffa07f; */
 	-webkit-transition: all 200ms ease;
 	-moz-transition: all 200ms ease;
 	-ms-transition: all 200ms ease;
@@ -133,7 +132,6 @@ p a:hover::after
 p::selection
 {
 	
-
 }
 h1{font-size: 48px;}
 h2{font-size: 36px;}
@@ -147,7 +145,6 @@ h1, h2, h3, h4, h5, h6
 	-webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
 	text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
-
 h1::selection, 
 h2::selection, 
 h3::selection, 
@@ -259,7 +256,7 @@ section
 	left: 0;
 	width: 200%;
 	height: 100%;
-	background: linear-gradient(to right, #fa9e1b, #8d4fff, #fa9e1b);
+	background: linear-gradient(to right, #fa9e1b, #ffc571, #fa9e1b);
 	z-index: -1;
 	-webkit-transition: all 400ms ease;
 	-moz-transition: all 400ms ease;
@@ -274,7 +271,7 @@ section
 .button a
 {
 	display: block;
-	font-size: 13px;
+	font-size: 16px;
 	font-weight: 700;
 	color: #fff;
 	text-transform: uppercase;
@@ -316,14 +313,12 @@ section
 {
 	position: fixed;
 	width: 100%;
-	background: rgba(54, 19, 84, 0.6);
+	background: rgba(28, 99, 162, 0.6);
 	z-index: 12;
 }
 .header.scrolled
 {
-
-	background: rgba(54, 19, 84, 0.85);
-
+	background: rgba(28, 99, 162, 0.85);
 }
 
 /*********************************
@@ -492,6 +487,13 @@ section
 	display: inline-block;
 	margin-right: 40px;
 }
+.main_nav_item2
+{
+	position: relative;
+	display: inline-block;
+    margin-right: -83px;
+    margin-left: 82px;
+}
 .main_nav_item:last-child
 {
 	margin-right: 0px;
@@ -499,12 +501,27 @@ section
 .main_nav_item a
 {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #FFFFFF;
 	text-transform: uppercase;
 	padding-bottom: 10px;
 	padding-top: 10px;
+}
+.main_nav_item2 a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffe5c1;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 9px;
+    padding-right: 9px;
+    border: solid 2px;
+}
+.main_nav_item2 a:hover{
+	color: #eda84a;
 }
 .main_nav_item::after
 {
@@ -514,7 +531,7 @@ section
 	bottom: -11px;
 	width: calc(100% + 2px);
 	height: 2px;
-	background: linear-gradient(to right, #fa9e1b, #8d4fff);
+	background: #fa9e1b;
 	content: '';
 	opacity: 0;
 	-webkit-transition: all 200ms ease;
@@ -769,8 +786,7 @@ section
 	width: 100%;
 	height: 100%;
 	z-index: 10;
-	background: #31124b;
-
+	background: rgba(0,0,0,0.9);
 }
 .home_slider
 {
@@ -812,26 +828,21 @@ section
 }
 .home_slider_content h1:first-child
 {
-	font-family: 'Beyond';
-	font-size: 100px;
-	color: #FFFFFF;
-	margin-bottom: 20px;
-	
-	/* font-size: 112px;
+	font-size: 112px;
 	font-weight: 900;
 	color: #FFFFFF;
-	text-transform: uppercase; */
+	text-transform: uppercase;
 }
 .home_slider_content h1:nth-child(2)
 {
 	font-family: 'Beyond';
-	font-size: 75px;
+	font-size: 100px;
 	color: #FFFFFF;
-
+	margin-top: -34px;
 }
 .home_slider_button
 {
-	margin-top: 70px;
+	margin-top: 55px;
 }
 .flipInX
 {
@@ -1008,7 +1019,6 @@ section
 	-ms-filter: brightness(200%) grayscale(100%);
 	-o-filter: brightness(200%) grayscale(100%);
   	filter: brightness(200%) grayscale(100%);
-
 }
 .search_tab:hover
 {
@@ -1030,7 +1040,6 @@ section
 	height: 100%;
 	-webkit-animation: fadeEffect 1s;
     animation: fadeEffect 1s;
-
 }
 .search_panel.active
 {
@@ -1053,7 +1062,6 @@ section
 }
 .search_input
 {
-
 	width: 100%;
 	height: 46px;
 	border: none;
@@ -1064,7 +1072,6 @@ section
 	font-weight: 600;
 	color: #929191;
 }
-
 .search_item:first-child
 {
 	width: 30.453%;
@@ -1114,9 +1121,7 @@ section
 }
 .dropdown_item_select::-ms-expand
 {
-
     display: none;
-
 }
 .dropdown_item_select:hover
 {
@@ -1156,9 +1161,9 @@ section
 
 .section_title
 {
-	font-size: 30px;
+	font-size: 32px;
 	font-weight: 700;
-	color: #2d2c2c;
+	color: #eda84a;
 	margin-top: -8px;
 	text-transform: uppercase;
 }
@@ -1425,18 +1430,17 @@ section
 .offers
 {
 	width: 100%;
-	padding-top: 105px;
-	padding-bottom: 43px;
-	background: #f3f6f9;
-
+	padding-top: 30px;
+	/* padding-bottom: 43px; */
+	background: #f1f1f17d;
 }
 .offers_items
 {
-	margin-top: 90px;
+	margin-top: 35px;
 }
 .offers_col
 {
-	margin-bottom: 83px;
+    margin-bottom: 120px;
 }
 .offers_item
 {
@@ -1485,10 +1489,11 @@ section
 .offers_price
 {
 	display: inline-block;
-	font-size: 36px;
+	font-size: 32px;
 	font-weight: 700;
 	color: #eda84a;
 	line-height: 25px;
+	margin-bottom: 10px;
 }
 .offers_price span
 {
@@ -1508,10 +1513,17 @@ section
 }
 .offers_text
 {
-	font-size: 14px;
-	font-weight: 400;
-	color: #929191;
-	margin-top: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #6b6b6b;
+    margin-top: 16px;
+}
+.offers_texts
+{
+    font-size: 16px;
+    font-weight: 500;
+    color: #6b6b6b;
+    margin-top: 16px;
 }
 .offers_icons
 {
@@ -1566,7 +1578,6 @@ section
 	width: 100%;
 	height: 2px;
 	background: linear-gradient(to right, #fa9e1b, #8d4fff);
-
 }
 
 /*********************************
@@ -1611,36 +1622,36 @@ section
 	left: 0;
 	bottom: 0;
 	width: 100%;
-	height: 44.1%;
-	background: rgba(49, 18, 75, 0.8);
-
+	height: 32%;
+	background: #112a44bf;
 }
 .test_content
 {
 	width: 100%;
 	height: 100%;
 	padding-left: 38px;
-	padding-top: 44px;
+	padding-top: 24px;
 	padding-right: 40px;
 }
 .test_item_info
 {
-	position: absolute;
-	left: 41px;
-	bottom: calc(100% - 18px);
-	background: #FFFFFF;
-	padding-left: 20px;
-	padding-right: 21px;
-	padding-top: 9px;
-	padding-bottom: 10px;
-	z-index: 10;
+    position: absolute;
+    left: 32px;
+    bottom: calc(100% - 126px);
+    background: #ffffffd4;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 6px;
+    padding-bottom: 4px;
+    z-index: 10;
+    border-radius: 12px;
 }
 .test_name
 {
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: 700;
 	color: #2d2c2c;
-	text-transform: uppercase;
+	/* text-transform: uppercase; */
 }
 .test_date
 {
@@ -1652,15 +1663,15 @@ section
 .test_quote_title
 {
 	font-size: 20px;
-	font-weight: 500;
-	color: #FFFFFF;
+	font-weight: 600;
+	color: #eda84a;
 	padding-left: 3px;
 }
 .test_quote_text
 {
 	font-weight: 500;
 	color: #FFFFFF;
-	margin-top: 11px;
+	margin-top: -4px;
 }
 .test_slider_nav
 {
@@ -1677,7 +1688,7 @@ section
 .test_slider_nav .nav_path,
 .test_slider_nav .nav_arrow
 {
-	fill: #c4ced2;
+	fill: #8e9598;
 }
 .test_slider_prev
 {
@@ -1690,12 +1701,12 @@ section
 .test_slider_prev:hover .nav_path,
 .test_slider_prev:hover .nav_arrow
 {
-	fill: url(#test_grad_prev);
+	fill: #eda84a;
 }
 .test_slider_next:hover .nav_path,
 .test_slider_next:hover .nav_arrow
 {
-	fill: url(#test_grad_next);
+	fill: #eda84a;
 }
 
 /*********************************
@@ -1893,7 +1904,6 @@ section
 .input_field:-ms-input-placeholder,
 .text_field:-ms-input-placeholder
 { 
-
 	font-size: 12px !important;
 	font-weight: 400 !important;
 	color: #FFFFFF !important;
@@ -1917,7 +1927,6 @@ section
 	padding-bottom: 104px;
 	background: #0B4981;
 	height: 310px;
-
 }
 .footer_title
 {
@@ -1997,9 +2006,7 @@ section
 }
 .footer_social_item:hover a i
 {
-
 	color: #31124b;
-
 }
 
 /*********************************
@@ -2120,6 +2127,7 @@ section
 	color: #FFFFFF;
 	line-height: 2.14;
 	margin-top: -4px;
+	font-size: 14px;
 }
 .contact_info_item:hover .contact_info_text,
 .contact_info_item:hover .contact_info_text a
@@ -2133,7 +2141,7 @@ section
 
 .copyright
 {
-	background: #1f0733;
+	background: #063865;
 }
 .copyright_content
 {
@@ -2141,10 +2149,9 @@ section
 }
 .copyright_content div
 {
-	font-size: 12px;
-	font-weight: 600;
-	color: #685677;
-
+    font-size: 12px;
+    font-weight: 600;
+    color: #3675AD;
 }
 .footer_nav_container
 {
@@ -2152,11 +2159,12 @@ section
 }
 .footer_nav
 {
-
+	
 }
 .footer_nav_list
 {
 	font-size: 0px;
+	margin-top: 18px;
 }
 .footer_nav_item
 {
@@ -2167,7 +2175,7 @@ section
 {
 	font-size: 12px;
 	font-weight: 600;
-	color: #685677;
+    color: #3675AD;
 	text-transform: uppercase;
 	line-height: 2;
 	-webkit-transition: all 200ms ease;
@@ -2179,5 +2187,19 @@ section
 .footer_nav_item a:hover
 {
 	color: #FFFFFF;
+}
 
+.phone img{
+    height: 90px;
+    margin-top: 79px;
+}
+.logo img{
+    height: 67px;
+    margin-top: 12px;
+}
+/*드래그 색깔*/
+::selection { color:white; background: #4682ec; }
+
+.login a{
+	color: #fa9e1b;
 }

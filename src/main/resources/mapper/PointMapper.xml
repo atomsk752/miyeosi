@@ -81,4 +81,16 @@
 	  	</if>
 	</sql>
 	
+	<select id="getPList" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point where del=0 order by good desc
+		limit 0,12
+	</select>
+	
+	<select id="getRPList" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point
+		where del=0
+		order by pno desc
+		limit 0,5
+	</select>
+	
 </mapper>

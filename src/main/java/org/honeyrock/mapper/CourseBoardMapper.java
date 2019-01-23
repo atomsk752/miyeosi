@@ -20,4 +20,11 @@ public interface CourseBoardMapper {
 	
 	public int delete(CourseBoardVO vo);
 	
+	//dash board popular course
+	public List<CourseBoardVO> getCList(PageParam pageParam);
+	
+	//dash board recent course
+	public List<CourseBoardVO> getRCList(PageParam pageParam);
+	
+	
 }

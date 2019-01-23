@@ -12,6 +12,7 @@ import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.SearchMapper;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.security.domain.CustomMember;
+import org.honeyrock.service.CourseBoardService;
 import org.honeyrock.service.CourseService;
 import org.honeyrock.service.LoginService;
 import org.honeyrock.service.PointService;
@@ -56,10 +57,19 @@ public class SampleController {
 	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwEncoder;
 
+	@Setter(onMethod_ = @Autowired)
+	private CourseBoardService service;
+
 	
 	@GetMapping("/index")
-	public void index() {
-		
+	public void index(Model model, @ModelAttribute("pageObj") PageParam pageParam) {
+		model.addAttribute("list", service.getList(pageParam));
+		model.addAttribute("List", pointService.getList(pageParam));
+		model.addAttribute("CList", service.getCList(pageParam));
+		model.addAttribute("PList", pointService.getPList(pageParam));
+		model.addAttribute("RCList", service.getRCList(pageParam));
+		model.addAttribute("RPList", pointService.getRPList(pageParam));
+		pageParam.setTotal(pointService.getTotal(pageParam));
 	}
 	
 	@GetMapping("/search")
