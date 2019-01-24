@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-<title>MIYEOSI</title>
+<title>MY JOURNEY</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Travelix Project">
@@ -15,7 +15,8 @@
 <script src="../js/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="https://www.earthtory.com/res/css/component/default.css?v=150805" />
 
-<th:block layout:fragment="style"></th:block>
+<th:block layout:fragment="style">
+</th:block>
 </head>
 
 <body>
@@ -36,16 +37,16 @@
                 <div class="row">
                     <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
                         <div class="logo_container">
-                            <div class="logo"><a href="/index"><img src="../images/logo.png" alt="">MIYEOSI</a></div>
+                            <div class="logo"><a href="/index"><img src="/images/myjourney.png" alt=""></a></div>
                         </div>
                         <div class="main_nav_container ml-auto">
                             <ul class="main_nav_list">
                                 <li class="main_nav_item"><a href="/courseboard/list">forum</a></li>
-                                <li class="main_nav_item"><a href="/course">course</a></li>
                                 <li class="main_nav_item"><a href="/gallery">gallery</a></li>
                                 <li sec:authorize="!hasRole('ROLE_MEMBER')" class="main_nav_item login"><a href="/login/customLogin">login</a></li>
                                 <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item"><a href="/mypage">mypage</a></li>
                                 <li sec:authorize="hasRole('ROLE_MEMBER')" class="main_nav_item login"><a href="/login/customLogout">logout</a></li>
+                                <li class="main_nav_item2"><a href="/simple">course create</a></li>
                             </ul>
                         </div>
                         <div class="content_search ml-lg-0 ml-auto">
@@ -97,32 +98,59 @@
         <div class="row">
 
             <!-- Footer Column -->
-            <div class="col-lg-3 footer_column">
+            <div class="col-lg-4 footer_column">
                 <div class="footer_col">
                     <div class="footer_title">contact info</div>
                     <div class="footer_content footer_contact">
                         <ul class="contact_info_list">
                             <li class="contact_info_item d-flex flex-row">
                                 <div><div class="contact_info_icon"><img src="../images/placeholder.svg" alt=""></div></div>
-                                <div class="contact_info_text">4127 Raoul Wallenber 45b-c Gibraltar</div>
+                                <div class="contact_info_text">서울특별시 종로구 종로 69 YMCA빌딩 7층</div>
                             </li>
                             <li class="contact_info_item d-flex flex-row">
                                 <div><div class="contact_info_icon"><img src="../images/phone-call.svg" alt=""></div></div>
-                                <div class="contact_info_text">2556-808-8613</div>
+                                <div class="contact_info_text">02-722-1481</div>
                             </li>
                             <li class="contact_info_item d-flex flex-row">
                                 <div><div class="contact_info_icon"><img src="../images/message.svg" alt=""></div></div>
-                                <div class="contact_info_text"><a href="mailto:contactme@gmail.com?Subject=Hello" target="_top">contactme@gmail.com</a></div>
+                                <div class="contact_info_text">honeyrock@gmail.com</div>
                             </li>
                             <li class="contact_info_item d-flex flex-row">
                                 <div><div class="contact_info_icon"><img src="../images/planet-earth.svg" alt=""></div></div>
-                                <div class="contact_info_text"><a href="https://colorlib.com">www.colorlib.com</a></div>
+                                <div class="contact_info_text">www.honeyrock.com</div>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
-
+            <div class="col-lg-4 footer_column">
+                <div class="footer_col">
+                    <div class="footer_title">contact info</div>
+                    <div class="footer_content footer_contact">
+                        <ul class="contact_info_list">
+                            <li class="contact_info_item d-flex flex-row">
+                                <div><div class="contact_info_icon"><img src="../images/placeholder.svg" alt=""></div></div>
+                                <div class="contact_info_text">서울특별시 종로구 종로 69 YMCA빌딩 7층</div>
+                            </li>
+                            <li class="contact_info_item d-flex flex-row">
+                                <div><div class="contact_info_icon"><img src="../images/phone-call.svg" alt=""></div></div>
+                                <div class="contact_info_text">02-722-1481</div>
+                            </li>
+                            <li class="contact_info_item d-flex flex-row">
+                                <div><div class="contact_info_icon"><img src="../images/message.svg" alt=""></div></div>
+                                <div class="contact_info_text">honeyrock@gmail.com</div>
+                            </li>
+                            <li class="contact_info_item d-flex flex-row">
+                                <div><div class="contact_info_icon"><img src="../images/planet-earth.svg" alt=""></div></div>
+                                <div class="contact_info_text">www.honeyrock.com</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="phone">
+				<a href="/index"><img class="phone" src="/images/myjourney.png"></a>
+			</div>
         </div>
     </div>
     </footer>

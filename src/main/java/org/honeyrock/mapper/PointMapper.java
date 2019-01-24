@@ -20,6 +20,12 @@ public interface PointMapper {
 	
 	public int delete(PointVO vo);
 	
+
 	public List<PointVO> getImg();
 	
+	//dash board popular point
+	public List<PointVO> getPList(PageParam pageParam);
+
+	//dash board recent point
+	public List<PointVO> getRPList(PageParam pageParam);
 }

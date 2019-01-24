@@ -15,11 +15,12 @@
 		and del = 0 
 		order by pno desc limit #{skip},#{display}
 	</select>
+
 	
 	<select id="getImg" resultType="org.honeyrock.domain.PointVO">
 		select * from tbl_point order by pno desc
 	</select>
-	
+
 	<select id="count" resultType="int">
 		select count(*) from tbl_point
 		where 1=1
@@ -79,5 +80,17 @@
 	  		</foreach>
 	  	</if>
 	</sql>
+	
+	<select id="getPList" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point where del=0 order by good desc
+		limit 0,12
+	</select>
+	
+	<select id="getRPList" resultType="org.honeyrock.domain.PointVO">
+		select * from tbl_point
+		where del=0
+		order by pno desc
+		limit 0,5
+	</select>
 	
 </mapper>

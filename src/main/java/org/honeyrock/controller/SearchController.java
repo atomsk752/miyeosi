@@ -25,6 +25,7 @@ public class SearchController {
 	@Setter(onMethod_ = @Autowired)
 	private SearchService service;
 	
+
 	
 	@GetMapping("/searchTest")
 	@ResponseBody
@@ -46,7 +47,7 @@ public class SearchController {
 		
 		
 	}
-	
+
 	@GetMapping("/autocomplete")
 	@ResponseBody
 	public ResponseEntity<String[]> autoComplete() {

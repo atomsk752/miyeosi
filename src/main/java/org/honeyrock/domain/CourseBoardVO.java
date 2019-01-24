@@ -41,6 +41,8 @@ public class CourseBoardVO {
 	private Date regdate;
 	@UpdateTimestamp
 	private Date updatedate;
+	private String courseimg;
+	private String usernick;
 	
 	@OneToMany(mappedBy = "board" , cascade = CascadeType.ALL)
 	private List<CourseBoardReplyVO> replies;

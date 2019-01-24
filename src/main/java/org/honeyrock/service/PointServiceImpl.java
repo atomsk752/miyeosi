@@ -141,6 +141,17 @@ public class PointServiceImpl implements PointService {
 		// TODO Auto-generated method stub
 		return pointMapper.getImg();
 	}
+	
+	@Override
+	public List<PointVO> getPList(PageParam pageParam) {
+
+		return pointMapper.getPList(pageParam);
+	}
 
 
+	@Override
+	public List<PointVO> getRPList(PageParam pageParam) {
+
+		return pointMapper.getRPList(pageParam);
+	}
 }

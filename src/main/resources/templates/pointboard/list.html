@@ -139,20 +139,20 @@
 									<div class="offers_image_container">
 										<div class="offers_image_background"
 											th:style="'background-image: url(' +${arr.img}+');'"></div>
-										<div class="offer_name">
+										<!-- <div class="offer_name">
 											<a th:href="${arr.pno}" class="detail">[[${arr.title}]]</a>
-										</div>
+										</div> -->
 									</div>
 								</div>
 								<div class="col-lg-8">
 									<div class="offers_content">
-										<div class="offers_price">
-											[[${arr.pno}]]<span>[[${arr.lat}]] [[${arr.lng}]]</span>
+										<div>
+											<a th:href="${arr.pno}" class="detail">[[${arr.title}]]</a>
 										</div>
-										<div class="rating_r rating_r_4 offers_rating"
+										<!-- <div class="rating_r rating_r_4 offers_rating"
 											data-rating="4">
 											<i></i> <i></i> <i></i> <i></i> <i></i>
-										</div>
+										</div> -->
 										<p class="offers_text">[[${arr.keyword}]]</p>
 	
 										<div class="offer_reviews">

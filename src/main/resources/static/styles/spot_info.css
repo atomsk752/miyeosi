@@ -363,11 +363,12 @@ input,textarea{
 	margin-top:15px;
 }
 
-.title_big{
-	font-size:20px;
-	color:#363636;
-	font-weight:bold;
-	margin-top:90px;
+.title_big {
+    font-size: 20px;
+    color: #363636;
+    font-weight: bold;
+    margin-top: 51vh;
+    position: absolute;
 }
 
 .title_big span{
@@ -855,7 +856,7 @@ input,textarea{
 }
 
 .spot_info_box.blog{
-	margin-top:20px;
+	/* margin-top:48px; */
 }
 
 .blog_list{

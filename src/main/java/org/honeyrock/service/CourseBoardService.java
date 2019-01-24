@@ -24,5 +24,11 @@ public interface CourseBoardService {
 	public boolean delete(CourseBoardVO vo);
 	
 	public int count(PageParam pageParam);
+	
+	//dash board popular course
+	public List<CourseBoardVO> getCList(PageParam pageParam);
+	
+	//dash board recent course
+	public List<CourseBoardVO> getRCList(PageParam pageParam);
 
 }

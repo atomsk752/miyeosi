@@ -3,7 +3,7 @@
 
 
 <head>
-    <title>Offers</title>
+    <title>MyJourney</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Travelix Project">
@@ -23,6 +23,8 @@
         overflow-x: hidden;
         overflow-y: hidden;
     } 
+    
+    
     
     </style>
     <title>maps</title>
@@ -56,9 +58,9 @@
                         </fieldset>
                         
                         <div class="category-btn">
-                        <input type="checkbox" id="site" name="site" checked="checked"><label for="site"><img src="/images/site.png"></label>
-                        <input type="checkbox" id="restaurant" name="restaurant" checked="checked"><label for="restaurant"><img src="/images/restaurant.png"></label>
-                        <input type="checkbox" id="hotel" name="hotel" checked="checked"><label for="hotel"><img src="/images/hotel.png"></label>	
+                        <input type="checkbox" id="site" name="category" checked="checked"><label for="site"><img src="/images/site.png"></label>
+                        <input type="checkbox" id="restaurant" name="category" checked="checked"><label for="restaurant"><img src="/images/restaurant.png"></label>
+                        <input type="checkbox" id="hotel" name="category" checked="checked"><label for="hotel"><img src="/images/hotel.png"></label>	
                         	<button id="refresh"><img src="/images/refresh.svg"></button>
                         </div>
                         
@@ -99,7 +101,7 @@
             <!--map screen & schedules-->
 
             <div class="middle-box">
-                <div id="map"><h1>MAP PART</h1></div>
+                <div id="map"><img src="/images/loading.svg"></div>
                 <div class="toggle-nav">
                 <span class="e">
                     <span class="bar"></span>
@@ -170,7 +172,7 @@
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/styles/bootstrap4/popper.js"></script>
 <script src="/styles/bootstrap4/bootstrap.min.js"></script>
@@ -193,8 +195,19 @@
 	  messagingSenderId: "105538800439"
 	};
 	firebase.initializeApp(config);
+	var fixedkey;
+	var lastDay;
 	
-	var fixedkey= "-LUj9dwD2-Gy6G-PxXHX";
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    return results[2];
+	}
+	
+	fixedkey = getParameterByName("key");
+	console.log(fixedkey);
 	var title = "untitled";
 	
 	var courseObject = {};
@@ -205,16 +218,24 @@
 	
 	var recommendObject = {};
     
-    recommendObject['day0']= {};
-    recommendObject['day0']['jsons'] = [];
-    recommendObject['day0']['markers'] = [];
-    recommendObject['day0']['li'] = [];
+    recommendObject['site']= {};
+    recommendObject['site']['jsons'] = [];
+    recommendObject['site']['markers'] = [];
+    recommendObject['site']['li'] = [];
+    recommendObject['restaurant']= {};
+    recommendObject['restaurant']['jsons'] = [];
+    recommendObject['restaurant']['markers'] = [];
+    recommendObject['restaurant']['li'] = [];
+    recommendObject['hotel']= {};
+    recommendObject['hotel']['jsons'] = [];
+    recommendObject['hotel']['markers'] = [];
+    recommendObject['hotel']['li'] = [];
 	
 	courseObject.findPoint = function (day, idx){
 		
 		var arrayIndex = courseObject.findIndex(day, idx);
 		
-		console.log("day: " + day + " idx: " + idx + "   arryIndex: " + arrayIndex);
+		/* console.log("day: " + day + " idx: " + idx + "   arryIndex: " + arrayIndex); */
 		
 		return {
 			json: courseObject["day"+ day]['jsons'][arrayIndex], 
@@ -257,25 +278,97 @@
     }
 	
     function readCourse(key, title, callback){
+    	firebase.database().ref().child('courses/'+key +'/'+ title).once("value").then(function(data){
+    		lastDay = data.node_.children_.root_.key.substring(3) * 1;
+    		if(lastDay != 0){
+    			for(var i = 0; i < lastDay + 1; i++){
+            		$(".add-bar").trigger("click")
+            	}
+    		}
+    		console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+    		var result = data.val();
+    		console.log(result);
+    		
+    		callback(result)
+    	})
     	
-    	firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
+    	/* firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
     		var result = data.val();
-    		console.log(result.length)
+    		 console.log(result.length)
     		callback(result);
-    	});
-    	
+    	}); */    	
     };
-    
+
     var map; 
-    
+    var sum = 0;
     var totalIndex = 0;
 
     readCourse(fixedkey, title, function(data) {
+    	
         console.log("callback.........................");
-        for (var i = 0; i < data.length; i++) {
+        console.log(data['day0'].length);
+        for(var i = 0; i < Object.keys(data).length; i++){
+        	for(var j = 0; j < data['day' + i].length; j++){
+        		 console.log("i : " + i + " j : " + j);
+        		 
+        		 courseObject['day' + i]['jsons'].push(data['day' + i][j]);
+        		
+        		var icon = {
+                		url: '../images/marker.svg',
+                		scaledSize : new google.maps.Size(45,47),
+                		origin: new google.maps.Point(0,0),
+                	    anchor: new google.maps.Point(22,46) 
+                };
+                
+                var marker = new google.maps.Marker({
+                        position : data['day' + i][j],
+                        title : data['day' + i][j].title,
+                        descs : data['day' + i][j].descs,
+                        myPos : data['day' + i][j],
+                        icon : icon
+                        
+                    });
+                
+                if( i === 0 && j === 0 ){
+                	map = new google.maps.Map(document.getElementById('map'),{
+                        center :{lat:data['day' + i][j].lat,  lng:data['day' + i][j].lng} ,
+                        zoom: 11,
+                        minZoom: 10,
+                        mapTypeControl: false,
+                        fullscreenControl: false,
+                        zoomControl: true,
+                        zoomControlOptions: {
+                           position: google.maps.ControlPosition.TOP_RIGHT
+                        },
+                        streetViewControl: true,
+                        streetViewControlOptions: {
+                           position: google.maps.ControlPosition.TOP_RIGHT
+                        }
+                    });
+                 }
+                
+                marker.setMap(map);
+                toggleInfoWin(marker);
+                courseObject['day' + i]['markers'].push(marker);
+                
+                var str = "<li data-idx ='" + j + "' data-day='" + i + "'><div class='ui-state-default'><div>"+ data['day' + i][j].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                courseObject['day' + i]['li'].push(str);
+                
+                
+                marker.addListener('click', function(){
+                	toggleInfoWin(marker);
+                    console.log("courseObject marker clicked....")
+                })
+        	}
+        	console.log("j : " + j)
+        	sum = sum + courseObject['day' + i]['jsons'].length;
+        }
+
+        
+        /* for (var i = 0; i < data.length; i++) {
             
-            courseObject.day0['jsons'].push(data[i]);
+            courseObject['day0']['jsons'].push(data[i]);
             
             var icon = {
             		url: '../images/marker.svg',
@@ -324,14 +417,179 @@
                 console.log("courseObject marker clicked....")
             })
         
-        }
+        } */
         
-        totalIndex = data.length;
+        totalIndex = sum;
         var reTotalIndex = 0;
-        $.getJSON("/map/recommendData", function(data) {
+        
+       /*  // 전체
+        
+       	$.getJSON("/map/recommendData", function(data){
+       		for (var i = 0; i < data.length; i++) {
+       			
+                   recommendObject['recommend']['jsons'].push(data[i]);
+       			
+                   var icon = {
+                   		url: '../images/catMarker.png',
+                   		scaledSize : new google.maps.Size(35,30),
+                   		origin: new google.maps.Point(0,0),
+                   	    anchor: new google.maps.Point(25, 25) 
+                   };
+                   
+                   
+                   var marker = new google.maps.Marker({
+                       position : data[i],
+                       title : data[i].title,
+                       descs : data[i].descs,
+                       myPos : data[i],
+                       icon : icon
+                       
+                   });
+                   
+                   recommendObject['recommend']['markers'].push(marker);
+                   reTotalIndex = totalIndex + j;
+                   var str = "<li data-idx ='"+reTotalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                   recommendObject[recommendList[i]]['li'].push(str);
+                   checkDupl(courseObject);
+                   addMarkerEvent(marker);
+                   toggleInfoWin(marker);                      
+               };
+               
+               
+               //추천 마커 그리기
+               for (var i = 0; i < recommendObject['recommend']['markers'].length; i++) {
+                   
+                   recommendObject['recommend']['markers'][i].setMap(map);
+                   
+               }      		
+       	}) */
+       
+        	//여행지 데이터
+       	
+       	$.getJSON("/map/siteData", function(data){
+       		for (var i = 0; i < data.length; i++) {
+       			console.log(data[i])
+                   recommendObject['site']['jsons'].push(data[i]);
+                   var icon = {
+                   		url: '../images/site.png',
+                   		scaledSize : new google.maps.Size(35,35),
+                   		origin: new google.maps.Point(0,0),
+                   	    anchor: new google.maps.Point(25, 25) 
+                   };
+                   
+                   
+                   var marker = new google.maps.Marker({
+                       position : data[i],
+                       title : data[i].title,
+                       descs : data[i].descs,
+                       myPos : data[i],
+                       icon : icon
+                       
+                   });
+                   
+                   recommendObject['site']['markers'].push(marker);
+                   reTotalIndex = totalIndex + i;
+                   var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='site'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                   recommendObject['site']['li'].push(str);
+                   checkDupl(courseObject, 'site');
+                   addMarkerEvent(marker, 'site');
+                   toggleInfoWin(marker);                      
+               };
+               
+               for (var i = 0; i < recommendObject['site']['markers'].length; i++) {
+                   console.log("site marker")
+                   recommendObject['site']['markers'][i].setMap(map);
+                   
+               }
+
+       	})
+       	
+       	//식당 데이터
+       	
+       	$.getJSON("/map/restaurantData", function(data){
+       		
+       		for (var i = 0; i < data.length; i++) {
+       			console.log(data[i])
+       			recommendObject['restaurant']['jsons'].push(data[i]);
+       			
+                   var icon = {
+                   		url: '../images/restaurant.png',
+                   		scaledSize : new google.maps.Size(35,35),
+                   		origin: new google.maps.Point(0,0),
+                   	    anchor: new google.maps.Point(25, 25) 
+                   };
+                   
+                   
+                   var marker = new google.maps.Marker({
+                       position : data[i],
+                       title : data[i].title,
+                       descs : data[i].descs,
+                       myPos : data[i],
+                       icon : icon
+                       
+                   });
+                   
+                   recommendObject['restaurant']['markers'].push(marker);
+                   reTotalIndex = totalIndex + i;
+                   var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='restaurant'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                   recommendObject['restaurant']['li'].push(str);
+                   checkDupl(courseObject, 'restaurant');
+                   addMarkerEvent(marker, 'restaurant');
+                   toggleInfoWin(marker);                      
+               };
+               for (var i = 0; i < recommendObject['restaurant']['markers'].length; i++) {
+                   console.log("restaurant marker")
+                   recommendObject['restaurant']['markers'][i].setMap(map);
+                   
+               }
+
+       	})
+       	
+       	//호텔 데이터
+       	
+       	$.getJSON("/map/hotelData", function(data){
+       		
+       		for (var i = 0; i < data.length; i++) {
+                   recommendObject['hotel']['jsons'].push(data[i]);
+       			
+                   var icon = {
+                   		url: '../images/hotel.png',
+                   		scaledSize : new google.maps.Size(35,35),
+                   		origin: new google.maps.Point(0,0),
+                   	    anchor: new google.maps.Point(25, 25) 
+                   };
+                   
+                   var marker = new google.maps.Marker({
+                       position : data[i],
+                       title : data[i].title,
+                       descs : data[i].descs,
+                       myPos : data[i],
+                       icon : icon
+                   });
+                   
+                   recommendObject['hotel']['markers'].push(marker);
+                   reTotalIndex = totalIndex + i;
+                   var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='hotel'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
+                   recommendObject['hotel']['li'].push(str);
+                   checkDupl(courseObject, 'hotel');
+                   addMarkerEvent(marker, 'hotel');
+                   toggleInfoWin(marker);                      
+               };     
+               for (var i = 0; i < recommendObject['hotel']['markers'].length; i++) {
+                   console.log("hotel marker")
+                   recommendObject['hotel']['markers'][i].setMap(map);
+                   
+               }
+       	})
+       	
+       	
+        
+        
+        
+       /*  $.getJSON("/map/recommendData", function(data) {
             for (var i = 0; i < data.length; i++) {
 
-                recommendObject.day0['jsons'].push(data[i]);
+                recommendObject.all['jsons'].push(data[i]);
                 
                 var icon = {
                 		url: '../images/catMarker.png',
@@ -350,10 +608,10 @@
                     
                 });
                 
-                recommendObject['day0']['markers'].push(marker);
+                recommendObject['all']['markers'].push(marker);
                 reTotalIndex = totalIndex + i
                 var str = "<li data-idx ='"+reTotalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
-                recommendObject['day0']['li'].push(str);
+                recommendObject['all']['li'].push(str);
                 checkDupl(courseObject);
                 addMarkerEvent(marker);
                 toggleInfoWin(marker);                      
@@ -361,16 +619,13 @@
             
             
             //추천 마커 그리기
-            for (var i = 0; i < recommendObject['day0']['markers'].length; i++) {
+            for (var i = 0; i < recommendObject['all']['markers'].length; i++) {
                 
-                recommendObject['day0']['markers'][i].setMap(map);
+                recommendObject['all']['markers'][i].setMap(map);
                 
             }
-            
-            
-            console.log(recommendObject['day0']['li']);
-            console.dir(recommendObject['day0']['markers']);
-        });
+
+        }); */
         
         //console.log("1-------------------------------");
         //console.log(courseObject)
@@ -380,7 +635,9 @@
    });
 
 	function readyCourseDiv() {
-
+		
+		
+		
 		console.log("readyCourseDiv");
 
 		var str = "";
@@ -570,8 +827,8 @@
 		drawPath(courseObject[targetTripDay].markers)
 
 	}
-
-
+	
+	
 	$(".add-bar").on("click", function(e) {
 
 		var idx = $(".course.box").length;
@@ -595,7 +852,7 @@
 			courseObject['day' + idx]['li'] = [];
 		
 			sortDayList();
-			updateCourse(fixedkey, title);
+			/* updateCourse(fixedkey, title); */
 		}else{
 			e.preventDefault();
 		}
@@ -749,7 +1006,13 @@
 			var targetListLi = $('.course-sort #day'
 					+ targetDay + ' li[data-idx="' + targetIdx
 					+ '"]');
-
+			
+			/* console.log("targetDay : " + targetDay)
+			console.log("targetIdx : " + targetIdx)
+			console.log(targetLi)
+			console.log(targetListLi) */
+			
+			
 			for (var i = 0; i < courseObject['day' + targetDay].markers.length; i++) {
 				courseObject['day' + targetDay].markers[i]
 						.setMap(null);
@@ -773,7 +1036,8 @@
 			currentMarker = marker;
 			console.dir(marker.myPos.pno);
 			$(".info-pane .info-title").html(marker.myPos.title)
-			$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300'>")
+			console.log(marker.myPos.img)
+			$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300' onerror='this.src=\"../images/errorImage.png\"'>" )
 			$.ajax({
 				type : 'get',
 				url : '/pointboard/readBlog',
@@ -804,10 +1068,10 @@
 			firebase.database()
 					.ref('courses/' + key + '/' + title + '/day' + i).set(
 							newCourse);
-			console.log("====================================================")
+			/* console.log("====================================================")
 			console.log('path : courses/' + key + '/' + title + '/day' + i);
 			console.log(newCourse);
-			console.log("====================================================")
+			console.log("====================================================") */
 		}
 	}
 
@@ -848,12 +1112,13 @@
 	});
 	
 	
-	function addMarkerEvent(marker){
+	function addMarkerEvent(marker, dataName){
 	       
        google.maps.event.addListener(marker, "click", function(e) {
     	   var dupl = false;
-    	   var clickedIdx = recommendObject['day0']['markers'].findIndex(x => x === marker);
-           
+    	   var clickedIdx = recommendObject[dataName]['markers'].findIndex(x => x === marker);
+           console.log("clickedIdx : " + clickedIdx);
+           console.log("targetTripDay : " + targetTripDay);
     	   for(var i = 0; i < courseObject[targetTripDay].markers.length; i++){
             	if(courseObject[targetTripDay].markers[i] == marker){
             		dupl = true;
@@ -861,9 +1126,15 @@
             	}
            }
            if(!dupl){
+        	   /* console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
+        	   console.log("TargetTripDay : " + targetTripDay) */
+        	   originLi = recommendObject[dataName]['li'][clickedIdx];
+        	   changedLi = originLi.replace("'0'", "'" + targetTripDay.substring(3) + "'")
+        	   var category = $(originLi).data("category");
+        	   console.log(category)
         	   courseObject[targetTripDay]['markers'].push(marker);
-               courseObject[targetTripDay]['li'].push(recommendObject['day0']['li'][clickedIdx]);
-               courseObject[targetTripDay]['jsons'].push(recommendObject['day0']['jsons'][clickedIdx]);
+               courseObject[targetTripDay]['li'].push(changedLi);
+               courseObject[targetTripDay]['jsons'].push(recommendObject[dataName]['jsons'][clickedIdx]);
       
                drawPath(courseObject[targetTripDay].markers);
                drawSidebarList();
@@ -875,17 +1146,18 @@
                    str += courseObject[targetTripDay].li[i];
                }
                
-               $("ul.droptrue").html(str);
+               $("ul#" + targetTripDay).html(str);
+               updateCourse(fixedkey, title)
             }else{
             	e.preventDefault();
             }
        });
 	}
 	
-	function checkDupl(courseObject) {
+	function checkDupl(courseObject, dataName) {
         
         var markers = courseObject['day0'].markers;
-        var reMarkers = recommendObject['day0'].markers;
+        var reMarkers = recommendObject[dataName].markers;
         var result = reMarkers.filter(m => {
             
             var check = true;
@@ -898,8 +1170,8 @@
                     var clickedIdx = reMarkers.findIndex(x => x === m);
                     
                     if (clickedIdx != -1) {
-                        recommendObject['day0']['li'].splice(clickedIdx, 1);
-                        recommendObject['day0']['jsons'].splice(clickedIdx, 1);
+                        recommendObject[dataName]['li'].splice(clickedIdx, 1);
+                        recommendObject[dataName]['jsons'].splice(clickedIdx, 1);
                         //console.log(recommendObject['day0']['li']);
                     }
                     check = false;
@@ -909,7 +1181,7 @@
             return check;
         })    
         
-        recommendObject['day0'].markers = result;
+        recommendObject[dataName].markers = result;
         
      }
 	
@@ -920,8 +1192,17 @@
 		polyBtn.hasClass("path") ? polyBtn.html("경로") : polyBtn.html("폴리") ;
 	});
 	
-	
-	
+
+	$("input[type='checkbox']").on("click", function(){
+		if($('input:checkbox[name="category"]').is(":checked")){
+			
+			var checkedCat = $('input:checkbox[name="category"]:checked');
+			for(var i = 0; i < checkedCat.length; i++){
+				
+			}
+		}
+
+	})
 	
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>

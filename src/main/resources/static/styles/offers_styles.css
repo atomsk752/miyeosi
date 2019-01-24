@@ -500,7 +500,7 @@ section
 .main_nav_item a
 {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #FFFFFF;
 	text-transform: uppercase;
@@ -510,7 +510,7 @@ section
 .login a
 {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 13px;
+	font-size: 15px;
 	font-weight: 600;
 	color: #fa9e1b;
 	text-transform: uppercase;
@@ -1420,7 +1420,7 @@ section
 	position: absolute;
 	left: 0;
 	bottom: 27px;
-	width: 180px;
+	width: 78px;
 	height: 33px;
 	background: #fa9e1b;
 	overflow: hidden;
@@ -1443,7 +1443,7 @@ section
 .offers_price
 {
 	display: inline-block;
-	font-size: 50px;
+	font-size: 30px;
 	font-weight: 700;
 	color: #eda84a;
 	line-height: 25px;
@@ -2106,4 +2106,43 @@ section
 .remember{
 	margin-bottom: 10px;
 }
-
+.phone img{
+    height: 90px;
+    margin-top: 80px;
+}
+.logo img{
+    height: 67px;
+    margin-top: 12px;
+}
+.main_nav_item2 a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffe5c1;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 9px;
+    padding-right: 9px;
+    border: solid 2px;
+}
+.main_nav_item2
+{
+	position: relative;
+	display: inline-block;
+    margin-right: -83px;
+    margin-left: 82px;
+}
+.main_nav_item2 a:hover{
+	color: #eda84a;
+}
+.detail{
+	    display: inline-block;
+    font-size: 30px;
+    font-weight: 700;
+    color: #eda84a;
+    line-height: 25px;
+}
+.detail:hover{
+	color: #eda84a;
+}
