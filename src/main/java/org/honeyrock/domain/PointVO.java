@@ -1,6 +1,5 @@
 package org.honeyrock.domain;
 
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +55,4 @@ public class PointVO {
 	private List<PointReplyVO> replies;
 	
 	private ArrayList<ImageVO> imgList;
-	
 }
-
