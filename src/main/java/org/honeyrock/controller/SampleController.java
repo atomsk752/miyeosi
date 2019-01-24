@@ -8,22 +8,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.honeyrock.domain.MemberVO;
+import org.honeyrock.domain.PointVO;
+import org.honeyrock.mapper.SearchMapper;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.security.domain.CustomMember;
 import org.honeyrock.service.CourseBoardService;
 import org.honeyrock.service.CourseService;
-import org.honeyrock.domain.PointVO;
-import org.honeyrock.mapper.SearchMapper;
 import org.honeyrock.service.LoginService;
 import org.honeyrock.service.PointService;
 import org.honeyrock.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,6 +59,7 @@ public class SampleController {
 
 	@Setter(onMethod_ = @Autowired)
 	private CourseBoardService service;
+
 	
 	@GetMapping("/index")
 	public void index(Model model, @ModelAttribute("pageObj") PageParam pageParam) {
@@ -83,8 +84,11 @@ public class SampleController {
 	
 	@GetMapping("/simple")
 	public void simple(Model model) {
-		model.addAttribute("list", searchService.getList());
+
+		model.addAttribute("List", searchService.getList());
+		
 		model.addAttribute("List2", searchService.getList2());
+
 	}
 	
 	@GetMapping("/mypage")
@@ -96,6 +100,7 @@ public class SampleController {
 	public void share(Model model,@ModelAttribute("pageObj") PageParam pageParam) {
 		pageParam.setTotal(pointService.getTotal(pageParam));
 		model.addAttribute("list", pointService.getList(pageParam));
+
 	}
 	
 	@GetMapping({"/login/customLogin","/login/customLogout"})

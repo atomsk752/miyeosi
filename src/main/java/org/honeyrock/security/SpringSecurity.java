@@ -42,8 +42,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
 	{
 		log.info("security");
 		http.authorizeRequests()
-				.antMatchers("/index","/search","/autocomplete","/**/list","/**/read","/map").permitAll() // 권한없이 들어갈 페이지
-				.antMatchers("/**/register","/**/modify","/**/delete","/mypage","/simple").hasRole("MEMBER") //권한이 필요한 페이지 추가
+				.antMatchers("/index","/search","/autocomplete","/**/list","/**/read").permitAll() // 권한없이 들어갈 페이지
+				.antMatchers("/**/register","/**/modify","/**/delete","/mypage").hasRole("MEMBER") //권한이 필요한 페이지 추가
 				.and()
 			.formLogin()
 				.loginPage("/login/customLogin").permitAll()

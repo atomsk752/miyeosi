@@ -2,7 +2,7 @@ package org.honeyrock.controller;
 
 import java.util.List;
 
-import org.honeyrock.domain.CourseRatingVO;
+
 import org.honeyrock.domain.CourseVO;
 import org.honeyrock.service.CourseService;
 import org.springframework.http.HttpStatus;

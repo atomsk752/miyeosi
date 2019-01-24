@@ -60,7 +60,18 @@ public class CourseBoardServiceImpl implements CourseBoardService {
 		
 		return CourseBoardMapper.count(pageParam);
 	}
+	
+	@Override
+	public List<CourseBoardVO> getCList(PageParam pageParam) {
+		
+		return CourseBoardMapper.getCList(pageParam);
+	}
 
+	@Override
+	public List<CourseBoardVO> getRCList(PageParam pageParam) {
+		
+		return CourseBoardMapper.getRCList(pageParam);
+	}
 
 	@Override
 	public List<CourseBoardVO> getCList(PageParam pageParam) {

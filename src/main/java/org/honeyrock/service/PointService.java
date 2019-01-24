@@ -2,7 +2,6 @@ package org.honeyrock.service;
 
 import java.util.List;
 
-import org.honeyrock.domain.CourseBoardVO;
 import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.PointVO;
 import org.json.simple.JSONArray;
@@ -34,4 +33,5 @@ public interface PointService {
 	
 	//dash board recent point
 	public List<PointVO> getRPList(PageParam pageParam);
+	
 }

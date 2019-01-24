@@ -26,4 +26,5 @@ public interface CourseBoardMapper {
 	//dash board recent course
 	public List<CourseBoardVO> getRCList(PageParam pageParam);
 	
+	
 }
