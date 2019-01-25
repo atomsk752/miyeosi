@@ -16,7 +16,7 @@
 	</insert>
 
 	<select id="getList" resultType="org.honeyrock.domain.CourseVO">
-		select course.coursekey, course.usermail, course.coursename, course.good, course.bad, course.regdate, course.updatedate, course.days, course.cost, course.keyword, course.rating, course.del, board.coursebno
+		select course.coursekey, course.usermail, course.coursename, course.good, course.bad, course.regdate, course.updatedate, course.days, course.cost, course.keyword, course.rating, course.del, course.img, board.coursebno
 		from tbl_course course left outer join tbl_course_board board
 		on course.coursekey = board.coursekey
 		where course.usermail = #{usermail}

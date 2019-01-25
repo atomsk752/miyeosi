@@ -1,11 +1,11 @@
 // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyAJV5H9lCZjjecpQzLq_xJijFw5BZUZzz4",
-    authDomain: "exex1-a7068.firebaseapp.com",
-    databaseURL: "https://exex1-a7068.firebaseio.com",
-    projectId: "exex1-a7068",
-    storageBucket: "exex1-a7068.appspot.com",
-    messagingSenderId: "961860192261"
+  apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+  authDomain: "travel-simulator.firebaseapp.com",
+  databaseURL: "https://travel-simulator.firebaseio.com",
+  projectId: "travel-simulator",
+  storageBucket: "travel-simulator.appspot.com",
+  messagingSenderId: "105538800439"
 };
 firebase.initializeApp(config);
 
