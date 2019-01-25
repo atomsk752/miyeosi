@@ -363,11 +363,6 @@ padding-left : 30px;
 		    point.title = targetLi.data("title");
 		    point.keyword = targetLi.data("keyword");
 		    point.img = targetLi.data("img");
-/*  		    if(targetImg.hasClass("selected")){
-		    	targetImg.removeClass("selected");
-		    }else{
-		    	targetImg.addClass("selected");
-		    }  */
 		    
 			targetCheck.toggleClass('is-checked');
 			
@@ -385,7 +380,7 @@ padding-left : 30px;
 		
 		
  		$("#slider").on("click", "div", function(e){
- 			
+ 			e.stopPropagation()
 			var targetLi = $("li[data-pno='"+currentPno+"']");
 			var targetImg = $("li[data-pno='"+currentPno+"'] .tile__media img");
 			var targetCheck = $("div[data-index='"+currentPno+"']");
@@ -399,11 +394,9 @@ padding-left : 30px;
 		    point.img = targetLi.data("img");
 		    if(targetImg.hasClass("selected")){
 		    	targetImg.removeClass("selected");
-		    	console.log("뺐다!")
 		    }else{
 		    	targetImg.addClass("selected");
-		    	console.log("넣었다!")
-		    }
+		    } 
 			targetCheck.toggleClass('is-checked');
 			console.log(targetImg);
 			checkDupl(point);
@@ -417,6 +410,7 @@ padding-left : 30px;
 			}
 
 		}); 
+
 
 		
 		$('.checkbox').click(function(){
