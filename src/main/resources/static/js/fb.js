@@ -12,9 +12,9 @@ firebase.initializeApp(config);
 var courseService = (function(){
 	
     // 코스 불러오기
-    function readCourse(key, callback){
+    function readCourse(key, title, callback){
     	
-    	firebase.database().ref().child('courses/'+key).once("value").then(function(data){
+    	firebase.database().ref().child('courses/'+key +'/'+ title).once("value").then(function(data){
     		var result = data.val();
     		callback(result);
     	});
