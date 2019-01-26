@@ -65,12 +65,13 @@
                         </div>
                         
                         <div class="user_box ml-auto">
-                            <a class="glitch-btn" href="/courseboard/list" target="_self">
+                            <form class="glitch-btn" id="next">
+                            	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                                 <div class="text">NEXT</div>
                                 <div class="mask">
                                     <span>NEXT</span>
                                 </div>
-                            </a>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -647,7 +648,7 @@
 
 			for (var i = 0; i < targetJsons.length; i++) {
 				str += "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"
-						+ targetJsons[i].title
+						+ targetJsons[i].title.cut(14, '...')
 						+ "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
 			}
 			str += "</ul>";
@@ -665,7 +666,7 @@
 			for (var i = 0; i < targetJsons.length; i++) {
 
 				str += "<li data-idx='"+i+"' data-day='"+idx+"'><div class='ui-state-default'><div>"
-						+ targetJsons[i].title
+						+ targetJsons[i].title.cut(14, '...')
 						+ "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";
 			}
 
@@ -1203,6 +1204,14 @@
 		}
 
 	})
+	
+	var nextForm = $("#next");
+	
+	nextForm.on("click", function(e){
+		e.preventDefault();
+		console.log('next')
+		nextForm.attr("method","post").attr("action","/map").submit();
+	});
 	
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
