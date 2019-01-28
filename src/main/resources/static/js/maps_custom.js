@@ -329,7 +329,18 @@ $(document).ready(function()
         }
     }
 
-
+    // 글자 자르기
+    String.prototype.cut = function(len, tail) 
+    {
+        var str = this;
+        var l = 0;
+        for (var i=0; i<str.length; i++) 
+        {
+            l += (str.charCodeAt(i) > 128) ? 2 : 1;
+            if (l > len) return str.substring(0,i) + tail;
+        }
+        return str;
+    }
 
 
 });

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.honeyrock.domain.CourseBoardVO;
+import org.honeyrock.domain.CourseVO;
 import org.honeyrock.domain.MemberVO;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.SearchMapper;
@@ -80,6 +82,14 @@ public class SampleController {
 	@GetMapping("/map")
 	public void map() {
 		
+	}
+	
+	@PostMapping("/map")
+	public String mapPost(CourseVO courseVo, CourseBoardVO courseBoardVO) {
+		
+		
+		
+		return "redirect:/mypage";
 	}
 	
 	@GetMapping("/simple")
