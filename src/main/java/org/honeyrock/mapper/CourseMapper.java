@@ -15,4 +15,8 @@ public interface CourseMapper {
 
 	public int starInsert(CourseRatingVO vo2);
 	
+	public int update(CourseVO vo);
+	
+	public int find(CourseVO vo);
+	
 }

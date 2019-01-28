@@ -73,4 +73,5 @@ public class CourseBoardServiceImpl implements CourseBoardService {
 		return CourseBoardMapper.getRCList(pageParam);
 	}
 
+
 }

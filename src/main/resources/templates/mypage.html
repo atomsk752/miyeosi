@@ -722,20 +722,19 @@
 				</form>
 				<div class="box" th:each="arr : ${list}">
 					<div class="btn_del" onclick="del_plan(273627)">
-						<img src="/res/img/mypage/common/btn_delete.png" alt="">
 					</div>
 					<div class="plan_hidden_btn" th:data="${arr.coursebno}">상세코스 보기</div>
 					<div class="plan_bg">
 						<div class="plan_bg_inner">
-							<span>[[${arr.days}]] days</span>
+							<span>[[${arr.days}]] days </span>
 						</div>
 					</div>
 					<div class="plan_img_box">
-						<img src="http://img.earthtory.com/img/city_images/312/jeju_1425527708.jpg"	alt="" class="plan_img">
+						<img src="http://img.earthtory.com/img/city_images/312/jeju_1425527708.jpg"	th:src="${arr.courseimg}" alt="" class="plan_img" id='img'>
 					</div>
 					<div class="plan_bg_inner2">
 						<span>[[${arr.coursename}]]</span>
-						<div class="pn_list_copy_icon float_right">[[${arr.good}]] / [[${arr.bad}]]</div>
+						<!-- <div class="pn_list_copy_icon float_right">[[${arr.good}]] / [[${arr.bad}]]</div> -->
 						<div class="pn_list_user">
 							[[${arr.usermail}]]
 							<div class="edit_btn del" th:data="${arr.coursekey}" data-op="del">삭제</div>
@@ -820,9 +819,11 @@
 
 
 <th:block layout:fragment="script">
-
+	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
 	<script th:inline="javascript">
 		
+
+	
 		$(document).ready(function() {
 			
 			// csrf
@@ -841,7 +842,7 @@
 				console.log("modify");
 				var coursekey = e.target.getAttribute("data");
 				console.log(coursekey);
-				self.location = "/courseboard/map?coursekey=" + coursekey; 
+				self.location = "/map?key=" + coursekey; 
 			});
 			
 			//삭제 클릭
@@ -902,6 +903,40 @@
 			
 			
 		});
+		
+	     function readCourse(key, title, callback){
+	    	firebase.database().ref().child('courses/'+key +'/'+ title + '/day0').once("value").then(function(data){
+
+	    		var result = data.val();
+	    		
+	    		callback(result[0].img)
+	    	})
+		};
+		
+/* 		var config = {
+				  apiKey: "AIzaSyCgzLno3i5zPxKzaE5-9qXrt_FZWCwK8tE",
+				  authDomain: "travel-simulator.firebaseapp.com",
+				  databaseURL: "https://travel-simulator.firebaseio.com",
+				  projectId: "travel-simulator",
+				  storageBucket: "travel-simulator.appspot.com",
+				  messagingSenderId: "105538800439"
+				};
+				firebase.initializeApp(config);
+				
+		var list = [[${list}]];
+		var imgList = [];
+		for (var i = 0 ; i < list.length;i++){
+			console.log(list[i].coursekey + " title : " + list[i].coursename);
+			readCourse(list[i].coursekey,'untitled',function(e){
+				console.log(e)
+				imgList.push(e)
+			})
+			
+		}
+		console.log(imgList);
+		
+		console.log($("#img").attr("src",imgList[0])); */
+
 	
 	</script>
 

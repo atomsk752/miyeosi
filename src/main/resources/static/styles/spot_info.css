@@ -219,8 +219,7 @@ input,textarea{
 }
 
 .spot_info_box{
-	float : left;
-	width:78%;
+	width:100%;
 	background:white;
 	border:1px solid #d8d8d8;
 }
@@ -365,11 +364,12 @@ input,textarea{
 }
 
 .title_big {
-    font-size: 20px;
+    font-size: 22px;
     color: #363636;
     font-weight: bold;
-    margin-top: 51vh;
+    margin-top: 10vh;
     position: absolute;
+    margin-left: 13px;
 }
 
 .title_big span{
@@ -858,6 +858,9 @@ input,textarea{
 
 .spot_info_box.blog{
 	/* margin-top:48px; */
+}
+.spot_info_box.blog2{
+	 margin-top:130px;
 }
 
 .blog_list{

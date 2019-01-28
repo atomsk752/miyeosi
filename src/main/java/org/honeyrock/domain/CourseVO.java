@@ -20,5 +20,6 @@ public class CourseVO {
 	private Integer del;
 	private Integer rating;
 	private Integer coursebno;
+	private String courseimg;
 	
 }

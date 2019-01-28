@@ -7,7 +7,7 @@
 <mapper namespace="org.honeyrock.mapper.CourseMapper">
 
 	<insert id="insert" parameterType="org.honeyrock.domain.CourseVO">
-		insert into tbl_course (coursekey, usermail) values(#{coursekey}, 'dlswo4456@naver.com')
+		insert into tbl_course (coursekey, usermail, coursename, courseimg, days) values(#{coursekey}, #{usermail}, #{coursename}, #{courseimg}, #{days})
 		<!-- insert into tbl_Course (coursekey, usermail) values(#{coursekey}, #{usermail}) 유저메일 적용하면 바꿈 -->
 	</insert>
 	
@@ -16,7 +16,7 @@
 	</insert>
 
 	<select id="getList" resultType="org.honeyrock.domain.CourseVO">
-		select course.coursekey, course.usermail, course.coursename, course.good, course.bad, course.regdate, course.updatedate, course.days, course.cost, course.keyword, course.rating, course.del, board.coursebno
+		select course.coursekey, course.usermail, course.coursename, course.good, course.bad, course.regdate, course.updatedate, course.days, course.cost, course.keyword, course.rating, course.del, course.courseimg, board.coursebno
 		from tbl_course course left outer join tbl_course_board board
 		on course.coursekey = board.coursekey
 		where course.usermail = #{usermail}
@@ -27,5 +27,13 @@
 	 <delete id="delete">
   		update tbl_course set del=1 where coursekey=#{coursekey}
   	</delete>
+  	
+	<update id="update" parameterType="org.honeyrock.domain.CourseVO">
+		update tbl_course set coursename=#{coursename}, days=#{days}, updatedate = now() where coursekey=#{coursekey}
+	</update>
+	
+	<select id="find" resultType="Integer">
+		select count(*) from tbl_course where coursekey = #{coursekey}
+	</select>
 	
 </mapper>

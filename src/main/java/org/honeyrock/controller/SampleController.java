@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.honeyrock.domain.CourseBoardVO;
+import org.honeyrock.domain.CourseVO;
 import org.honeyrock.domain.MemberVO;
 import org.honeyrock.domain.PointVO;
 import org.honeyrock.mapper.SearchMapper;
@@ -80,6 +82,25 @@ public class SampleController {
 	@GetMapping("/map")
 	public void map() {
 		
+	}
+	
+	@PostMapping("/map")
+	public String mapPost(CourseVO courseVo, CourseBoardVO courseBoardVO) {
+		
+		log.info("courseVO : " + courseVo);
+		log.info("courseBoardVO : " + courseBoardVO);
+		
+		String dbcourseKey = "";
+		List<CourseVO> courseList = courseService.getList(courseVo.getUsermail());
+		log.info("find : " + courseService.find(courseVo));
+		if(courseService.find(courseVo) == 1){
+			courseService.modify(courseVo);
+			service.modify(courseBoardVO);
+		}else {
+			courseService.register(courseVo);
+			service.register(courseBoardVO);
+		}
+		return "redirect:/mypage";
 	}
 	
 	@GetMapping("/simple")

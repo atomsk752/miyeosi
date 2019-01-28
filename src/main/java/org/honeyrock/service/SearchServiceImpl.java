@@ -67,11 +67,5 @@ public class SearchServiceImpl implements SearchService {
 		return mapper.getList2();
 	}
 
-/*	@Override
-	public int mahoutRegister(MahoutVO vo) {
-		
-		return mapper.mahoutRegister(vo);
-	}*/
-	
-	
 }
+

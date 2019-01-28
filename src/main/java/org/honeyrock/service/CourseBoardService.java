@@ -2,8 +2,8 @@ package org.honeyrock.service;
 
 import java.util.List;
 
-import org.honeyrock.domain.PageParam;
 import org.honeyrock.domain.CourseBoardVO;
+import org.honeyrock.domain.PageParam;
 
 
 
@@ -30,5 +30,6 @@ public interface CourseBoardService {
 	
 	//dash board recent course
 	public List<CourseBoardVO> getRCList(PageParam pageParam);
-
+	
+	
 }

@@ -74,6 +74,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class='day_sel'>
+                                	<select class='day_select'>DAY</select>
+                                </div>
                                 <div id="map" class="map"></div>
                             </div>
 
@@ -192,18 +195,8 @@
                                             </div>
                                         </div>
                                         <!-- earthtory -->
-
-										<div class="page_left">
-											<div class="day_box" data-id="1">
-												<div class="day_info_box">
-													<div class="day_txt">DAY1</div>
-													<div class="day_info">
-														<div class="day_info_left">
-															<div class="date">2015.08.01 (토)</div>
-															<div class="day_title">뭐넣지</div>
-														</div>
-														
-														<!-- share button -->
+											
+											<!-- share button -->
 														<div class="shareBtn">
 															<a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
 															
@@ -217,6 +210,18 @@
 															</a>
 														</div>
 														<!-- share button end -->
+											
+										<div class="page_left" id="dayList">
+											<div class="day_box" data-id="1">
+												<div class="day_info_box">
+													<div class="day_txt">DAY1</div>
+													<div class="day_info">
+														<div class="day_info_left">
+															<div class="date"></div>
+															<div class="day_title"></div>
+														</div>
+														
+														
 														
 														<div class="day_info_right" style="display: none;"></div>
 														<div class="clear"></div>
@@ -395,10 +400,8 @@
 
 <th:block layout:fragment="script">
 
+
 	<script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"
-	        async defer></script>
-	        
     <script src="../plugins/greensock/TweenMax.min.js"></script>
     <script src="../plugins/greensock/TimelineMax.min.js"></script>
     <script src="../plugins/scrollmagic/ScrollMagic.min.js"></script>
@@ -523,11 +526,14 @@ function share_tw(){
 	    var map;
 	    var coursekey = [[${detail.coursekey}]];
 	    var pointList = $("#pointList");
+	    var dayList = $("#dayList");
 		var poly;
 	    var course;
 	    var markerArr = [];
 	    var spotList = $('.spot_list_box');
 	    var spotNav = new Array();
+	    var title = 'untitled'
+	    var day_sel_html = '';
     
 		// 맵 설정
         function initMap() {
@@ -536,26 +542,27 @@ function share_tw(){
 		
      	// firebaseDB 가져오기
         function getFBData(){
-            courseService.readCourse(coursekey, function(data) {
+            courseService.readCourse(coursekey, title, function(data) {
             	course = data;
-/*             	console.log("==============");
-            	console.log(course); */
-            	drawList(course);
-            	drawSpotList(course);
+            	console.log(course['day0'])
+
+             	drawList(course);
+
+             	drawSpotList(course);
             	
-            	var lat = Number(course[0].lat);
-                var lng = Number(course[0].lng);
+             	var lat = Number(course['day0'][0].lat);
+                var lng = Number(course['day0'][0].lng);
                 var latLng = { lat: lat, lng: lng };
             	map = new google.maps.Map(document.getElementById('map'),{center : { lat: lat, lng: lng }, zoom: 11, minZoom: 8});
 
-                drawMarker(course);
+                drawMarker(course['day0']);
                 drawPath();
-                reset_spot_list();
             });
         }
      	
         // draw path
         function drawPath() {
+        	
         	var lineSymbol = {
 					path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
 				};
@@ -578,6 +585,7 @@ function share_tw(){
      	
         // draw marker
         function drawMarker(arr) {
+        	markerArr = [];
             for (var i = 0; i < arr.length; i++) {
             	var lat = Number(arr[i].lat);
                 var lng = Number(arr[i].lng);
@@ -593,71 +601,91 @@ function share_tw(){
                 
             }//end for 
         }
-
+        
         //draw list
         function drawList(arr) {
             var str = "";
-            pointList.html("");
-            for (var i = 0; i < arr.length; i++) {
-                (function(arr) {
-                   	str = "<div class='day_sch_box' data-id='"+(i+1)+"'>";
-						str += "<div class='day_sch_num'><div class='sch_num'>"+(i+1)+"</div></div>";
-							str += "<div class='sch_content'>";
-								str += "<img ";
-									str += "src='"+arr[i].img+"'";
-									str += "alt='' class='spot_img'";
-									str += "onerror=" + "this.src='/res/img/common/no_img/sight55.png'; ";
-									str += "onclick=" + "window.open('/pointboard/read?pno="+arr[i].pno+"'); ";
-									str += "style='cursor: pointer;'>";
-								str += "<div class='spot_content_box'>";
-									str += "<div class='spot_name'";
-										str += "onclick=" + "window.open('/pointboard/read?pno="+arr[i].pno+"'); ";
-										str += "style='cursor: pointer;'>"+arr[i].title+"</div>";
-									str += "<div class='spot_info'>";
-										str += "<div class='tag'>category</div>";
-										str += "<div class='sinfo_line'></div>";
-										str += "<div class='sinfo_txt'>";
-										str += "good / bad  <span>1개의 평가</span>";
+            dayList.html("");
+            for (var i = 0; i < Object.keys(arr).length; i++) {
+            	str = '<div class="day_box" data-id="'+(i)+'">';
+        			str += '<div class="day_info_box">';
+	            		str += '<div class="day_txt">DAY'+(i+1)+'</div>';
+	            		str += '<div class="day_info">';
+            				str += '<div class="day_info_left">';
+			            		str += '<div class="date"></div>';
+			            		str += '<div class="day_title"></div>';
+		            		str += '</div>';
+		            		str += '<div class="day_info_right" style="display: none;"></div>';
+		            		str += '<div class="clear"></div>';
+	            		str += '</div>';
+	            		str += '<div class="clear"></div>';
+            		str += '</div>';
+            		str += '<div id="pointList">';
+            	for(var j = 0; j < arr['day'+i].length;j++){
+	                (function(arr) {
+	                   	str += "<div class='day_sch_box' data-id='"+(i+1)+'-'+(j+1)+"'>";
+							str += "<div class='day_sch_num'><div class='sch_num'>"+(j+1)+"</div></div>";
+								str += "<div class='sch_content'>";
+									str += "<img ";
+										str += "src='"+arr['day'+i][j].img+"'";
+										str += "alt='' class='spot_img'";
+										str += "onerror=" + "this.src='/res/img/common/no_img/sight55.png'; ";
+										str += "onclick=" + "window.open('/pointboard/read?pno="+arr['day'+i][j].pno+"'); ";
+										str += "style='cursor: pointer;'>";
+									str += "<div class='spot_content_box'>";
+										str += "<div class='spot_name'";
+											str += "onclick=" + "window.open('/pointboard/read?pno="+arr['day'+i][j].pno+"'); ";
+											str += "style='cursor: pointer;'>"+arr['day'+i][j].title+"</div>";
+										str += "<div class='spot_info'>";
+											str += "<div class='tag'>category</div>";
+											str += "<div class='sinfo_line'></div>";
+											str += "<div class='sinfo_txt'>";
+											str += "good / bad  <span>1개의 평가</span>";
+										str += "</div>";
+										str += "<div class='clear'></div>";
 									str += "</div>";
-									str += "<div class='clear'></div>";
 								str += "</div>";
+								str += "<div class='clear'></div>";
 							str += "</div>";
 							str += "<div class='clear'></div>";
+							str += "<div class='clear'></div>";
 						str += "</div>";
-						str += "<div class='clear'></div>";
-						str += "<div class='clear'></div>";
-					str += "</div>";
-					pointList.append(str);
-                })(course);
+						
+	                })(course);
+            	}
+            	str += "</div>";
+            	str += "</div>";
+            	dayList.append(str);
             }
         }
         
         //draw spotList 오른쪽 맵밑에 네비지점
         function drawSpotList(arr) {
-            var list = "";
-            var str = "";
             spotList.html("");
-           	list = '<div class="spot_list_item">';
-            for (var i = 0; i < arr.length; i++) {
-                (function(arr) {
-                	
-               		str = '<div class="spot_item" onClick="page_scroll(\'day_sch_box\',\''+(i+1)+'\');set_center('+arr[i].lat+','+arr[i].lng+');" title="'+arr[i].title+'">';
-               			str += '<div class="spot_number">'+(i+1)+'</div>';
-               			str += '<div class="spot_title">'+arr[i].title.cut(10,'...')+'</div>';
-               		str += '</div>';
-               		
-               		if((i+1)%9 == 0){
-               			console.log(i);
-               			str += '<div class="clear"></div>';
-        				str += '</div>';
-        				str += '<div class="spot_list_item">';
-               		}
-                	
-                	list += str;
-                })(course);
+            for (var i = 0; i < Object.keys(arr).length; i++) {
+            	day_sel_html += '<option value="'+(i)+'">DAY'+(i+1)+'</option>';
+            	spotNav[i]= '';
+	            spotNav[i] += '<div class="spot_list_item">';
+	           	for(var j = 0; j < arr['day'+i].length;j++){
+	                (function(arr) {
+	                	spotNav[i] += '<div class="spot_item" onClick="page_scroll(\'day_sch_box\',\''+(i+1)+'-'+(j+1)+'\');set_center('+arr['day'+i][j].lat+','+arr['day'+i][j].lng+');" title="'+arr['day'+i][j].title+'">';
+	                	spotNav[i] += '<div class="spot_number">'+(j+1)+'</div>';
+	                	spotNav[i] += '<div class="spot_title">'+arr['day'+i][j].title.cut(10,'...')+'</div>';
+	                	spotNav[i] += '</div>';
+	               		
+	               		if((i+1)%9 == 0){
+	               			console.log(i);
+	               			spotNav[i] += '<div class="clear"></div>';
+	               			spotNav[i] += '</div>';
+	               			spotNav[i] += '<div class="spot_list_item">';
+	               		}
+	                	
+	                })(course);
+	            }
+	           	spotNav[i] += '</div>';
             }
-            list += '</div>';
-            spotList.append(list);
+            spotList.append(spotNav[0]);
+            $('.day_select').html(day_sel_html);
         }
         
         // 맵 중심을 lat,lng로 가게
@@ -687,6 +715,22 @@ function share_tw(){
     			navText:['<img src="https://www.earthtory.com/res/img/mypage/plan/sub/spot_list_prev.gif">','<img src="https://www.earthtory.com/res/img/mypage/plan/sub/spot_list_next.gif">']
     		});	
     	}
+    	
+    	
+    	// Day 이동시 지도와 네이게이션 변경
+		$(document).on('change','.day_select',function(){
+			var day = $(this).val();			
+         	var lat = Number(course['day'+day][0].lat);
+            var lng = Number(course['day'+day][0].lng);
+            var latLng = { lat: lat, lng: lng };
+        	map = new google.maps.Map(document.getElementById('map'),{center : { lat: lat, lng: lng }, zoom: 11, minZoom: 8});
+        	drawMarker(course['day'+day]);
+        	spotList.html(spotNav[day]);
+        	drawPath();
+        	console.log(day)
+        	page_scroll('day_box',day);
+		});
+
     	
     	// scroll 이동
     	$(document).scroll(function(){
@@ -935,6 +979,9 @@ function share_tw(){
         });
 
     </script>
+    
+   	
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap" async defer></script>
 
 </th:block>
 

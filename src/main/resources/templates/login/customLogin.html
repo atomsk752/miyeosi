@@ -8,7 +8,7 @@
 <meta name="description" content="Travelix Project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../styles/bootstrap4/bootstrap.min.css">
-<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="../plugins/fontawesome-5.6.1/css/all.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="../js/jquery-3.2.1.min.js"></script>
@@ -143,19 +143,19 @@
 <script>
 	
 	function na_login(){
-		location.href='https://nid.naver.com/oauth2.0/authorize?client_id=LDp9BYkvyaslYqUOz1h5&response_type=code&redirect_uri=http://localhost:8080/naverlogin';
+		location.href='https://nid.naver.com/oauth2.0/authorize?client_id=LDp9BYkvyaslYqUOz1h5&response_type=code&redirect_uri=https://my-journey.ga/naverlogin';
 	}
 	
 	function kk_login(){
-		location.href='https://kauth.kakao.com/oauth/authorize?client_id=56be861a71206f778fd48e53ee4c4623&redirect_uri=http://localhost:8080/kakaologin&response_type=code&scope=account_email,age_range,birthday,gender';
+		location.href='https://kauth.kakao.com/oauth/authorize?client_id=56be861a71206f778fd48e53ee4c4623&redirect_uri=https://my-journey.ga/kakaologin&response_type=code&scope=account_email,age_range,birthday,gender';
 	}
 	
 	function gg_login(){
-		location.href=('https://accounts.google.com/o/oauth2/auth?client_id=392762300432-eq62skbdmkuve2p72cmf661mt7daho73.apps.googleusercontent.com&redirect_uri=http://localhost:8080/googlelogin&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/plus.me');
+		location.href=('https://accounts.google.com/o/oauth2/auth?client_id=392762300432-eq62skbdmkuve2p72cmf661mt7daho73.apps.googleusercontent.com&redirect_uri=https://my-journey.ga/googlelogin&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/plus.me');
 	}
 	
 	function fb_login(){
-		location.href=('https://www.facebook.com/v3.2/dialog/oauth?client_id=470771946780386&redirect_uri=http://localhost:8080/facebooklogin&response_type=code&scope=public_profile,user_age_range,user_gender,user_birthday');
+		location.href=('https://www.facebook.com/v3.2/dialog/oauth?client_id=470771946780386&redirect_uri=https://my-journey.ga/facebooklogin&response_type=code&scope=public_profile,user_age_range,user_gender,user_birthday');
 	}
 	
 	
