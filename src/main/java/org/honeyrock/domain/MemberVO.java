@@ -19,6 +19,7 @@ public class MemberVO {
 	private Integer status;
 	private Integer userlevel;
 	private String defaultkey;
+	private Integer uno;
 	
 	private List<MemberAuthVO> authList;
 	

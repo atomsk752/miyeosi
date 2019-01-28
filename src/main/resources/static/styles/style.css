@@ -3,7 +3,7 @@
     position: relative;
 }
 .bg-light {
-    background: #f1f1f17d !important;
+    background: #efefef !important;
 }
 body {
     background: #fff;
@@ -104,6 +104,11 @@ html {
     box-shadow: 10px 11px 5px grey;
     /* background: #fff; */
 }
+
+.blog-entry:hover{
+    
+}
+
 .block-20 {
     overflow: hidden;
     background-size: cover;
