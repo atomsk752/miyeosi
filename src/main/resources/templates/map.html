@@ -45,9 +45,10 @@
                         <div class="phone">
                             <a href="/index"><img class="phone" src="/images/myjourney.png"></a>
                         </div>
-
-                        <fieldset class="field-container">
-                            <input type="text" placeholder="Insert Title" value="untitled" class="field" />
+                        
+                        <!-- th:value="${member.uno}" -->
+                        <fieldset class="field-container" >
+                            <input type="text" placeholder="제목을 입력해주세요" value="" class="field" />
                             <div class="icons-container">
                                 <div class="icon-search"></div>
                                 <div class="icon-close">
@@ -65,12 +66,16 @@
                         </div>
                         
                         <div class="user_box ml-auto">
-                            <a class="glitch-btn" href="/courseboard/list" target="_self">
+                        <form action="" method="post">
+                            <button class="glitch-btn">
                                 <div class="text">NEXT</div>
                                 <div class="mask">
                                     <span>NEXT</span>
                                 </div>
-                            </a>
+                            </button>
+                            <input type="hidden" name="uno" value="">
+                            <input type="hidden" name="pno" value="">
+                         </form>
                         </div>
                     </div>
                 </div>
@@ -197,6 +202,8 @@
 	firebase.initializeApp(config);
 	var fixedkey;
 	var lastDay;
+	var addCount = 0;
+	
 	
 	function getParameterByName(name, url) {
 	    if (!url) url = window.location.href;
@@ -207,8 +214,8 @@
 	}
 	
 	fixedkey = getParameterByName("key");
-	console.log(fixedkey);
-	var title = "untitled";
+	//console.log(fixedkey);
+	
 	
 	var courseObject = {};
 	courseObject['day0']= {};
@@ -277,37 +284,40 @@
     	
     }
 	
-    function readCourse(key, title, callback){
-    	firebase.database().ref().child('courses/'+key +'/'+ title).once("value").then(function(data){
-    		lastDay = data.node_.children_.root_.key.substring(3) * 1;
-    		if(lastDay != 0){
-    			for(var i = 0; i < lastDay + 1; i++){
-            		$(".add-bar").trigger("click")
-            	}
-    		}
-    		console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-    		var result = data.val();
-    		console.log(result);
-    		
-    		callback(result)
-    	})
+
+    
+    function readCourse(key, callback){
+    	/* var courseTitle = 'untitled' */
+    	var courseTitle;
     	
-    	/* firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
-    		
-    		var result = data.val();
-    		 console.log(result.length)
-    		callback(result);
-    	}); */    	
+    	firebase.database().ref().child('courses/'+key).once("value").then(function(data){
+    		courseTitle = data.node_.children_.root_.key;
+    		$(".field").val(courseTitle)
+    		console.log($(".field"))
+    		firebase.database().ref().child('courses/'+key +'/'+ courseTitle).once("value").then(function(data){
+        		console.log('courses/' + key + '/' + courseTitle)
+        		lastDay = data.node_.children_.root_.key.substring(3) * 1;
+        		if(lastDay != 0){
+        			for(var i = 0; i < lastDay + 1; i++){
+                		$(".add-bar").trigger("click");
+                		addCount += 1;
+                	}
+        		}
+        		//console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+        		var result = data.val();
+        		//console.log(result);
+        		
+        		callback(result)
+        	})
+    	})
+
     };
 
     var map; 
     var sum = 0;
     var totalIndex = 0;
-
-    readCourse(fixedkey, title, function(data) {
-    	
-        console.log("callback.........................");
-        console.log(data['day0'].length);
+    
+    readCourse(fixedkey, function(data) {
         for(var i = 0; i < Object.keys(data).length; i++){
         	for(var j = 0; j < data['day' + i].length; j++){
         		 console.log("i : " + i + " j : " + j);
@@ -358,117 +368,23 @@
                 
                 marker.addListener('click', function(){
                 	toggleInfoWin(marker);
-                    console.log("courseObject marker clicked....")
+                    //console.log("courseObject marker clicked....")
                 })
         	}
-        	console.log("j : " + j)
+        	//console.log("j : " + j)
         	sum = sum + courseObject['day' + i]['jsons'].length;
         }
 
-        
-        /* for (var i = 0; i < data.length; i++) {
-            
-            courseObject['day0']['jsons'].push(data[i]);
-            
-            var icon = {
-            		url: '../images/marker.svg',
-            		scaledSize : new google.maps.Size(45,47),
-            		origin: new google.maps.Point(0,0),
-            	    anchor: new google.maps.Point(22,46) 
-            };
-            
-            var marker = new google.maps.Marker({
-                    position : data[i],
-                    title : data[i].title,
-                    descs : data[i].descs,
-                    myPos : data[i],
-                    icon : icon
-                    
-                });
-            
-            if( i === 0 ){
-            	map = new google.maps.Map(document.getElementById('map'),{
-                    center :{lat:data[i].lat,  lng:data[i].lng} ,
-                    zoom: 11,
-                    minZoom: 10,
-                    mapTypeControl: false,
-                    fullscreenControl: false,
-                    zoomControl: true,
-                    zoomControlOptions: {
-                       position: google.maps.ControlPosition.TOP_RIGHT
-                    },
-                    streetViewControl: true,
-                    streetViewControlOptions: {
-                       position: google.maps.ControlPosition.TOP_RIGHT
-                    }
-                });
-             }
-            
-            marker.setMap(map);
-            toggleInfoWin(marker);
-            courseObject['day0']['markers'].push(marker);
-            
-            var str = "<li data-idx ='"+i+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
-            courseObject['day0']['li'].push(str);
-            
-            
-            marker.addListener('click', function(){
-            	toggleInfoWin(marker);
-                console.log("courseObject marker clicked....")
-            })
-        
-        } */
-        
         totalIndex = sum;
         var reTotalIndex = 0;
         
-       /*  // 전체
-        
-       	$.getJSON("/map/recommendData", function(data){
-       		for (var i = 0; i < data.length; i++) {
-       			
-                   recommendObject['recommend']['jsons'].push(data[i]);
-       			
-                   var icon = {
-                   		url: '../images/catMarker.png',
-                   		scaledSize : new google.maps.Size(35,30),
-                   		origin: new google.maps.Point(0,0),
-                   	    anchor: new google.maps.Point(25, 25) 
-                   };
-                   
-                   
-                   var marker = new google.maps.Marker({
-                       position : data[i],
-                       title : data[i].title,
-                       descs : data[i].descs,
-                       myPos : data[i],
-                       icon : icon
-                       
-                   });
-                   
-                   recommendObject['recommend']['markers'].push(marker);
-                   reTotalIndex = totalIndex + j;
-                   var str = "<li data-idx ='"+reTotalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
-                   recommendObject[recommendList[i]]['li'].push(str);
-                   checkDupl(courseObject);
-                   addMarkerEvent(marker);
-                   toggleInfoWin(marker);                      
-               };
-               
-               
-               //추천 마커 그리기
-               for (var i = 0; i < recommendObject['recommend']['markers'].length; i++) {
-                   
-                   recommendObject['recommend']['markers'][i].setMap(map);
-                   
-               }      		
-       	}) */
        
         	//여행지 데이터
        	
        	$.getJSON("/map/siteData", function(data){
+       		totalIndex = reTotalIndex + 1
        		for (var i = 0; i < data.length; i++) {
-       			console.log(data[i])
+       			//console.log(data[i])
                    recommendObject['site']['jsons'].push(data[i]);
                    var icon = {
                    		url: '../images/site.png',
@@ -489,6 +405,7 @@
                    
                    recommendObject['site']['markers'].push(marker);
                    reTotalIndex = totalIndex + i;
+                   //console.log("reTotalIndex : " + reTotalIndex)
                    var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='site'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
                    recommendObject['site']['li'].push(str);
                    checkDupl(courseObject, 'site');
@@ -497,7 +414,7 @@
                };
                
                for (var i = 0; i < recommendObject['site']['markers'].length; i++) {
-                   console.log("site marker")
+                   //console.log("site marker")
                    recommendObject['site']['markers'][i].setMap(map);
                    
                }
@@ -507,9 +424,9 @@
        	//식당 데이터
        	
        	$.getJSON("/map/restaurantData", function(data){
-       		
+       		totalIndex = reTotalIndex + 1
        		for (var i = 0; i < data.length; i++) {
-       			console.log(data[i])
+       			//console.log(data[i])
        			recommendObject['restaurant']['jsons'].push(data[i]);
        			
                    var icon = {
@@ -531,6 +448,7 @@
                    
                    recommendObject['restaurant']['markers'].push(marker);
                    reTotalIndex = totalIndex + i;
+                   //console.log("reTotalIndex : " + reTotalIndex)
                    var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='restaurant'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
                    recommendObject['restaurant']['li'].push(str);
                    checkDupl(courseObject, 'restaurant');
@@ -538,7 +456,7 @@
                    toggleInfoWin(marker);                      
                };
                for (var i = 0; i < recommendObject['restaurant']['markers'].length; i++) {
-                   console.log("restaurant marker")
+                   //console.log("restaurant marker")
                    recommendObject['restaurant']['markers'][i].setMap(map);
                    
                }
@@ -548,7 +466,7 @@
        	//호텔 데이터
        	
        	$.getJSON("/map/hotelData", function(data){
-       		
+       		totalIndex = reTotalIndex + 1
        		for (var i = 0; i < data.length; i++) {
                    recommendObject['hotel']['jsons'].push(data[i]);
        			
@@ -569,6 +487,7 @@
                    
                    recommendObject['hotel']['markers'].push(marker);
                    reTotalIndex = totalIndex + i;
+                   //console.log("reTotalIndex : " + reTotalIndex)
                    var str = "<li data-idx ='"+reTotalIndex+"' data-day='0' data-category='hotel'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
                    recommendObject['hotel']['li'].push(str);
                    checkDupl(courseObject, 'hotel');
@@ -576,56 +495,14 @@
                    toggleInfoWin(marker);                      
                };     
                for (var i = 0; i < recommendObject['hotel']['markers'].length; i++) {
-                   console.log("hotel marker")
+                   //console.log("hotel marker")
                    recommendObject['hotel']['markers'][i].setMap(map);
                    
                }
        	})
        	
        	
-        
-        
-        
-       /*  $.getJSON("/map/recommendData", function(data) {
-            for (var i = 0; i < data.length; i++) {
-
-                recommendObject.all['jsons'].push(data[i]);
-                
-                var icon = {
-                		url: '../images/catMarker.png',
-                		scaledSize : new google.maps.Size(35,30),
-                		origin: new google.maps.Point(0,0),
-                	    anchor: new google.maps.Point(25, 25) 
-                };
-                
-                
-                var marker = new google.maps.Marker({
-                    position : data[i],
-                    title : data[i].title,
-                    descs : data[i].descs,
-                    myPos : data[i],
-                    icon : icon
-                    
-                });
-                
-                recommendObject['all']['markers'].push(marker);
-                reTotalIndex = totalIndex + i
-                var str = "<li data-idx ='"+reTotalIndex+"' data-day='0'><div class='ui-state-default'><div>"+ data[i].title + "</div><div class='delete-bar'><img src='/images/trash-alt-solid.svg'/></div></div></li>";            
-                recommendObject['all']['li'].push(str);
-                checkDupl(courseObject);
-                addMarkerEvent(marker);
-                toggleInfoWin(marker);                      
-            };
-            
-            
-            //추천 마커 그리기
-            for (var i = 0; i < recommendObject['all']['markers'].length; i++) {
-                
-                recommendObject['all']['markers'][i].setMap(map);
-                
-            }
-
-        }); */
+      
         
         //console.log("1-------------------------------");
         //console.log(courseObject)
@@ -633,12 +510,12 @@
         readyCourseDiv();
         
    });
-
+    
 	function readyCourseDiv() {
 		
 		
 		
-		console.log("readyCourseDiv");
+		//console.log("readyCourseDiv");
 
 		var str = "";
 		$(".course-sort").each(function(idx, obj) {
@@ -660,7 +537,7 @@
 
 			var targetJsons = courseObject['day' + [ idx ]]['jsons'];
 
-			var str = "<div class='date_detail'><h1>12월 21일 금요일</h1></div><ul id='day0' class='sortable droptrue'>";
+			var str = "<div class='date_detail'><h1>1월 30일 수요일</h1></div><ul id='day0' class='sortable droptrue'>";
 
 			for (var i = 0; i < targetJsons.length; i++) {
 
@@ -705,11 +582,11 @@
 	           update: function(event, ui){
 	                
 	                targetListUL = $(event.target);
-	                console.log(targetListUL);
+	                //console.log(targetListUL);
 	                //console.log("targetUL is originUL" ,  targetUL.attr("id") == originUL.attr("id"));
 	            
 	                console.dir(originListUL[0].innerHTML);
-	                console.log("this : " + event.target.innerHTML);
+	                //console.log("this : " + event.target.innerHTML);
 	                
 	                originListUL[0].innerHTML = event.target.innerHTML;
 	                refreshCourseObject(targetListUL, originListUL, targetListLi, targetListUL.attr("id") == originListUL.attr("id") );
@@ -734,10 +611,10 @@
 
 				targetUL = $("#" + event.target.id);
 
-				//console.log("target.......................")
-				//console.log(targetUL.html());
-				//console.log("orgin........................")
-				//console.log(originUL.html());
+				console.log("target.......................")
+				console.log(targetUL.html());
+				console.log("orgin........................")
+				console.log(originUL.html());
 
 				refreshCourseObject(targetUL, originUL,
 						targetLi);
@@ -770,7 +647,7 @@
 	}
 
 	function drawSidebarList() {
-		console.log("drawSidebar.................")
+		//console.log("drawSidebar.................")
 		var str = "";
 		for (var i = 0; i < courseObject[targetTripDay].li.length; i++) {
 
@@ -812,11 +689,11 @@
 		var targetPoint = courseObject.findPoint(targetLi.attr("data-day"),targetLi.attr("data-idx"));
 
 		var targetToDataIndex = findULPositionIdx();
-		console.log("targetToDataIndex: " + targetToDataIndex);
+		//console.log("targetToDataIndex: " + targetToDataIndex);
 
 		var targetULId = targetUL.attr("id");
 
-		console.log("targetULId : " + targetULId);
+		//console.log("targetULId : " + targetULId);
 
 
 		courseObject.remove(targetLi.attr("data-day"), targetLi.attr("data-idx"), same);
@@ -832,10 +709,11 @@
 	$(".add-bar").on("click", function(e) {
 
 		var idx = $(".course.box").length;
-		console.log("idx: " + idx);
-
+		//console.log("idx: " + idx);
+		var dateArr = ['1월 31일 목요일', '2월 1일 금요일', '2월 2일 토요일', '2월 3일 일요일', '2월 4일 월요일', '2월 5일 화요일']
+		
 		if(idx < 7){
-			var addHtml = "<div class=\"course box\" data-cno='" + idx + "'><div class=\"date_detail\"><h1>12월 22일 토요일</h1>"
+			var addHtml = "<div class=\"course box\" data-cno='" + idx + "'><div class=\"date_detail\"><h1>" + dateArr[idx-1] + "</h1>"
 			+ "</div><ul id='day" + idx + "' class=\"sortable droptrue\"></ul ></div>"
 
 			var btnHtml = "<button id='dayBtn" + (idx + 1)
@@ -892,7 +770,7 @@
 		//console.log("targetDay: " + targetDay);
 		$(".course-sort ul").attr("id", targetTripDay);
 
-		console.log($(".course-sort ul").attr("id"));
+		//console.log($(".course-sort ul").attr("id"));
 		drawPath(courseObject[targetTripDay].markers);
 		drawSidebarList(targetTripDay);
 		$(".course-sort ul li").attr("data-day", targetTripDay.substring(3));
@@ -925,7 +803,7 @@
 
 		for (var i = 0; i < mapExistMarkers.length; i++) {
 			mapExistMarkers[i].setMap(null);
-			console.log("clear marker");
+			//console.log("clear marker");
 		}
 
 		if (poly) {
@@ -1036,7 +914,7 @@
 			currentMarker = marker;
 			console.dir(marker.myPos.pno);
 			$(".info-pane .info-title").html(marker.myPos.title)
-			console.log(marker.myPos.img)
+			//console.log(marker.myPos.img)
 			$(".info-pane .info-img").html("<img src='" + marker.myPos.img + "' width='300' onerror='this.src=\"../images/errorImage.png\"'>" )
 			$.ajax({
 				type : 'get',
@@ -1077,7 +955,7 @@
 
 	$("#map").on("mousedown",function(e) {
 				infoWin.hasClass("open") ? infoWin.removeClass("open") : e.preventDefault();
-				console.log("middle-box mousedown")
+				//console.log("middle-box mousedown")
 			});
 
 	$(".courses").on("click",function(e) {
@@ -1100,7 +978,7 @@
 				return false;
 			},
 			select : function(event, ui) {
-				console.log(ui.item);
+				//console.log(ui.item);
 				$("#tags").val(ui.item.value);
 			}
 			
@@ -1111,11 +989,12 @@
 		display(result);
 	});
 	
-	
 	function addMarkerEvent(marker, dataName){
 	       
        google.maps.event.addListener(marker, "click", function(e) {
     	   var dupl = false;
+    	   console.log("===================================")
+    	   console.log(recommendObject[dataName]['markers'])
     	   var clickedIdx = recommendObject[dataName]['markers'].findIndex(x => x === marker);
            console.log("clickedIdx : " + clickedIdx);
            console.log("targetTripDay : " + targetTripDay);
@@ -1131,7 +1010,7 @@
         	   originLi = recommendObject[dataName]['li'][clickedIdx];
         	   changedLi = originLi.replace("'0'", "'" + targetTripDay.substring(3) + "'")
         	   var category = $(originLi).data("category");
-        	   console.log(category)
+        	   //console.log(category)
         	   courseObject[targetTripDay]['markers'].push(marker);
                courseObject[targetTripDay]['li'].push(changedLi);
                courseObject[targetTripDay]['jsons'].push(recommendObject[dataName]['jsons'][clickedIdx]);
@@ -1139,7 +1018,7 @@
                drawPath(courseObject[targetTripDay].markers);
                drawSidebarList();
                
-               console.log("recommendObject marker clicked....")
+               //console.log("recommendObject marker clicked....")
                var str = "";
                for(var i = 0; i < courseObject[targetTripDay].li.length; i++){
                    
@@ -1194,16 +1073,29 @@
 	
 
 	$("input[type='checkbox']").on("click", function(){
-		if($('input:checkbox[name="category"]').is(":checked")){
-			
-			var checkedCat = $('input:checkbox[name="category"]:checked');
-			for(var i = 0; i < checkedCat.length; i++){
-				
-			}
+		
+		var categoryArr = ['site', 'restaurant', 'hotel'];
+		var changedCategoryArr = [];
+		
+		
+		var checkedCat = $('input:checkbox[name="category"]:checked');
+		//console.log(checkedCat)
+		for(var i = 0; i < checkedCat.length; i++){
+			changedCategoryArr.push(checkedCat[i].id);
 		}
-
+		//console.log(changedCategoryArr)
+		clearMap();
+		for(var i = 0; i < categoryArr.length; i++){
+			for(var j = 0; j < recommendObject[categoryArr[i]].markers.length; j++){
+				recommendObject[categoryArr[i]].markers[j].setMap(null);
+			}
+			changedCategoryArr.forEach(category => {for(var j = 0; j < recommendObject[category].markers.length; j++){
+				recommendObject[category].markers[j].setMap(map)}
+			})
+		}
+		drawPath(courseObject[targetTripDay].markers)
 	})
-	
+	console.log("addCount : " + addCount)
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIdmqOHKEfF4mfn6EXtuLeeP2-h3yJr6A&callback=initMap"></script>
 </body>

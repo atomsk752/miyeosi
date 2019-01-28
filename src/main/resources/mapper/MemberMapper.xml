@@ -17,6 +17,7 @@
   		<result property="defaultkey" column="defaultkey"/>
   		<result property="status" column="status"/>
   		<result property="userlevel" column="userlevel"/>
+  		<result property="uno" column="uno"/>
   		<collection property="authList" resultMap="authMap"></collection>
   	</resultMap>
   	
@@ -30,7 +31,7 @@
 	</select>
 	
 	<select id="read" resultMap="memberMap">
-		select member.usermail, userpw, username, usersex, userage, usernick, regdate, updatedate, defaultkey, status, userlevel, auth
+		select member.usermail, userpw, username, usersex, userage, usernick, regdate, updatedate, defaultkey, status, userlevel, auth, uno
 		from tbl_member member left outer join tbl_member_auth auth 
 		on member.usermail = auth.usermail
 		where member.usermail = #{usermail}

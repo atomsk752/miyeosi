@@ -1430,13 +1430,13 @@ section
 .offers
 {
 	width: 100%;
-	padding-top: 30px;
+	padding-top: 144px;
 	/* padding-bottom: 43px; */
-	background: #f1f1f17d;
+	background: #efefef;
 }
 .offers_items
 {
-	margin-top: 35px;
+	margin-top: 146px;
 }
 .offers_col
 {

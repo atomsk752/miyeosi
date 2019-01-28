@@ -1047,7 +1047,7 @@ label {
 	transform: translateX(-1580px);
 	top: 0;
 	height: 100vh;
-	width: 1600px;
+	width: 1583px;
 	/*background: #2848ff;
 	border-right: 2px solid #223cd6;*/
     background: transparent;
@@ -1544,20 +1544,44 @@ label {
 NEXT 버튼
 *********************************/
 
-
+/* 
 .glitch-btn {
-    /* left: 14%; */
+    left: 14%;
     color: white;
     z-index: 6;
     display: inline-block;
     position: absolute;
     top: 26%;
-    /* margin-right: 49px; */
+    margin-right: 49px;
     right: 150px;
     transform: translate(514%, -30%);
     font-size: 50px;
     transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
+ */
+
+.glitch-btn {
+	
+	background: transparent;
+    border: 0px;
+    color: white;
+    z-index: 6;
+    display: inline-block;
+    position: absolute;
+    top: 26%;
+    
+    right: 150px;
+    transform: translate(514%, -30%);
+    font-size: 50px;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+
+.glitch-btn:focus {
+	outline: none;
+}
+
+
 
 .glitch-btn:hover {
 	color: white;
