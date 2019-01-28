@@ -15,4 +15,8 @@ public interface CourseService {
 	public int delete(String coursekey);
 
 	public int starInsert(CourseRatingVO vo2);
+	
+	public int modify(CourseVO vo);
+	
+	public int find(CourseVO vo);
 }

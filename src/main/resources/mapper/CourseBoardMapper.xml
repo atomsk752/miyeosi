@@ -28,7 +28,7 @@
 	</select>
 	
 	<insert id="register" parameterType="org.honeyrock.domain.CourseBoardVO">
-		insert into tbl_course_board (coursetitle, coursecontent, coursekey, usermail) values(#{coursetitle}, #{coursecontent}, #{coursekey}, #{usermail})
+		insert into tbl_course_board (coursetitle, coursecontent, coursekey, usermail, courseimg) values(#{coursetitle}, #{coursecontent}, #{coursekey}, #{usermail}, #{courseimg})
 	</insert>
 	
 	<update id="update" parameterType="org.honeyrock.domain.CourseBoardVO">

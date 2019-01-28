@@ -47,7 +47,7 @@
                         </div>
 
                         <fieldset class="field-container">
-                            <input type="text" placeholder="Insert Title" value="untitled" class="field" />
+                            <input type="text" placeholder="Insert Title" value="untitled" class="field" id="title" />
                             <div class="icons-container">
                                 <div class="icon-search"></div>
                                 <div class="icon-close">
@@ -64,9 +64,10 @@
                         	<button id="refresh"><img src="/images/refresh.svg"></button>
                         </div>
                         
-                        <div class="user_box ml-auto">
+                        <div class="user_box ml-auto" th:with="member=${#authentication.principal.vo}">
                             <form class="glitch-btn" id="next">
                             	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            	<input type="hidden" th:name="usermail" th:value="${member.usermail}" />
                                 <div class="text">NEXT</div>
                                 <div class="mask">
                                     <span>NEXT</span>
@@ -208,8 +209,20 @@
 	}
 	
 	fixedkey = getParameterByName("key");
-	console.log(fixedkey);
 	var title = "untitled";
+	
+
+	// title 파이어 베아스에서 가져와야됨
+/* 	function readCourseName(key, callback){
+		firebase.database().ref().child('courses/'+key).once("value").then(function(data){
+			title = data.node_.children_.root_.key;
+			callback(data.node_.children_.root_.key);
+		})
+	};
+	readCourseName(fixedkey,function(key){
+		
+	})
+	console.log("title = " + title) */
 	
 	var courseObject = {};
 	courseObject['day0']= {};
@@ -277,21 +290,35 @@
     function initMap() {
     	
     }
+    
+    var courseTitle;
 	
     function readCourse(key, title, callback){
-    	firebase.database().ref().child('courses/'+key +'/'+ title).once("value").then(function(data){
-    		lastDay = data.node_.children_.root_.key.substring(3) * 1;
-    		if(lastDay != 0){
-    			for(var i = 0; i < lastDay + 1; i++){
-            		$(".add-bar").trigger("click")
-            	}
-    		}
-    		console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
-    		var result = data.val();
-    		console.log(result);
-    		
-    		callback(result)
-    	})
+        /* var courseTitle = 'untitled' */
+        
+        
+        firebase.database().ref().child('courses/'+key).once("value").then(function(data){
+            courseTitle = data.node_.children_.root_.key;
+            title = courseTitle;
+            $(".field").val(courseTitle)
+            console.log($(".field"))
+            firebase.database().ref().child('courses/'+key +'/'+ courseTitle).once("value").then(function(data){
+                console.log('courses/' + key + '/' + courseTitle)
+                lastDay = data.node_.children_.root_.key.substring(3) * 1;
+                if(lastDay != 0){
+                    for(var i = 0; i < lastDay + 1; i++){
+                        $(".add-bar").trigger("click");
+                    }
+                }
+                //console.log("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★");
+                var result = data.val();
+                //console.log(result);
+                
+                callback(result)
+            })
+        })
+
+    };
     	
     	/* firebase.database().ref().child('courses/'+key +'/'+ title +'/day0').once("value").then(function(data){
     		
@@ -299,16 +326,17 @@
     		 console.log(result.length)
     		callback(result);
     	}); */    	
-    };
 
     var map; 
     var sum = 0;
     var totalIndex = 0;
+    var dayLength = 0;
 
     readCourse(fixedkey, title, function(data) {
-    	
+    	console.log("***************"+title)
         console.log("callback.........................");
         console.log(data['day0'].length);
+        dayLength = Object.keys(data).length;
         for(var i = 0; i < Object.keys(data).length; i++){
         	for(var j = 0; j < data['day' + i].length; j++){
         		 console.log("i : " + i + " j : " + j);
@@ -1210,7 +1238,20 @@
 	nextForm.on("click", function(e){
 		e.preventDefault();
 		console.log('next')
-		nextForm.attr("method","post").attr("action","/map").submit();
+		console.log(courseObject)
+		console.log(title)
+		console.log(dayLength);
+		var titleValue = $("#title")[0].value;
+		var str = '';
+		str += "<input type='hidden' name='coursekey' value='"+fixedkey+"'>";
+ 		str += "<input type='hidden' name='coursename' value='"+titleValue+"'>";
+ 		str += "<input type='hidden' name='coursetitle' value='"+titleValue+"'>"
+ 		str += "<input type='hidden' name='coursecontent' value=''>"
+		str += "<input type='hidden' name='courseimg' value='"+courseObject['day0']['markers'][0].myPos.img+"'>";  
+		str += "<input type='hidden' name='days' value='"+dayLength+"'>"
+		
+ 		nextForm.append(str);
+ 		nextForm.attr("method","post").attr("action","/map").submit();  
 	});
 	
 </script>

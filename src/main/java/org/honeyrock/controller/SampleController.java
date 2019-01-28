@@ -87,8 +87,19 @@ public class SampleController {
 	@PostMapping("/map")
 	public String mapPost(CourseVO courseVo, CourseBoardVO courseBoardVO) {
 		
+		log.info("courseVO : " + courseVo);
+		log.info("courseBoardVO : " + courseBoardVO);
 		
-		
+		String dbcourseKey = "";
+		List<CourseVO> courseList = courseService.getList(courseVo.getUsermail());
+		log.info("find : " + courseService.find(courseVo));
+		if(courseService.find(courseVo) == 1){
+			courseService.modify(courseVo);
+			service.modify(courseBoardVO);
+		}else {
+			courseService.register(courseVo);
+			service.register(courseBoardVO);
+		}
 		return "redirect:/mypage";
 	}
 	

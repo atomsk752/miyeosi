@@ -42,4 +42,18 @@ public class CourseServiceImpl implements CourseService {
 		return mapper.delete(coursekey);
 	}
 
+
+	@Override
+	public int modify(CourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.update(vo);
+	}
+
+
+	@Override
+	public int find(CourseVO vo) {
+		// TODO Auto-generated method stub
+		return mapper.find(vo);
+	}
+
 }
